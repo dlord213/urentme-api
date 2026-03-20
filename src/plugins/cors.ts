@@ -1,6 +1,6 @@
 import fp from "fastify-plugin";
 import cors from "@fastify/cors";
-import { FastifyInstance } from "fastify";
+import { type FastifyInstance } from "fastify";
 
 /**
  * Enables Cross-Origin Resource Sharing (CORS).

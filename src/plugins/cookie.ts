@@ -1,6 +1,6 @@
 import fp from "fastify-plugin";
 import cookie from "@fastify/cookie";
-import { FastifyInstance } from "fastify";
+import { type FastifyInstance } from "fastify";
 
 /**
  * Parses and sets cookies on requests / responses.
@@ -10,10 +10,10 @@ import { FastifyInstance } from "fastify";
  */
 export default fp(async (fastify: FastifyInstance) => {
   fastify.register(cookie, {
-    secret: fastify.config.COOKIE_SECRET,
+    secret: fastify.config["COOKIE_SECRET"] ?? "",
     parseOptions: {
       httpOnly: true,
-      secure: fastify.config.NODE_ENV === "production",
+      secure: fastify.config["NODE_ENV"] === "production",
       sameSite: "lax",
       path: "/",
     },

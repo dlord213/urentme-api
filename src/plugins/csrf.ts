@@ -1,6 +1,6 @@
 import fp from "fastify-plugin";
 import csrf from "@fastify/csrf-protection";
-import { FastifyInstance } from "fastify";
+import { type FastifyInstance } from "fastify";
 
 /**
  * CSRF protection using the Synchroniser Token pattern.

@@ -1,8 +1,8 @@
-import { prisma } from '../../utils/prisma.js'
+import { prisma } from "../../utils/prisma.js";
 
 export class BankAccountService {
   static async list() {
-    return prisma.bankAccount.findMany()
+    return prisma.bankAccount.findMany();
   }
 
   static async getById(id: string) {
@@ -10,27 +10,27 @@ export class BankAccountService {
       where: { id },
       include: {
         transactions: true,
-        reconciliations: true,
-        ownerDistributions: true,
-        ownerContributions: true,
+        bankReconciliations: true,
+        distributions: true,
+        contributions: true,
       },
-    })
+    });
   }
 
   static async create(data: any) {
-    return prisma.bankAccount.create({ data })
+    return prisma.bankAccount.create({ data });
   }
 
   static async update(id: string, data: any) {
     return prisma.bankAccount.update({
       where: { id },
       data,
-    })
+    });
   }
 
   static async delete(id: string) {
     return prisma.bankAccount.delete({
       where: { id },
-    })
+    });
   }
 }

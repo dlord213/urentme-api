@@ -1,6 +1,6 @@
 import fp from "fastify-plugin";
 import helmet from "@fastify/helmet";
-import { FastifyInstance } from "fastify";
+import { type FastifyInstance } from "fastify";
 
 /**
  * Adds common security HTTP headers via Helmet.

@@ -1,6 +1,6 @@
 import fp from "fastify-plugin";
 import rateLimit from "@fastify/rate-limit";
-import { FastifyInstance } from "fastify";
+import { type FastifyInstance } from "fastify";
 
 /**
  * Global rate limiter — prevents abuse and brute-force attacks.

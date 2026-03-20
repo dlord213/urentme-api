@@ -1,6 +1,6 @@
 import fp from "fastify-plugin";
 import env from "@fastify/env";
-import { FastifyInstance } from "fastify";
+import { type FastifyInstance } from "fastify";
 
 const schema = {
   type: "object",

@@ -1,6 +1,6 @@
 import fp from "fastify-plugin";
 import compress from "@fastify/compress";
-import { FastifyInstance } from "fastify";
+import { type FastifyInstance } from "fastify";
 
 /**
  * Compresses response payloads (gzip / deflate / brotli).

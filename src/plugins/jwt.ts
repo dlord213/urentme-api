@@ -1,6 +1,10 @@
 import fp from "fastify-plugin";
 import jwt from "@fastify/jwt";
-import { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
+import {
+  type FastifyInstance,
+  type FastifyReply,
+  type FastifyRequest,
+} from "fastify";
 
 /**
  * JWT authentication plugin.

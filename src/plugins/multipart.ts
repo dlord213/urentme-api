@@ -1,6 +1,6 @@
 import fp from "fastify-plugin";
 import multipart from "@fastify/multipart";
-import { FastifyInstance } from "fastify";
+import { type FastifyInstance } from "fastify";
 
 /**
  * Adds multipart/form-data support for file uploads.
