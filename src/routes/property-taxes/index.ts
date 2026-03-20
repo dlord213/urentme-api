@@ -1,5 +1,5 @@
-import { FastifyPluginAsync } from "fastify";
-import { PropertyTaxController } from "./controller.js";
+import { type FastifyPluginAsync } from "fastify";
+import { PropertyTaxController } from "./controller.ts";
 
 const propertyTaxes: FastifyPluginAsync = async (
   fastify,

@@ -1,5 +1,5 @@
-import { FastifyPluginAsync } from "fastify";
-import { PublicUtilityController } from "./controller.js";
+import { type FastifyPluginAsync } from "fastify";
+import { PublicUtilityController } from "./controller.ts";
 
 const publicUtilities: FastifyPluginAsync = async (
   fastify,

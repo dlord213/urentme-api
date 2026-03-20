@@ -1,5 +1,5 @@
-import { FastifyPluginAsync } from "fastify";
-import { BankReconciliationController } from "./controller.js";
+import { type FastifyPluginAsync } from "fastify";
+import { BankReconciliationController } from "./controller.ts";
 
 const bankReconciliations: FastifyPluginAsync = async (
   fastify,

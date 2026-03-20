@@ -1,5 +1,5 @@
-import { FastifyReply, FastifyRequest } from "fastify";
-import { PropertyService } from "./service.js";
+import { type FastifyReply, type FastifyRequest } from "fastify";
+import { PropertyService } from "./service.ts";
 
 export class PropertyController {
   static async list(request: FastifyRequest, reply: FastifyReply) {

@@ -1,5 +1,5 @@
-import { FastifyPluginAsync } from "fastify";
-import { SignatureRequestController } from "./controller.js";
+import { type FastifyPluginAsync } from "fastify";
+import { SignatureRequestController } from "./controller.ts";
 
 const signatureRequests: FastifyPluginAsync = async (
   fastify,

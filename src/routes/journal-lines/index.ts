@@ -1,5 +1,5 @@
-import { FastifyPluginAsync } from "fastify";
-import { JournalLineController } from "./controller.js";
+import { type FastifyPluginAsync } from "fastify";
+import { JournalLineController } from "./controller.ts";
 
 const journalLines: FastifyPluginAsync = async (
   fastify,

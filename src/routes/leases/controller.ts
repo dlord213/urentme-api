@@ -1,5 +1,5 @@
-import { FastifyReply, FastifyRequest } from "fastify";
-import { LeaseService } from "./service.js";
+import { type FastifyReply, type FastifyRequest } from "fastify";
+import { LeaseService } from "./service.ts";
 
 export class LeaseController {
   static async list(request: FastifyRequest, reply: FastifyReply) {

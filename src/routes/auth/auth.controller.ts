@@ -1,10 +1,18 @@
-import { FastifyRequest, FastifyReply, FastifyInstance } from "fastify";
+import {
+  type FastifyRequest,
+  type FastifyReply,
+  type FastifyInstance,
+} from "fastify";
 import {
   registerUser,
   validateCredentials,
   buildTokenPayload,
-} from "./auth.service.js";
-import { RegisterBody, LoginBody, RefreshBody } from "../../types/body.js";
+} from "./auth.service.ts";
+import {
+  type RegisterBody,
+  type LoginBody,
+  type RefreshBody,
+} from "../../types/body.ts";
 
 const ACCESS_TOKEN_TTL = "15m";
 const REFRESH_TOKEN_TTL = "7d";

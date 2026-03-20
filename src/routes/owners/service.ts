@@ -1,4 +1,4 @@
-import { prisma } from '../../utils/prisma.js'
+import { prisma } from "../../utils/prisma.ts";
 
 export class OwnerService {
   static async list() {
@@ -6,7 +6,7 @@ export class OwnerService {
       include: {
         properties: true,
       },
-    })
+    });
   }
 
   static async getById(id: string) {
@@ -17,23 +17,23 @@ export class OwnerService {
         contributions: true,
         distributions: true,
       },
-    })
+    });
   }
 
   static async create(data: any) {
-    return prisma.owner.create({ data })
+    return prisma.owner.create({ data });
   }
 
   static async update(id: string, data: any) {
     return prisma.owner.update({
       where: { id },
       data,
-    })
+    });
   }
 
   static async delete(id: string) {
     return prisma.owner.delete({
       where: { id },
-    })
+    });
   }
 }

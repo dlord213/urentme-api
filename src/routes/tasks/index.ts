@@ -1,5 +1,5 @@
-import { FastifyPluginAsync } from "fastify";
-import { TaskController } from "./controller.js";
+import { type FastifyPluginAsync } from "fastify";
+import { TaskController } from "./controller.ts";
 
 const tasks: FastifyPluginAsync = async (fastify, opts): Promise<void> => {
   // fastify.addHook('preHandler', fastify.authenticate)

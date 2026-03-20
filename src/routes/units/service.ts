@@ -1,34 +1,34 @@
-import { prisma } from '../../utils/prisma.js'
+import { prisma } from "../../utils/prisma.ts";
 
 export class UnitService {
   static async list(propertyId?: string) {
     return prisma.unit.findMany({
       where: propertyId ? { propertyId } : undefined,
       include: { property: true, leases: true },
-    })
+    });
   }
 
   static async getById(id: string) {
     return prisma.unit.findUnique({
       where: { id },
       include: { property: true, leases: true },
-    })
+    });
   }
 
   static async create(data: any) {
-    return prisma.unit.create({ data })
+    return prisma.unit.create({ data });
   }
 
   static async update(id: string, data: any) {
     return prisma.unit.update({
       where: { id },
       data,
-    })
+    });
   }
 
   static async delete(id: string) {
     return prisma.unit.delete({
       where: { id },
-    })
+    });
   }
 }

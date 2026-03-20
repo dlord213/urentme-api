@@ -1,5 +1,5 @@
-import { FastifyReply, FastifyRequest } from "fastify";
-import { SignatureRequestService } from "./service.js";
+import { type FastifyReply, type FastifyRequest } from "fastify";
+import { SignatureRequestService } from "./service.ts";
 
 export class SignatureRequestController {
   static async list(request: FastifyRequest, reply: FastifyReply) {

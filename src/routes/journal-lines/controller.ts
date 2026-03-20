@@ -1,5 +1,5 @@
-import { FastifyReply, FastifyRequest } from "fastify";
-import { JournalLineService } from "./service.js";
+import { type FastifyReply, type FastifyRequest } from "fastify";
+import { JournalLineService } from "./service.ts";
 
 export class JournalLineController {
   static async list(request: FastifyRequest, reply: FastifyReply) {

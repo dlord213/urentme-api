@@ -1,5 +1,5 @@
-import { FastifyReply, FastifyRequest } from "fastify";
-import { BankAccountService } from "./service.js";
+import { type FastifyReply, type FastifyRequest } from "fastify";
+import { BankAccountService } from "./service.ts";
 
 export class BankAccountController {
   static async list(request: FastifyRequest, reply: FastifyReply) {

@@ -1,13 +1,15 @@
 {
   "extends": "fastify-tsconfig",
   "compilerOptions": {
-    "module": "ESNext",
+    "module": "esnext",
     "moduleResolution": "bundler",
     "target": "ESNext",
     "strict": true,
     "esModuleInterop": true,
     "outDir": "./dist/",
-    "rootDir": "./src"
+    "rootDir": "./src",
+    "allowImportingTsExtensions": true,
+    "noEmit": true
   },
   "include": ["src/**/*.ts", "src/*.ts"]
 }

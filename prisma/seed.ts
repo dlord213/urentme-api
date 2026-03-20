@@ -1,4 +1,4 @@
-import { PrismaClient } from "../src/generated/prisma/index.js";
+import { PrismaClient } from "../src/generated/prisma/index";
 import { faker } from "@faker-js/faker";
 import { PrismaPg } from "@prisma/adapter-pg";
 import * as crypto from "node:crypto";
@@ -199,7 +199,7 @@ async function main() {
             "SHOWING_SCHEDULED",
             "APPLICATION_SENT",
             "CONVERTED",
-            "LOST"
+            "LOST",
           ] as const),
         },
       }),

@@ -1,5 +1,5 @@
-import { FastifyPluginAsync } from "fastify";
-import { VendorController } from "./controller.js";
+import { type FastifyPluginAsync } from "fastify";
+import { VendorController } from "./controller.ts";
 
 const vendors: FastifyPluginAsync = async (fastify, opts): Promise<void> => {
   // fastify.addHook('preHandler', fastify.authenticate)

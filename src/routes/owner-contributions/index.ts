@@ -1,5 +1,5 @@
-import { FastifyPluginAsync } from "fastify";
-import { OwnerContributionController } from "./controller.js";
+import { type FastifyPluginAsync } from "fastify";
+import { OwnerContributionController } from "./controller.ts";
 
 const ownerContributions: FastifyPluginAsync = async (
   fastify,

@@ -1,12 +1,12 @@
-import { FastifyPluginAsync } from "fastify";
-import { registerSchema, loginSchema, refreshSchema } from "./schemas.js";
+import { type FastifyPluginAsync } from "fastify";
+import { registerSchema, loginSchema, refreshSchema } from "./schemas.ts";
 import {
   registerHandler,
   loginHandler,
   refreshHandler,
   logoutHandler,
   meHandler,
-} from "./auth.controller.js";
+} from "./auth.controller.ts";
 
 const auth: FastifyPluginAsync = async (fastify) => {
   fastify.post(

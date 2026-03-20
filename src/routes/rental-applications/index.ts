@@ -1,5 +1,5 @@
-import { FastifyPluginAsync } from "fastify";
-import { RentalApplicationController } from "./controller.js";
+import { type FastifyPluginAsync } from "fastify";
+import { RentalApplicationController } from "./controller.ts";
 
 const rentalApplications: FastifyPluginAsync = async (
   fastify,

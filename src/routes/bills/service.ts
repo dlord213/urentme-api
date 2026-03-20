@@ -1,4 +1,4 @@
-import { prisma } from '../../utils/prisma.js'
+import { prisma } from "../../utils/prisma.ts";
 
 export class BillService {
   static async list() {
@@ -6,7 +6,7 @@ export class BillService {
       include: {
         vendor: true,
       },
-    })
+    });
   }
 
   static async getById(id: string) {
@@ -15,23 +15,23 @@ export class BillService {
       include: {
         vendor: true,
       },
-    })
+    });
   }
 
   static async create(data: any) {
-    return prisma.bill.create({ data })
+    return prisma.bill.create({ data });
   }
 
   static async update(id: string, data: any) {
     return prisma.bill.update({
       where: { id },
       data,
-    })
+    });
   }
 
   static async delete(id: string) {
     return prisma.bill.delete({
       where: { id },
-    })
+    });
   }
 }

@@ -1,4 +1,4 @@
-import { prisma } from '../../utils/prisma.js'
+import { prisma } from "../../utils/prisma.ts";
 
 export class BankReconciliationService {
   static async list() {
@@ -6,7 +6,7 @@ export class BankReconciliationService {
       include: {
         bankAccount: true,
       },
-    })
+    });
   }
 
   static async getById(id: string) {
@@ -15,23 +15,23 @@ export class BankReconciliationService {
       include: {
         bankAccount: true,
       },
-    })
+    });
   }
 
   static async create(data: any) {
-    return prisma.bankReconciliation.create({ data })
+    return prisma.bankReconciliation.create({ data });
   }
 
   static async update(id: string, data: any) {
     return prisma.bankReconciliation.update({
       where: { id },
       data,
-    })
+    });
   }
 
   static async delete(id: string) {
     return prisma.bankReconciliation.delete({
       where: { id },
-    })
+    });
   }
 }

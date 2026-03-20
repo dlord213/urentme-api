@@ -1,6 +1,7 @@
 import fp from "fastify-plugin";
-import { PrismaClient } from "@prisma/client";
 import { type FastifyInstance } from "fastify";
+import { PrismaClient } from "@prisma/client";
+import { PrismaPg } from "@prisma/adapter-pg";
 
 /**
  * Prisma client plugin.
@@ -10,7 +11,11 @@ import { type FastifyInstance } from "fastify";
  * their own client (one connection pool for the whole app).
  */
 export default fp(async (fastify: FastifyInstance) => {
-  const prisma = new PrismaClient();
+  const adapter = new PrismaPg({
+    connectionString: process.env.DATABASE_URL!,
+  });
+
+  const prisma = new PrismaClient({ adapter });
 
   await prisma.$connect();
 

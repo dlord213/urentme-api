@@ -1,4 +1,4 @@
-import { prisma } from '../../utils/prisma.js'
+import { prisma } from "../../utils/prisma.ts";
 
 export class JournalLineService {
   static async list() {
@@ -7,7 +7,7 @@ export class JournalLineService {
         chartAccount: true,
         transaction: true,
       },
-    })
+    });
   }
 
   static async getById(id: string) {
@@ -17,23 +17,23 @@ export class JournalLineService {
         chartAccount: true,
         transaction: true,
       },
-    })
+    });
   }
 
   static async create(data: any) {
-    return prisma.journalLine.create({ data })
+    return prisma.journalLine.create({ data });
   }
 
   static async update(id: string, data: any) {
     return prisma.journalLine.update({
       where: { id },
       data,
-    })
+    });
   }
 
   static async delete(id: string) {
     return prisma.journalLine.delete({
       where: { id },
-    })
+    });
   }
 }

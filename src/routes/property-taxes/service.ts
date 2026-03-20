@@ -1,4 +1,4 @@
-import { prisma } from '../../utils/prisma.js'
+import { prisma } from "../../utils/prisma.ts";
 
 export class PropertyTaxService {
   static async list() {
@@ -6,7 +6,7 @@ export class PropertyTaxService {
       include: {
         property: true,
       },
-    })
+    });
   }
 
   static async getById(id: string) {
@@ -15,23 +15,23 @@ export class PropertyTaxService {
       include: {
         property: true,
       },
-    })
+    });
   }
 
   static async create(data: any) {
-    return prisma.propertyTax.create({ data })
+    return prisma.propertyTax.create({ data });
   }
 
   static async update(id: string, data: any) {
     return prisma.propertyTax.update({
       where: { id },
       data,
-    })
+    });
   }
 
   static async delete(id: string) {
     return prisma.propertyTax.delete({
       where: { id },
-    })
+    });
   }
 }
