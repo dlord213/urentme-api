@@ -213,10 +213,10 @@ model Tenant {
   createdAt      DateTime  @default(now())
   updatedAt      DateTime  @updatedAt
 
-  leases             Lease[]
-  rentalApplications RentalApplication[]
-  tenantTransactions Transaction[]       @relation("TenantTransactions")
-  maintenanceRequests Task[]             @relation("TenantRequests")
+  leases              Lease[]
+  rentalApplications  RentalApplication[]
+  tenantTransactions  Transaction[]       @relation("TenantTransactions")
+  maintenanceRequests Task[]              @relation("TenantRequests")
 
   @@map("tenants")
 }
@@ -437,7 +437,7 @@ model RepairStatusUpdate {
   id          String   @id @default(cuid())
   taskId      String
   task        Task     @relation(fields: [taskId], references: [id])
-  label       String   // e.g. "Technician Assigned", "Parts Ordered", "Work Completed"
+  label       String // e.g. "Technician Assigned", "Parts Ordered", "Work Completed"
   description String?
   createdAt   DateTime @default(now())
 
@@ -550,7 +550,7 @@ model Announcement {
   status      AnnouncementStatus @default(DRAFT)
   propertyId  String?
   property    Property?          @relation(fields: [propertyId], references: [id])
-  unitId      String?            // optional: target a specific unit
+  unitId      String? // optional: target a specific unit
   createdById String?
   createdBy   User?              @relation(fields: [createdById], references: [id])
   publishedAt DateTime?

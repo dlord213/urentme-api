@@ -69,6 +69,11 @@ export type RentalApplication = $Result.DefaultSelection<Prisma.$RentalApplicati
  */
 export type Task = $Result.DefaultSelection<Prisma.$TaskPayload>
 /**
+ * Model RepairStatusUpdate
+ * 
+ */
+export type RepairStatusUpdate = $Result.DefaultSelection<Prisma.$RepairStatusUpdatePayload>
+/**
  * Model Transaction
  * 
  */
@@ -576,6 +581,16 @@ export class PrismaClient<
     * ```
     */
   get task(): Prisma.TaskDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.repairStatusUpdate`: Exposes CRUD operations for the **RepairStatusUpdate** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more RepairStatusUpdates
+    * const repairStatusUpdates = await prisma.repairStatusUpdate.findMany()
+    * ```
+    */
+  get repairStatusUpdate(): Prisma.RepairStatusUpdateDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.transaction`: Exposes CRUD operations for the **Transaction** model.
@@ -1141,6 +1156,7 @@ export namespace Prisma {
     LeaseDocument: 'LeaseDocument',
     RentalApplication: 'RentalApplication',
     Task: 'Task',
+    RepairStatusUpdate: 'RepairStatusUpdate',
     Transaction: 'Transaction',
     Bill: 'Bill',
     OwnerContribution: 'OwnerContribution',
@@ -1168,7 +1184,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "owner" | "tenant" | "vendor" | "prospect" | "property" | "unit" | "lease" | "leaseDocument" | "rentalApplication" | "task" | "transaction" | "bill" | "ownerContribution" | "ownerDistribution" | "announcement" | "signatureRequest" | "chartOfAccount" | "journalLine" | "bankAccount" | "bankReconciliation" | "propertyTax" | "publicUtility"
+      modelProps: "user" | "owner" | "tenant" | "vendor" | "prospect" | "property" | "unit" | "lease" | "leaseDocument" | "rentalApplication" | "task" | "repairStatusUpdate" | "transaction" | "bill" | "ownerContribution" | "ownerDistribution" | "announcement" | "signatureRequest" | "chartOfAccount" | "journalLine" | "bankAccount" | "bankReconciliation" | "propertyTax" | "publicUtility"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1983,6 +1999,80 @@ export namespace Prisma {
           count: {
             args: Prisma.TaskCountArgs<ExtArgs>
             result: $Utils.Optional<TaskCountAggregateOutputType> | number
+          }
+        }
+      }
+      RepairStatusUpdate: {
+        payload: Prisma.$RepairStatusUpdatePayload<ExtArgs>
+        fields: Prisma.RepairStatusUpdateFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.RepairStatusUpdateFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RepairStatusUpdatePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.RepairStatusUpdateFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RepairStatusUpdatePayload>
+          }
+          findFirst: {
+            args: Prisma.RepairStatusUpdateFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RepairStatusUpdatePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.RepairStatusUpdateFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RepairStatusUpdatePayload>
+          }
+          findMany: {
+            args: Prisma.RepairStatusUpdateFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RepairStatusUpdatePayload>[]
+          }
+          create: {
+            args: Prisma.RepairStatusUpdateCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RepairStatusUpdatePayload>
+          }
+          createMany: {
+            args: Prisma.RepairStatusUpdateCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.RepairStatusUpdateCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RepairStatusUpdatePayload>[]
+          }
+          delete: {
+            args: Prisma.RepairStatusUpdateDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RepairStatusUpdatePayload>
+          }
+          update: {
+            args: Prisma.RepairStatusUpdateUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RepairStatusUpdatePayload>
+          }
+          deleteMany: {
+            args: Prisma.RepairStatusUpdateDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.RepairStatusUpdateUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.RepairStatusUpdateUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RepairStatusUpdatePayload>[]
+          }
+          upsert: {
+            args: Prisma.RepairStatusUpdateUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RepairStatusUpdatePayload>
+          }
+          aggregate: {
+            args: Prisma.RepairStatusUpdateAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateRepairStatusUpdate>
+          }
+          groupBy: {
+            args: Prisma.RepairStatusUpdateGroupByArgs<ExtArgs>
+            result: $Utils.Optional<RepairStatusUpdateGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.RepairStatusUpdateCountArgs<ExtArgs>
+            result: $Utils.Optional<RepairStatusUpdateCountAggregateOutputType> | number
           }
         }
       }
@@ -2993,6 +3083,7 @@ export namespace Prisma {
     leaseDocument?: LeaseDocumentOmit
     rentalApplication?: RentalApplicationOmit
     task?: TaskOmit
+    repairStatusUpdate?: RepairStatusUpdateOmit
     transaction?: TransactionOmit
     bill?: BillOmit
     ownerContribution?: OwnerContributionOmit
@@ -3231,12 +3322,14 @@ export namespace Prisma {
     leases: number
     rentalApplications: number
     tenantTransactions: number
+    maintenanceRequests: number
   }
 
   export type TenantCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     leases?: boolean | TenantCountOutputTypeCountLeasesArgs
     rentalApplications?: boolean | TenantCountOutputTypeCountRentalApplicationsArgs
     tenantTransactions?: boolean | TenantCountOutputTypeCountTenantTransactionsArgs
+    maintenanceRequests?: boolean | TenantCountOutputTypeCountMaintenanceRequestsArgs
   }
 
   // Custom InputTypes
@@ -3269,6 +3362,13 @@ export namespace Prisma {
    */
   export type TenantCountOutputTypeCountTenantTransactionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: TransactionWhereInput
+  }
+
+  /**
+   * TenantCountOutputType without action
+   */
+  export type TenantCountOutputTypeCountMaintenanceRequestsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TaskWhereInput
   }
 
 
@@ -3532,10 +3632,12 @@ export namespace Prisma {
 
   export type TaskCountOutputType = {
     expenses: number
+    repairStatusUpdates: number
   }
 
   export type TaskCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     expenses?: boolean | TaskCountOutputTypeCountExpensesArgs
+    repairStatusUpdates?: boolean | TaskCountOutputTypeCountRepairStatusUpdatesArgs
   }
 
   // Custom InputTypes
@@ -3554,6 +3656,13 @@ export namespace Prisma {
    */
   export type TaskCountOutputTypeCountExpensesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: TransactionWhereInput
+  }
+
+  /**
+   * TaskCountOutputType without action
+   */
+  export type TaskCountOutputTypeCountRepairStatusUpdatesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RepairStatusUpdateWhereInput
   }
 
 
@@ -6687,6 +6796,7 @@ export namespace Prisma {
     leases?: boolean | Tenant$leasesArgs<ExtArgs>
     rentalApplications?: boolean | Tenant$rentalApplicationsArgs<ExtArgs>
     tenantTransactions?: boolean | Tenant$tenantTransactionsArgs<ExtArgs>
+    maintenanceRequests?: boolean | Tenant$maintenanceRequestsArgs<ExtArgs>
     _count?: boolean | TenantCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["tenant"]>
 
@@ -6761,6 +6871,7 @@ export namespace Prisma {
     leases?: boolean | Tenant$leasesArgs<ExtArgs>
     rentalApplications?: boolean | Tenant$rentalApplicationsArgs<ExtArgs>
     tenantTransactions?: boolean | Tenant$tenantTransactionsArgs<ExtArgs>
+    maintenanceRequests?: boolean | Tenant$maintenanceRequestsArgs<ExtArgs>
     _count?: boolean | TenantCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type TenantIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -6772,6 +6883,7 @@ export namespace Prisma {
       leases: Prisma.$LeasePayload<ExtArgs>[]
       rentalApplications: Prisma.$RentalApplicationPayload<ExtArgs>[]
       tenantTransactions: Prisma.$TransactionPayload<ExtArgs>[]
+      maintenanceRequests: Prisma.$TaskPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -7190,6 +7302,7 @@ export namespace Prisma {
     leases<T extends Tenant$leasesArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$leasesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LeasePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     rentalApplications<T extends Tenant$rentalApplicationsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$rentalApplicationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RentalApplicationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     tenantTransactions<T extends Tenant$tenantTransactionsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$tenantTransactionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TransactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    maintenanceRequests<T extends Tenant$maintenanceRequestsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$maintenanceRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TaskPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -7700,6 +7813,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: TransactionScalarFieldEnum | TransactionScalarFieldEnum[]
+  }
+
+  /**
+   * Tenant.maintenanceRequests
+   */
+  export type Tenant$maintenanceRequestsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Task
+     */
+    select?: TaskSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Task
+     */
+    omit?: TaskOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TaskInclude<ExtArgs> | null
+    where?: TaskWhereInput
+    orderBy?: TaskOrderByWithRelationInput | TaskOrderByWithRelationInput[]
+    cursor?: TaskWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TaskScalarFieldEnum | TaskScalarFieldEnum[]
   }
 
   /**
@@ -16791,6 +16928,7 @@ export namespace Prisma {
     assignedToId: string | null
     createdById: string | null
     vendorId: string | null
+    tenantId: string | null
     dueDate: Date | null
     completedAt: Date | null
     estimatedCost: number | null
@@ -16811,6 +16949,7 @@ export namespace Prisma {
     assignedToId: string | null
     createdById: string | null
     vendorId: string | null
+    tenantId: string | null
     dueDate: Date | null
     completedAt: Date | null
     estimatedCost: number | null
@@ -16831,6 +16970,7 @@ export namespace Prisma {
     assignedToId: number
     createdById: number
     vendorId: number
+    tenantId: number
     dueDate: number
     completedAt: number
     estimatedCost: number
@@ -16864,6 +17004,7 @@ export namespace Prisma {
     assignedToId?: true
     createdById?: true
     vendorId?: true
+    tenantId?: true
     dueDate?: true
     completedAt?: true
     estimatedCost?: true
@@ -16884,6 +17025,7 @@ export namespace Prisma {
     assignedToId?: true
     createdById?: true
     vendorId?: true
+    tenantId?: true
     dueDate?: true
     completedAt?: true
     estimatedCost?: true
@@ -16904,6 +17046,7 @@ export namespace Prisma {
     assignedToId?: true
     createdById?: true
     vendorId?: true
+    tenantId?: true
     dueDate?: true
     completedAt?: true
     estimatedCost?: true
@@ -17012,6 +17155,7 @@ export namespace Prisma {
     assignedToId: string | null
     createdById: string | null
     vendorId: string | null
+    tenantId: string | null
     dueDate: Date | null
     completedAt: Date | null
     estimatedCost: number | null
@@ -17052,6 +17196,7 @@ export namespace Prisma {
     assignedToId?: boolean
     createdById?: boolean
     vendorId?: boolean
+    tenantId?: boolean
     dueDate?: boolean
     completedAt?: boolean
     estimatedCost?: boolean
@@ -17064,7 +17209,9 @@ export namespace Prisma {
     assignedTo?: boolean | Task$assignedToArgs<ExtArgs>
     createdBy?: boolean | Task$createdByArgs<ExtArgs>
     vendor?: boolean | Task$vendorArgs<ExtArgs>
+    tenant?: boolean | Task$tenantArgs<ExtArgs>
     expenses?: boolean | Task$expensesArgs<ExtArgs>
+    repairStatusUpdates?: boolean | Task$repairStatusUpdatesArgs<ExtArgs>
     _count?: boolean | TaskCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["task"]>
 
@@ -17079,6 +17226,7 @@ export namespace Prisma {
     assignedToId?: boolean
     createdById?: boolean
     vendorId?: boolean
+    tenantId?: boolean
     dueDate?: boolean
     completedAt?: boolean
     estimatedCost?: boolean
@@ -17091,6 +17239,7 @@ export namespace Prisma {
     assignedTo?: boolean | Task$assignedToArgs<ExtArgs>
     createdBy?: boolean | Task$createdByArgs<ExtArgs>
     vendor?: boolean | Task$vendorArgs<ExtArgs>
+    tenant?: boolean | Task$tenantArgs<ExtArgs>
   }, ExtArgs["result"]["task"]>
 
   export type TaskSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -17104,6 +17253,7 @@ export namespace Prisma {
     assignedToId?: boolean
     createdById?: boolean
     vendorId?: boolean
+    tenantId?: boolean
     dueDate?: boolean
     completedAt?: boolean
     estimatedCost?: boolean
@@ -17116,6 +17266,7 @@ export namespace Prisma {
     assignedTo?: boolean | Task$assignedToArgs<ExtArgs>
     createdBy?: boolean | Task$createdByArgs<ExtArgs>
     vendor?: boolean | Task$vendorArgs<ExtArgs>
+    tenant?: boolean | Task$tenantArgs<ExtArgs>
   }, ExtArgs["result"]["task"]>
 
   export type TaskSelectScalar = {
@@ -17129,6 +17280,7 @@ export namespace Prisma {
     assignedToId?: boolean
     createdById?: boolean
     vendorId?: boolean
+    tenantId?: boolean
     dueDate?: boolean
     completedAt?: boolean
     estimatedCost?: boolean
@@ -17139,13 +17291,15 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type TaskOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "type" | "title" | "description" | "status" | "priority" | "unitId" | "assignedToId" | "createdById" | "vendorId" | "dueDate" | "completedAt" | "estimatedCost" | "actualCost" | "notes" | "imageUrls" | "createdAt" | "updatedAt", ExtArgs["result"]["task"]>
+  export type TaskOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "type" | "title" | "description" | "status" | "priority" | "unitId" | "assignedToId" | "createdById" | "vendorId" | "tenantId" | "dueDate" | "completedAt" | "estimatedCost" | "actualCost" | "notes" | "imageUrls" | "createdAt" | "updatedAt", ExtArgs["result"]["task"]>
   export type TaskInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     unit?: boolean | Task$unitArgs<ExtArgs>
     assignedTo?: boolean | Task$assignedToArgs<ExtArgs>
     createdBy?: boolean | Task$createdByArgs<ExtArgs>
     vendor?: boolean | Task$vendorArgs<ExtArgs>
+    tenant?: boolean | Task$tenantArgs<ExtArgs>
     expenses?: boolean | Task$expensesArgs<ExtArgs>
+    repairStatusUpdates?: boolean | Task$repairStatusUpdatesArgs<ExtArgs>
     _count?: boolean | TaskCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type TaskIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -17153,12 +17307,14 @@ export namespace Prisma {
     assignedTo?: boolean | Task$assignedToArgs<ExtArgs>
     createdBy?: boolean | Task$createdByArgs<ExtArgs>
     vendor?: boolean | Task$vendorArgs<ExtArgs>
+    tenant?: boolean | Task$tenantArgs<ExtArgs>
   }
   export type TaskIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     unit?: boolean | Task$unitArgs<ExtArgs>
     assignedTo?: boolean | Task$assignedToArgs<ExtArgs>
     createdBy?: boolean | Task$createdByArgs<ExtArgs>
     vendor?: boolean | Task$vendorArgs<ExtArgs>
+    tenant?: boolean | Task$tenantArgs<ExtArgs>
   }
 
   export type $TaskPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -17168,7 +17324,9 @@ export namespace Prisma {
       assignedTo: Prisma.$UserPayload<ExtArgs> | null
       createdBy: Prisma.$UserPayload<ExtArgs> | null
       vendor: Prisma.$VendorPayload<ExtArgs> | null
+      tenant: Prisma.$TenantPayload<ExtArgs> | null
       expenses: Prisma.$TransactionPayload<ExtArgs>[]
+      repairStatusUpdates: Prisma.$RepairStatusUpdatePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -17181,6 +17339,7 @@ export namespace Prisma {
       assignedToId: string | null
       createdById: string | null
       vendorId: string | null
+      tenantId: string | null
       dueDate: Date | null
       completedAt: Date | null
       estimatedCost: number | null
@@ -17587,7 +17746,9 @@ export namespace Prisma {
     assignedTo<T extends Task$assignedToArgs<ExtArgs> = {}>(args?: Subset<T, Task$assignedToArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     createdBy<T extends Task$createdByArgs<ExtArgs> = {}>(args?: Subset<T, Task$createdByArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     vendor<T extends Task$vendorArgs<ExtArgs> = {}>(args?: Subset<T, Task$vendorArgs<ExtArgs>>): Prisma__VendorClient<$Result.GetResult<Prisma.$VendorPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    tenant<T extends Task$tenantArgs<ExtArgs> = {}>(args?: Subset<T, Task$tenantArgs<ExtArgs>>): Prisma__TenantClient<$Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     expenses<T extends Task$expensesArgs<ExtArgs> = {}>(args?: Subset<T, Task$expensesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TransactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    repairStatusUpdates<T extends Task$repairStatusUpdatesArgs<ExtArgs> = {}>(args?: Subset<T, Task$repairStatusUpdatesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RepairStatusUpdatePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -17627,6 +17788,7 @@ export namespace Prisma {
     readonly assignedToId: FieldRef<"Task", 'String'>
     readonly createdById: FieldRef<"Task", 'String'>
     readonly vendorId: FieldRef<"Task", 'String'>
+    readonly tenantId: FieldRef<"Task", 'String'>
     readonly dueDate: FieldRef<"Task", 'DateTime'>
     readonly completedAt: FieldRef<"Task", 'DateTime'>
     readonly estimatedCost: FieldRef<"Task", 'Float'>
@@ -18112,6 +18274,25 @@ export namespace Prisma {
   }
 
   /**
+   * Task.tenant
+   */
+  export type Task$tenantArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Tenant
+     */
+    select?: TenantSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Tenant
+     */
+    omit?: TenantOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TenantInclude<ExtArgs> | null
+    where?: TenantWhereInput
+  }
+
+  /**
    * Task.expenses
    */
   export type Task$expensesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -18136,6 +18317,30 @@ export namespace Prisma {
   }
 
   /**
+   * Task.repairStatusUpdates
+   */
+  export type Task$repairStatusUpdatesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RepairStatusUpdate
+     */
+    select?: RepairStatusUpdateSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RepairStatusUpdate
+     */
+    omit?: RepairStatusUpdateOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RepairStatusUpdateInclude<ExtArgs> | null
+    where?: RepairStatusUpdateWhereInput
+    orderBy?: RepairStatusUpdateOrderByWithRelationInput | RepairStatusUpdateOrderByWithRelationInput[]
+    cursor?: RepairStatusUpdateWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: RepairStatusUpdateScalarFieldEnum | RepairStatusUpdateScalarFieldEnum[]
+  }
+
+  /**
    * Task without action
    */
   export type TaskDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -18151,6 +18356,1069 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: TaskInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model RepairStatusUpdate
+   */
+
+  export type AggregateRepairStatusUpdate = {
+    _count: RepairStatusUpdateCountAggregateOutputType | null
+    _min: RepairStatusUpdateMinAggregateOutputType | null
+    _max: RepairStatusUpdateMaxAggregateOutputType | null
+  }
+
+  export type RepairStatusUpdateMinAggregateOutputType = {
+    id: string | null
+    taskId: string | null
+    label: string | null
+    description: string | null
+    createdAt: Date | null
+  }
+
+  export type RepairStatusUpdateMaxAggregateOutputType = {
+    id: string | null
+    taskId: string | null
+    label: string | null
+    description: string | null
+    createdAt: Date | null
+  }
+
+  export type RepairStatusUpdateCountAggregateOutputType = {
+    id: number
+    taskId: number
+    label: number
+    description: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type RepairStatusUpdateMinAggregateInputType = {
+    id?: true
+    taskId?: true
+    label?: true
+    description?: true
+    createdAt?: true
+  }
+
+  export type RepairStatusUpdateMaxAggregateInputType = {
+    id?: true
+    taskId?: true
+    label?: true
+    description?: true
+    createdAt?: true
+  }
+
+  export type RepairStatusUpdateCountAggregateInputType = {
+    id?: true
+    taskId?: true
+    label?: true
+    description?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type RepairStatusUpdateAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which RepairStatusUpdate to aggregate.
+     */
+    where?: RepairStatusUpdateWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RepairStatusUpdates to fetch.
+     */
+    orderBy?: RepairStatusUpdateOrderByWithRelationInput | RepairStatusUpdateOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: RepairStatusUpdateWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RepairStatusUpdates from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RepairStatusUpdates.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned RepairStatusUpdates
+    **/
+    _count?: true | RepairStatusUpdateCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: RepairStatusUpdateMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: RepairStatusUpdateMaxAggregateInputType
+  }
+
+  export type GetRepairStatusUpdateAggregateType<T extends RepairStatusUpdateAggregateArgs> = {
+        [P in keyof T & keyof AggregateRepairStatusUpdate]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateRepairStatusUpdate[P]>
+      : GetScalarType<T[P], AggregateRepairStatusUpdate[P]>
+  }
+
+
+
+
+  export type RepairStatusUpdateGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RepairStatusUpdateWhereInput
+    orderBy?: RepairStatusUpdateOrderByWithAggregationInput | RepairStatusUpdateOrderByWithAggregationInput[]
+    by: RepairStatusUpdateScalarFieldEnum[] | RepairStatusUpdateScalarFieldEnum
+    having?: RepairStatusUpdateScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: RepairStatusUpdateCountAggregateInputType | true
+    _min?: RepairStatusUpdateMinAggregateInputType
+    _max?: RepairStatusUpdateMaxAggregateInputType
+  }
+
+  export type RepairStatusUpdateGroupByOutputType = {
+    id: string
+    taskId: string
+    label: string
+    description: string | null
+    createdAt: Date
+    _count: RepairStatusUpdateCountAggregateOutputType | null
+    _min: RepairStatusUpdateMinAggregateOutputType | null
+    _max: RepairStatusUpdateMaxAggregateOutputType | null
+  }
+
+  type GetRepairStatusUpdateGroupByPayload<T extends RepairStatusUpdateGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<RepairStatusUpdateGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof RepairStatusUpdateGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], RepairStatusUpdateGroupByOutputType[P]>
+            : GetScalarType<T[P], RepairStatusUpdateGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type RepairStatusUpdateSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    taskId?: boolean
+    label?: boolean
+    description?: boolean
+    createdAt?: boolean
+    task?: boolean | TaskDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["repairStatusUpdate"]>
+
+  export type RepairStatusUpdateSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    taskId?: boolean
+    label?: boolean
+    description?: boolean
+    createdAt?: boolean
+    task?: boolean | TaskDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["repairStatusUpdate"]>
+
+  export type RepairStatusUpdateSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    taskId?: boolean
+    label?: boolean
+    description?: boolean
+    createdAt?: boolean
+    task?: boolean | TaskDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["repairStatusUpdate"]>
+
+  export type RepairStatusUpdateSelectScalar = {
+    id?: boolean
+    taskId?: boolean
+    label?: boolean
+    description?: boolean
+    createdAt?: boolean
+  }
+
+  export type RepairStatusUpdateOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "taskId" | "label" | "description" | "createdAt", ExtArgs["result"]["repairStatusUpdate"]>
+  export type RepairStatusUpdateInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    task?: boolean | TaskDefaultArgs<ExtArgs>
+  }
+  export type RepairStatusUpdateIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    task?: boolean | TaskDefaultArgs<ExtArgs>
+  }
+  export type RepairStatusUpdateIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    task?: boolean | TaskDefaultArgs<ExtArgs>
+  }
+
+  export type $RepairStatusUpdatePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "RepairStatusUpdate"
+    objects: {
+      task: Prisma.$TaskPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      taskId: string
+      label: string
+      description: string | null
+      createdAt: Date
+    }, ExtArgs["result"]["repairStatusUpdate"]>
+    composites: {}
+  }
+
+  type RepairStatusUpdateGetPayload<S extends boolean | null | undefined | RepairStatusUpdateDefaultArgs> = $Result.GetResult<Prisma.$RepairStatusUpdatePayload, S>
+
+  type RepairStatusUpdateCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<RepairStatusUpdateFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: RepairStatusUpdateCountAggregateInputType | true
+    }
+
+  export interface RepairStatusUpdateDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['RepairStatusUpdate'], meta: { name: 'RepairStatusUpdate' } }
+    /**
+     * Find zero or one RepairStatusUpdate that matches the filter.
+     * @param {RepairStatusUpdateFindUniqueArgs} args - Arguments to find a RepairStatusUpdate
+     * @example
+     * // Get one RepairStatusUpdate
+     * const repairStatusUpdate = await prisma.repairStatusUpdate.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends RepairStatusUpdateFindUniqueArgs>(args: SelectSubset<T, RepairStatusUpdateFindUniqueArgs<ExtArgs>>): Prisma__RepairStatusUpdateClient<$Result.GetResult<Prisma.$RepairStatusUpdatePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one RepairStatusUpdate that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {RepairStatusUpdateFindUniqueOrThrowArgs} args - Arguments to find a RepairStatusUpdate
+     * @example
+     * // Get one RepairStatusUpdate
+     * const repairStatusUpdate = await prisma.repairStatusUpdate.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends RepairStatusUpdateFindUniqueOrThrowArgs>(args: SelectSubset<T, RepairStatusUpdateFindUniqueOrThrowArgs<ExtArgs>>): Prisma__RepairStatusUpdateClient<$Result.GetResult<Prisma.$RepairStatusUpdatePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first RepairStatusUpdate that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RepairStatusUpdateFindFirstArgs} args - Arguments to find a RepairStatusUpdate
+     * @example
+     * // Get one RepairStatusUpdate
+     * const repairStatusUpdate = await prisma.repairStatusUpdate.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends RepairStatusUpdateFindFirstArgs>(args?: SelectSubset<T, RepairStatusUpdateFindFirstArgs<ExtArgs>>): Prisma__RepairStatusUpdateClient<$Result.GetResult<Prisma.$RepairStatusUpdatePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first RepairStatusUpdate that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RepairStatusUpdateFindFirstOrThrowArgs} args - Arguments to find a RepairStatusUpdate
+     * @example
+     * // Get one RepairStatusUpdate
+     * const repairStatusUpdate = await prisma.repairStatusUpdate.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends RepairStatusUpdateFindFirstOrThrowArgs>(args?: SelectSubset<T, RepairStatusUpdateFindFirstOrThrowArgs<ExtArgs>>): Prisma__RepairStatusUpdateClient<$Result.GetResult<Prisma.$RepairStatusUpdatePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more RepairStatusUpdates that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RepairStatusUpdateFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all RepairStatusUpdates
+     * const repairStatusUpdates = await prisma.repairStatusUpdate.findMany()
+     * 
+     * // Get first 10 RepairStatusUpdates
+     * const repairStatusUpdates = await prisma.repairStatusUpdate.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const repairStatusUpdateWithIdOnly = await prisma.repairStatusUpdate.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends RepairStatusUpdateFindManyArgs>(args?: SelectSubset<T, RepairStatusUpdateFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RepairStatusUpdatePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a RepairStatusUpdate.
+     * @param {RepairStatusUpdateCreateArgs} args - Arguments to create a RepairStatusUpdate.
+     * @example
+     * // Create one RepairStatusUpdate
+     * const RepairStatusUpdate = await prisma.repairStatusUpdate.create({
+     *   data: {
+     *     // ... data to create a RepairStatusUpdate
+     *   }
+     * })
+     * 
+     */
+    create<T extends RepairStatusUpdateCreateArgs>(args: SelectSubset<T, RepairStatusUpdateCreateArgs<ExtArgs>>): Prisma__RepairStatusUpdateClient<$Result.GetResult<Prisma.$RepairStatusUpdatePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many RepairStatusUpdates.
+     * @param {RepairStatusUpdateCreateManyArgs} args - Arguments to create many RepairStatusUpdates.
+     * @example
+     * // Create many RepairStatusUpdates
+     * const repairStatusUpdate = await prisma.repairStatusUpdate.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends RepairStatusUpdateCreateManyArgs>(args?: SelectSubset<T, RepairStatusUpdateCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many RepairStatusUpdates and returns the data saved in the database.
+     * @param {RepairStatusUpdateCreateManyAndReturnArgs} args - Arguments to create many RepairStatusUpdates.
+     * @example
+     * // Create many RepairStatusUpdates
+     * const repairStatusUpdate = await prisma.repairStatusUpdate.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many RepairStatusUpdates and only return the `id`
+     * const repairStatusUpdateWithIdOnly = await prisma.repairStatusUpdate.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends RepairStatusUpdateCreateManyAndReturnArgs>(args?: SelectSubset<T, RepairStatusUpdateCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RepairStatusUpdatePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a RepairStatusUpdate.
+     * @param {RepairStatusUpdateDeleteArgs} args - Arguments to delete one RepairStatusUpdate.
+     * @example
+     * // Delete one RepairStatusUpdate
+     * const RepairStatusUpdate = await prisma.repairStatusUpdate.delete({
+     *   where: {
+     *     // ... filter to delete one RepairStatusUpdate
+     *   }
+     * })
+     * 
+     */
+    delete<T extends RepairStatusUpdateDeleteArgs>(args: SelectSubset<T, RepairStatusUpdateDeleteArgs<ExtArgs>>): Prisma__RepairStatusUpdateClient<$Result.GetResult<Prisma.$RepairStatusUpdatePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one RepairStatusUpdate.
+     * @param {RepairStatusUpdateUpdateArgs} args - Arguments to update one RepairStatusUpdate.
+     * @example
+     * // Update one RepairStatusUpdate
+     * const repairStatusUpdate = await prisma.repairStatusUpdate.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends RepairStatusUpdateUpdateArgs>(args: SelectSubset<T, RepairStatusUpdateUpdateArgs<ExtArgs>>): Prisma__RepairStatusUpdateClient<$Result.GetResult<Prisma.$RepairStatusUpdatePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more RepairStatusUpdates.
+     * @param {RepairStatusUpdateDeleteManyArgs} args - Arguments to filter RepairStatusUpdates to delete.
+     * @example
+     * // Delete a few RepairStatusUpdates
+     * const { count } = await prisma.repairStatusUpdate.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends RepairStatusUpdateDeleteManyArgs>(args?: SelectSubset<T, RepairStatusUpdateDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more RepairStatusUpdates.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RepairStatusUpdateUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many RepairStatusUpdates
+     * const repairStatusUpdate = await prisma.repairStatusUpdate.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends RepairStatusUpdateUpdateManyArgs>(args: SelectSubset<T, RepairStatusUpdateUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more RepairStatusUpdates and returns the data updated in the database.
+     * @param {RepairStatusUpdateUpdateManyAndReturnArgs} args - Arguments to update many RepairStatusUpdates.
+     * @example
+     * // Update many RepairStatusUpdates
+     * const repairStatusUpdate = await prisma.repairStatusUpdate.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more RepairStatusUpdates and only return the `id`
+     * const repairStatusUpdateWithIdOnly = await prisma.repairStatusUpdate.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends RepairStatusUpdateUpdateManyAndReturnArgs>(args: SelectSubset<T, RepairStatusUpdateUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RepairStatusUpdatePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one RepairStatusUpdate.
+     * @param {RepairStatusUpdateUpsertArgs} args - Arguments to update or create a RepairStatusUpdate.
+     * @example
+     * // Update or create a RepairStatusUpdate
+     * const repairStatusUpdate = await prisma.repairStatusUpdate.upsert({
+     *   create: {
+     *     // ... data to create a RepairStatusUpdate
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the RepairStatusUpdate we want to update
+     *   }
+     * })
+     */
+    upsert<T extends RepairStatusUpdateUpsertArgs>(args: SelectSubset<T, RepairStatusUpdateUpsertArgs<ExtArgs>>): Prisma__RepairStatusUpdateClient<$Result.GetResult<Prisma.$RepairStatusUpdatePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of RepairStatusUpdates.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RepairStatusUpdateCountArgs} args - Arguments to filter RepairStatusUpdates to count.
+     * @example
+     * // Count the number of RepairStatusUpdates
+     * const count = await prisma.repairStatusUpdate.count({
+     *   where: {
+     *     // ... the filter for the RepairStatusUpdates we want to count
+     *   }
+     * })
+    **/
+    count<T extends RepairStatusUpdateCountArgs>(
+      args?: Subset<T, RepairStatusUpdateCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], RepairStatusUpdateCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a RepairStatusUpdate.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RepairStatusUpdateAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends RepairStatusUpdateAggregateArgs>(args: Subset<T, RepairStatusUpdateAggregateArgs>): Prisma.PrismaPromise<GetRepairStatusUpdateAggregateType<T>>
+
+    /**
+     * Group by RepairStatusUpdate.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RepairStatusUpdateGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends RepairStatusUpdateGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: RepairStatusUpdateGroupByArgs['orderBy'] }
+        : { orderBy?: RepairStatusUpdateGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, RepairStatusUpdateGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetRepairStatusUpdateGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the RepairStatusUpdate model
+   */
+  readonly fields: RepairStatusUpdateFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for RepairStatusUpdate.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__RepairStatusUpdateClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    task<T extends TaskDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TaskDefaultArgs<ExtArgs>>): Prisma__TaskClient<$Result.GetResult<Prisma.$TaskPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the RepairStatusUpdate model
+   */
+  interface RepairStatusUpdateFieldRefs {
+    readonly id: FieldRef<"RepairStatusUpdate", 'String'>
+    readonly taskId: FieldRef<"RepairStatusUpdate", 'String'>
+    readonly label: FieldRef<"RepairStatusUpdate", 'String'>
+    readonly description: FieldRef<"RepairStatusUpdate", 'String'>
+    readonly createdAt: FieldRef<"RepairStatusUpdate", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * RepairStatusUpdate findUnique
+   */
+  export type RepairStatusUpdateFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RepairStatusUpdate
+     */
+    select?: RepairStatusUpdateSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RepairStatusUpdate
+     */
+    omit?: RepairStatusUpdateOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RepairStatusUpdateInclude<ExtArgs> | null
+    /**
+     * Filter, which RepairStatusUpdate to fetch.
+     */
+    where: RepairStatusUpdateWhereUniqueInput
+  }
+
+  /**
+   * RepairStatusUpdate findUniqueOrThrow
+   */
+  export type RepairStatusUpdateFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RepairStatusUpdate
+     */
+    select?: RepairStatusUpdateSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RepairStatusUpdate
+     */
+    omit?: RepairStatusUpdateOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RepairStatusUpdateInclude<ExtArgs> | null
+    /**
+     * Filter, which RepairStatusUpdate to fetch.
+     */
+    where: RepairStatusUpdateWhereUniqueInput
+  }
+
+  /**
+   * RepairStatusUpdate findFirst
+   */
+  export type RepairStatusUpdateFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RepairStatusUpdate
+     */
+    select?: RepairStatusUpdateSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RepairStatusUpdate
+     */
+    omit?: RepairStatusUpdateOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RepairStatusUpdateInclude<ExtArgs> | null
+    /**
+     * Filter, which RepairStatusUpdate to fetch.
+     */
+    where?: RepairStatusUpdateWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RepairStatusUpdates to fetch.
+     */
+    orderBy?: RepairStatusUpdateOrderByWithRelationInput | RepairStatusUpdateOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for RepairStatusUpdates.
+     */
+    cursor?: RepairStatusUpdateWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RepairStatusUpdates from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RepairStatusUpdates.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of RepairStatusUpdates.
+     */
+    distinct?: RepairStatusUpdateScalarFieldEnum | RepairStatusUpdateScalarFieldEnum[]
+  }
+
+  /**
+   * RepairStatusUpdate findFirstOrThrow
+   */
+  export type RepairStatusUpdateFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RepairStatusUpdate
+     */
+    select?: RepairStatusUpdateSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RepairStatusUpdate
+     */
+    omit?: RepairStatusUpdateOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RepairStatusUpdateInclude<ExtArgs> | null
+    /**
+     * Filter, which RepairStatusUpdate to fetch.
+     */
+    where?: RepairStatusUpdateWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RepairStatusUpdates to fetch.
+     */
+    orderBy?: RepairStatusUpdateOrderByWithRelationInput | RepairStatusUpdateOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for RepairStatusUpdates.
+     */
+    cursor?: RepairStatusUpdateWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RepairStatusUpdates from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RepairStatusUpdates.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of RepairStatusUpdates.
+     */
+    distinct?: RepairStatusUpdateScalarFieldEnum | RepairStatusUpdateScalarFieldEnum[]
+  }
+
+  /**
+   * RepairStatusUpdate findMany
+   */
+  export type RepairStatusUpdateFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RepairStatusUpdate
+     */
+    select?: RepairStatusUpdateSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RepairStatusUpdate
+     */
+    omit?: RepairStatusUpdateOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RepairStatusUpdateInclude<ExtArgs> | null
+    /**
+     * Filter, which RepairStatusUpdates to fetch.
+     */
+    where?: RepairStatusUpdateWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RepairStatusUpdates to fetch.
+     */
+    orderBy?: RepairStatusUpdateOrderByWithRelationInput | RepairStatusUpdateOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing RepairStatusUpdates.
+     */
+    cursor?: RepairStatusUpdateWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RepairStatusUpdates from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RepairStatusUpdates.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of RepairStatusUpdates.
+     */
+    distinct?: RepairStatusUpdateScalarFieldEnum | RepairStatusUpdateScalarFieldEnum[]
+  }
+
+  /**
+   * RepairStatusUpdate create
+   */
+  export type RepairStatusUpdateCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RepairStatusUpdate
+     */
+    select?: RepairStatusUpdateSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RepairStatusUpdate
+     */
+    omit?: RepairStatusUpdateOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RepairStatusUpdateInclude<ExtArgs> | null
+    /**
+     * The data needed to create a RepairStatusUpdate.
+     */
+    data: XOR<RepairStatusUpdateCreateInput, RepairStatusUpdateUncheckedCreateInput>
+  }
+
+  /**
+   * RepairStatusUpdate createMany
+   */
+  export type RepairStatusUpdateCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many RepairStatusUpdates.
+     */
+    data: RepairStatusUpdateCreateManyInput | RepairStatusUpdateCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * RepairStatusUpdate createManyAndReturn
+   */
+  export type RepairStatusUpdateCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RepairStatusUpdate
+     */
+    select?: RepairStatusUpdateSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the RepairStatusUpdate
+     */
+    omit?: RepairStatusUpdateOmit<ExtArgs> | null
+    /**
+     * The data used to create many RepairStatusUpdates.
+     */
+    data: RepairStatusUpdateCreateManyInput | RepairStatusUpdateCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RepairStatusUpdateIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * RepairStatusUpdate update
+   */
+  export type RepairStatusUpdateUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RepairStatusUpdate
+     */
+    select?: RepairStatusUpdateSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RepairStatusUpdate
+     */
+    omit?: RepairStatusUpdateOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RepairStatusUpdateInclude<ExtArgs> | null
+    /**
+     * The data needed to update a RepairStatusUpdate.
+     */
+    data: XOR<RepairStatusUpdateUpdateInput, RepairStatusUpdateUncheckedUpdateInput>
+    /**
+     * Choose, which RepairStatusUpdate to update.
+     */
+    where: RepairStatusUpdateWhereUniqueInput
+  }
+
+  /**
+   * RepairStatusUpdate updateMany
+   */
+  export type RepairStatusUpdateUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update RepairStatusUpdates.
+     */
+    data: XOR<RepairStatusUpdateUpdateManyMutationInput, RepairStatusUpdateUncheckedUpdateManyInput>
+    /**
+     * Filter which RepairStatusUpdates to update
+     */
+    where?: RepairStatusUpdateWhereInput
+    /**
+     * Limit how many RepairStatusUpdates to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * RepairStatusUpdate updateManyAndReturn
+   */
+  export type RepairStatusUpdateUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RepairStatusUpdate
+     */
+    select?: RepairStatusUpdateSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the RepairStatusUpdate
+     */
+    omit?: RepairStatusUpdateOmit<ExtArgs> | null
+    /**
+     * The data used to update RepairStatusUpdates.
+     */
+    data: XOR<RepairStatusUpdateUpdateManyMutationInput, RepairStatusUpdateUncheckedUpdateManyInput>
+    /**
+     * Filter which RepairStatusUpdates to update
+     */
+    where?: RepairStatusUpdateWhereInput
+    /**
+     * Limit how many RepairStatusUpdates to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RepairStatusUpdateIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * RepairStatusUpdate upsert
+   */
+  export type RepairStatusUpdateUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RepairStatusUpdate
+     */
+    select?: RepairStatusUpdateSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RepairStatusUpdate
+     */
+    omit?: RepairStatusUpdateOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RepairStatusUpdateInclude<ExtArgs> | null
+    /**
+     * The filter to search for the RepairStatusUpdate to update in case it exists.
+     */
+    where: RepairStatusUpdateWhereUniqueInput
+    /**
+     * In case the RepairStatusUpdate found by the `where` argument doesn't exist, create a new RepairStatusUpdate with this data.
+     */
+    create: XOR<RepairStatusUpdateCreateInput, RepairStatusUpdateUncheckedCreateInput>
+    /**
+     * In case the RepairStatusUpdate was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<RepairStatusUpdateUpdateInput, RepairStatusUpdateUncheckedUpdateInput>
+  }
+
+  /**
+   * RepairStatusUpdate delete
+   */
+  export type RepairStatusUpdateDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RepairStatusUpdate
+     */
+    select?: RepairStatusUpdateSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RepairStatusUpdate
+     */
+    omit?: RepairStatusUpdateOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RepairStatusUpdateInclude<ExtArgs> | null
+    /**
+     * Filter which RepairStatusUpdate to delete.
+     */
+    where: RepairStatusUpdateWhereUniqueInput
+  }
+
+  /**
+   * RepairStatusUpdate deleteMany
+   */
+  export type RepairStatusUpdateDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which RepairStatusUpdates to delete
+     */
+    where?: RepairStatusUpdateWhereInput
+    /**
+     * Limit how many RepairStatusUpdates to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * RepairStatusUpdate without action
+   */
+  export type RepairStatusUpdateDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RepairStatusUpdate
+     */
+    select?: RepairStatusUpdateSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RepairStatusUpdate
+     */
+    omit?: RepairStatusUpdateOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RepairStatusUpdateInclude<ExtArgs> | null
   }
 
 
@@ -23201,6 +24469,7 @@ export namespace Prisma {
     body: string | null
     status: $Enums.AnnouncementStatus | null
     propertyId: string | null
+    unitId: string | null
     createdById: string | null
     publishedAt: Date | null
     createdAt: Date | null
@@ -23213,6 +24482,7 @@ export namespace Prisma {
     body: string | null
     status: $Enums.AnnouncementStatus | null
     propertyId: string | null
+    unitId: string | null
     createdById: string | null
     publishedAt: Date | null
     createdAt: Date | null
@@ -23225,6 +24495,7 @@ export namespace Prisma {
     body: number
     status: number
     propertyId: number
+    unitId: number
     createdById: number
     publishedAt: number
     createdAt: number
@@ -23239,6 +24510,7 @@ export namespace Prisma {
     body?: true
     status?: true
     propertyId?: true
+    unitId?: true
     createdById?: true
     publishedAt?: true
     createdAt?: true
@@ -23251,6 +24523,7 @@ export namespace Prisma {
     body?: true
     status?: true
     propertyId?: true
+    unitId?: true
     createdById?: true
     publishedAt?: true
     createdAt?: true
@@ -23263,6 +24536,7 @@ export namespace Prisma {
     body?: true
     status?: true
     propertyId?: true
+    unitId?: true
     createdById?: true
     publishedAt?: true
     createdAt?: true
@@ -23348,6 +24622,7 @@ export namespace Prisma {
     body: string
     status: $Enums.AnnouncementStatus
     propertyId: string | null
+    unitId: string | null
     createdById: string | null
     publishedAt: Date | null
     createdAt: Date
@@ -23377,6 +24652,7 @@ export namespace Prisma {
     body?: boolean
     status?: boolean
     propertyId?: boolean
+    unitId?: boolean
     createdById?: boolean
     publishedAt?: boolean
     createdAt?: boolean
@@ -23391,6 +24667,7 @@ export namespace Prisma {
     body?: boolean
     status?: boolean
     propertyId?: boolean
+    unitId?: boolean
     createdById?: boolean
     publishedAt?: boolean
     createdAt?: boolean
@@ -23405,6 +24682,7 @@ export namespace Prisma {
     body?: boolean
     status?: boolean
     propertyId?: boolean
+    unitId?: boolean
     createdById?: boolean
     publishedAt?: boolean
     createdAt?: boolean
@@ -23419,13 +24697,14 @@ export namespace Prisma {
     body?: boolean
     status?: boolean
     propertyId?: boolean
+    unitId?: boolean
     createdById?: boolean
     publishedAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type AnnouncementOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "body" | "status" | "propertyId" | "createdById" | "publishedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["announcement"]>
+  export type AnnouncementOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "body" | "status" | "propertyId" | "unitId" | "createdById" | "publishedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["announcement"]>
   export type AnnouncementInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     property?: boolean | Announcement$propertyArgs<ExtArgs>
     createdBy?: boolean | Announcement$createdByArgs<ExtArgs>
@@ -23451,6 +24730,7 @@ export namespace Prisma {
       body: string
       status: $Enums.AnnouncementStatus
       propertyId: string | null
+      unitId: string | null
       createdById: string | null
       publishedAt: Date | null
       createdAt: Date
@@ -23885,6 +25165,7 @@ export namespace Prisma {
     readonly body: FieldRef<"Announcement", 'String'>
     readonly status: FieldRef<"Announcement", 'AnnouncementStatus'>
     readonly propertyId: FieldRef<"Announcement", 'String'>
+    readonly unitId: FieldRef<"Announcement", 'String'>
     readonly createdById: FieldRef<"Announcement", 'String'>
     readonly publishedAt: FieldRef<"Announcement", 'DateTime'>
     readonly createdAt: FieldRef<"Announcement", 'DateTime'>
@@ -32968,6 +34249,7 @@ export namespace Prisma {
     assignedToId: 'assignedToId',
     createdById: 'createdById',
     vendorId: 'vendorId',
+    tenantId: 'tenantId',
     dueDate: 'dueDate',
     completedAt: 'completedAt',
     estimatedCost: 'estimatedCost',
@@ -32979,6 +34261,17 @@ export namespace Prisma {
   };
 
   export type TaskScalarFieldEnum = (typeof TaskScalarFieldEnum)[keyof typeof TaskScalarFieldEnum]
+
+
+  export const RepairStatusUpdateScalarFieldEnum: {
+    id: 'id',
+    taskId: 'taskId',
+    label: 'label',
+    description: 'description',
+    createdAt: 'createdAt'
+  };
+
+  export type RepairStatusUpdateScalarFieldEnum = (typeof RepairStatusUpdateScalarFieldEnum)[keyof typeof RepairStatusUpdateScalarFieldEnum]
 
 
   export const TransactionScalarFieldEnum: {
@@ -33058,6 +34351,7 @@ export namespace Prisma {
     body: 'body',
     status: 'status',
     propertyId: 'propertyId',
+    unitId: 'unitId',
     createdById: 'createdById',
     publishedAt: 'publishedAt',
     createdAt: 'createdAt',
@@ -33739,6 +35033,7 @@ export namespace Prisma {
     leases?: LeaseListRelationFilter
     rentalApplications?: RentalApplicationListRelationFilter
     tenantTransactions?: TransactionListRelationFilter
+    maintenanceRequests?: TaskListRelationFilter
   }
 
   export type TenantOrderByWithRelationInput = {
@@ -33764,6 +35059,7 @@ export namespace Prisma {
     leases?: LeaseOrderByRelationAggregateInput
     rentalApplications?: RentalApplicationOrderByRelationAggregateInput
     tenantTransactions?: TransactionOrderByRelationAggregateInput
+    maintenanceRequests?: TaskOrderByRelationAggregateInput
   }
 
   export type TenantWhereUniqueInput = Prisma.AtLeast<{
@@ -33792,6 +35088,7 @@ export namespace Prisma {
     leases?: LeaseListRelationFilter
     rentalApplications?: RentalApplicationListRelationFilter
     tenantTransactions?: TransactionListRelationFilter
+    maintenanceRequests?: TaskListRelationFilter
   }, "id" | "email">
 
   export type TenantOrderByWithAggregationInput = {
@@ -34639,6 +35936,7 @@ export namespace Prisma {
     assignedToId?: StringNullableFilter<"Task"> | string | null
     createdById?: StringNullableFilter<"Task"> | string | null
     vendorId?: StringNullableFilter<"Task"> | string | null
+    tenantId?: StringNullableFilter<"Task"> | string | null
     dueDate?: DateTimeNullableFilter<"Task"> | Date | string | null
     completedAt?: DateTimeNullableFilter<"Task"> | Date | string | null
     estimatedCost?: FloatNullableFilter<"Task"> | number | null
@@ -34651,7 +35949,9 @@ export namespace Prisma {
     assignedTo?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
     createdBy?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
     vendor?: XOR<VendorNullableScalarRelationFilter, VendorWhereInput> | null
+    tenant?: XOR<TenantNullableScalarRelationFilter, TenantWhereInput> | null
     expenses?: TransactionListRelationFilter
+    repairStatusUpdates?: RepairStatusUpdateListRelationFilter
   }
 
   export type TaskOrderByWithRelationInput = {
@@ -34665,6 +35965,7 @@ export namespace Prisma {
     assignedToId?: SortOrderInput | SortOrder
     createdById?: SortOrderInput | SortOrder
     vendorId?: SortOrderInput | SortOrder
+    tenantId?: SortOrderInput | SortOrder
     dueDate?: SortOrderInput | SortOrder
     completedAt?: SortOrderInput | SortOrder
     estimatedCost?: SortOrderInput | SortOrder
@@ -34677,7 +35978,9 @@ export namespace Prisma {
     assignedTo?: UserOrderByWithRelationInput
     createdBy?: UserOrderByWithRelationInput
     vendor?: VendorOrderByWithRelationInput
+    tenant?: TenantOrderByWithRelationInput
     expenses?: TransactionOrderByRelationAggregateInput
+    repairStatusUpdates?: RepairStatusUpdateOrderByRelationAggregateInput
   }
 
   export type TaskWhereUniqueInput = Prisma.AtLeast<{
@@ -34694,6 +35997,7 @@ export namespace Prisma {
     assignedToId?: StringNullableFilter<"Task"> | string | null
     createdById?: StringNullableFilter<"Task"> | string | null
     vendorId?: StringNullableFilter<"Task"> | string | null
+    tenantId?: StringNullableFilter<"Task"> | string | null
     dueDate?: DateTimeNullableFilter<"Task"> | Date | string | null
     completedAt?: DateTimeNullableFilter<"Task"> | Date | string | null
     estimatedCost?: FloatNullableFilter<"Task"> | number | null
@@ -34706,7 +36010,9 @@ export namespace Prisma {
     assignedTo?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
     createdBy?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
     vendor?: XOR<VendorNullableScalarRelationFilter, VendorWhereInput> | null
+    tenant?: XOR<TenantNullableScalarRelationFilter, TenantWhereInput> | null
     expenses?: TransactionListRelationFilter
+    repairStatusUpdates?: RepairStatusUpdateListRelationFilter
   }, "id">
 
   export type TaskOrderByWithAggregationInput = {
@@ -34720,6 +36026,7 @@ export namespace Prisma {
     assignedToId?: SortOrderInput | SortOrder
     createdById?: SortOrderInput | SortOrder
     vendorId?: SortOrderInput | SortOrder
+    tenantId?: SortOrderInput | SortOrder
     dueDate?: SortOrderInput | SortOrder
     completedAt?: SortOrderInput | SortOrder
     estimatedCost?: SortOrderInput | SortOrder
@@ -34749,6 +36056,7 @@ export namespace Prisma {
     assignedToId?: StringNullableWithAggregatesFilter<"Task"> | string | null
     createdById?: StringNullableWithAggregatesFilter<"Task"> | string | null
     vendorId?: StringNullableWithAggregatesFilter<"Task"> | string | null
+    tenantId?: StringNullableWithAggregatesFilter<"Task"> | string | null
     dueDate?: DateTimeNullableWithAggregatesFilter<"Task"> | Date | string | null
     completedAt?: DateTimeNullableWithAggregatesFilter<"Task"> | Date | string | null
     estimatedCost?: FloatNullableWithAggregatesFilter<"Task"> | number | null
@@ -34757,6 +36065,61 @@ export namespace Prisma {
     imageUrls?: StringNullableListFilter<"Task">
     createdAt?: DateTimeWithAggregatesFilter<"Task"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Task"> | Date | string
+  }
+
+  export type RepairStatusUpdateWhereInput = {
+    AND?: RepairStatusUpdateWhereInput | RepairStatusUpdateWhereInput[]
+    OR?: RepairStatusUpdateWhereInput[]
+    NOT?: RepairStatusUpdateWhereInput | RepairStatusUpdateWhereInput[]
+    id?: StringFilter<"RepairStatusUpdate"> | string
+    taskId?: StringFilter<"RepairStatusUpdate"> | string
+    label?: StringFilter<"RepairStatusUpdate"> | string
+    description?: StringNullableFilter<"RepairStatusUpdate"> | string | null
+    createdAt?: DateTimeFilter<"RepairStatusUpdate"> | Date | string
+    task?: XOR<TaskScalarRelationFilter, TaskWhereInput>
+  }
+
+  export type RepairStatusUpdateOrderByWithRelationInput = {
+    id?: SortOrder
+    taskId?: SortOrder
+    label?: SortOrder
+    description?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    task?: TaskOrderByWithRelationInput
+  }
+
+  export type RepairStatusUpdateWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: RepairStatusUpdateWhereInput | RepairStatusUpdateWhereInput[]
+    OR?: RepairStatusUpdateWhereInput[]
+    NOT?: RepairStatusUpdateWhereInput | RepairStatusUpdateWhereInput[]
+    taskId?: StringFilter<"RepairStatusUpdate"> | string
+    label?: StringFilter<"RepairStatusUpdate"> | string
+    description?: StringNullableFilter<"RepairStatusUpdate"> | string | null
+    createdAt?: DateTimeFilter<"RepairStatusUpdate"> | Date | string
+    task?: XOR<TaskScalarRelationFilter, TaskWhereInput>
+  }, "id">
+
+  export type RepairStatusUpdateOrderByWithAggregationInput = {
+    id?: SortOrder
+    taskId?: SortOrder
+    label?: SortOrder
+    description?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    _count?: RepairStatusUpdateCountOrderByAggregateInput
+    _max?: RepairStatusUpdateMaxOrderByAggregateInput
+    _min?: RepairStatusUpdateMinOrderByAggregateInput
+  }
+
+  export type RepairStatusUpdateScalarWhereWithAggregatesInput = {
+    AND?: RepairStatusUpdateScalarWhereWithAggregatesInput | RepairStatusUpdateScalarWhereWithAggregatesInput[]
+    OR?: RepairStatusUpdateScalarWhereWithAggregatesInput[]
+    NOT?: RepairStatusUpdateScalarWhereWithAggregatesInput | RepairStatusUpdateScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"RepairStatusUpdate"> | string
+    taskId?: StringWithAggregatesFilter<"RepairStatusUpdate"> | string
+    label?: StringWithAggregatesFilter<"RepairStatusUpdate"> | string
+    description?: StringNullableWithAggregatesFilter<"RepairStatusUpdate"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"RepairStatusUpdate"> | Date | string
   }
 
   export type TransactionWhereInput = {
@@ -35161,6 +36524,7 @@ export namespace Prisma {
     body?: StringFilter<"Announcement"> | string
     status?: EnumAnnouncementStatusFilter<"Announcement"> | $Enums.AnnouncementStatus
     propertyId?: StringNullableFilter<"Announcement"> | string | null
+    unitId?: StringNullableFilter<"Announcement"> | string | null
     createdById?: StringNullableFilter<"Announcement"> | string | null
     publishedAt?: DateTimeNullableFilter<"Announcement"> | Date | string | null
     createdAt?: DateTimeFilter<"Announcement"> | Date | string
@@ -35175,6 +36539,7 @@ export namespace Prisma {
     body?: SortOrder
     status?: SortOrder
     propertyId?: SortOrderInput | SortOrder
+    unitId?: SortOrderInput | SortOrder
     createdById?: SortOrderInput | SortOrder
     publishedAt?: SortOrderInput | SortOrder
     createdAt?: SortOrder
@@ -35192,6 +36557,7 @@ export namespace Prisma {
     body?: StringFilter<"Announcement"> | string
     status?: EnumAnnouncementStatusFilter<"Announcement"> | $Enums.AnnouncementStatus
     propertyId?: StringNullableFilter<"Announcement"> | string | null
+    unitId?: StringNullableFilter<"Announcement"> | string | null
     createdById?: StringNullableFilter<"Announcement"> | string | null
     publishedAt?: DateTimeNullableFilter<"Announcement"> | Date | string | null
     createdAt?: DateTimeFilter<"Announcement"> | Date | string
@@ -35206,6 +36572,7 @@ export namespace Prisma {
     body?: SortOrder
     status?: SortOrder
     propertyId?: SortOrderInput | SortOrder
+    unitId?: SortOrderInput | SortOrder
     createdById?: SortOrderInput | SortOrder
     publishedAt?: SortOrderInput | SortOrder
     createdAt?: SortOrder
@@ -35224,6 +36591,7 @@ export namespace Prisma {
     body?: StringWithAggregatesFilter<"Announcement"> | string
     status?: EnumAnnouncementStatusWithAggregatesFilter<"Announcement"> | $Enums.AnnouncementStatus
     propertyId?: StringNullableWithAggregatesFilter<"Announcement"> | string | null
+    unitId?: StringNullableWithAggregatesFilter<"Announcement"> | string | null
     createdById?: StringNullableWithAggregatesFilter<"Announcement"> | string | null
     publishedAt?: DateTimeNullableWithAggregatesFilter<"Announcement"> | Date | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Announcement"> | Date | string
@@ -36158,6 +37526,7 @@ export namespace Prisma {
     leases?: LeaseCreateNestedManyWithoutTenantInput
     rentalApplications?: RentalApplicationCreateNestedManyWithoutTenantInput
     tenantTransactions?: TransactionCreateNestedManyWithoutTenantInput
+    maintenanceRequests?: TaskCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateInput = {
@@ -36183,6 +37552,7 @@ export namespace Prisma {
     leases?: LeaseUncheckedCreateNestedManyWithoutTenantInput
     rentalApplications?: RentalApplicationUncheckedCreateNestedManyWithoutTenantInput
     tenantTransactions?: TransactionUncheckedCreateNestedManyWithoutTenantInput
+    maintenanceRequests?: TaskUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUpdateInput = {
@@ -36208,6 +37578,7 @@ export namespace Prisma {
     leases?: LeaseUpdateManyWithoutTenantNestedInput
     rentalApplications?: RentalApplicationUpdateManyWithoutTenantNestedInput
     tenantTransactions?: TransactionUpdateManyWithoutTenantNestedInput
+    maintenanceRequests?: TaskUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateInput = {
@@ -36233,6 +37604,7 @@ export namespace Prisma {
     leases?: LeaseUncheckedUpdateManyWithoutTenantNestedInput
     rentalApplications?: RentalApplicationUncheckedUpdateManyWithoutTenantNestedInput
     tenantTransactions?: TransactionUncheckedUpdateManyWithoutTenantNestedInput
+    maintenanceRequests?: TaskUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateManyInput = {
@@ -37220,7 +38592,9 @@ export namespace Prisma {
     assignedTo?: UserCreateNestedOneWithoutTasksAssignedInput
     createdBy?: UserCreateNestedOneWithoutTasksCreatedInput
     vendor?: VendorCreateNestedOneWithoutWorkOrdersInput
+    tenant?: TenantCreateNestedOneWithoutMaintenanceRequestsInput
     expenses?: TransactionCreateNestedManyWithoutTaskInput
+    repairStatusUpdates?: RepairStatusUpdateCreateNestedManyWithoutTaskInput
   }
 
   export type TaskUncheckedCreateInput = {
@@ -37234,6 +38608,7 @@ export namespace Prisma {
     assignedToId?: string | null
     createdById?: string | null
     vendorId?: string | null
+    tenantId?: string | null
     dueDate?: Date | string | null
     completedAt?: Date | string | null
     estimatedCost?: number | null
@@ -37243,6 +38618,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     expenses?: TransactionUncheckedCreateNestedManyWithoutTaskInput
+    repairStatusUpdates?: RepairStatusUpdateUncheckedCreateNestedManyWithoutTaskInput
   }
 
   export type TaskUpdateInput = {
@@ -37264,7 +38640,9 @@ export namespace Prisma {
     assignedTo?: UserUpdateOneWithoutTasksAssignedNestedInput
     createdBy?: UserUpdateOneWithoutTasksCreatedNestedInput
     vendor?: VendorUpdateOneWithoutWorkOrdersNestedInput
+    tenant?: TenantUpdateOneWithoutMaintenanceRequestsNestedInput
     expenses?: TransactionUpdateManyWithoutTaskNestedInput
+    repairStatusUpdates?: RepairStatusUpdateUpdateManyWithoutTaskNestedInput
   }
 
   export type TaskUncheckedUpdateInput = {
@@ -37278,6 +38656,7 @@ export namespace Prisma {
     assignedToId?: NullableStringFieldUpdateOperationsInput | string | null
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
     vendorId?: NullableStringFieldUpdateOperationsInput | string | null
+    tenantId?: NullableStringFieldUpdateOperationsInput | string | null
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     estimatedCost?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -37287,6 +38666,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     expenses?: TransactionUncheckedUpdateManyWithoutTaskNestedInput
+    repairStatusUpdates?: RepairStatusUpdateUncheckedUpdateManyWithoutTaskNestedInput
   }
 
   export type TaskCreateManyInput = {
@@ -37300,6 +38680,7 @@ export namespace Prisma {
     assignedToId?: string | null
     createdById?: string | null
     vendorId?: string | null
+    tenantId?: string | null
     dueDate?: Date | string | null
     completedAt?: Date | string | null
     estimatedCost?: number | null
@@ -37338,6 +38719,7 @@ export namespace Prisma {
     assignedToId?: NullableStringFieldUpdateOperationsInput | string | null
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
     vendorId?: NullableStringFieldUpdateOperationsInput | string | null
+    tenantId?: NullableStringFieldUpdateOperationsInput | string | null
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     estimatedCost?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -37346,6 +38728,61 @@ export namespace Prisma {
     imageUrls?: TaskUpdateimageUrlsInput | string[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RepairStatusUpdateCreateInput = {
+    id?: string
+    label: string
+    description?: string | null
+    createdAt?: Date | string
+    task: TaskCreateNestedOneWithoutRepairStatusUpdatesInput
+  }
+
+  export type RepairStatusUpdateUncheckedCreateInput = {
+    id?: string
+    taskId: string
+    label: string
+    description?: string | null
+    createdAt?: Date | string
+  }
+
+  export type RepairStatusUpdateUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    label?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    task?: TaskUpdateOneRequiredWithoutRepairStatusUpdatesNestedInput
+  }
+
+  export type RepairStatusUpdateUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    taskId?: StringFieldUpdateOperationsInput | string
+    label?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RepairStatusUpdateCreateManyInput = {
+    id?: string
+    taskId: string
+    label: string
+    description?: string | null
+    createdAt?: Date | string
+  }
+
+  export type RepairStatusUpdateUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    label?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RepairStatusUpdateUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    taskId?: StringFieldUpdateOperationsInput | string
+    label?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type TransactionCreateInput = {
@@ -37757,6 +39194,7 @@ export namespace Prisma {
     title: string
     body: string
     status?: $Enums.AnnouncementStatus
+    unitId?: string | null
     publishedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -37770,6 +39208,7 @@ export namespace Prisma {
     body: string
     status?: $Enums.AnnouncementStatus
     propertyId?: string | null
+    unitId?: string | null
     createdById?: string | null
     publishedAt?: Date | string | null
     createdAt?: Date | string
@@ -37781,6 +39220,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     body?: StringFieldUpdateOperationsInput | string
     status?: EnumAnnouncementStatusFieldUpdateOperationsInput | $Enums.AnnouncementStatus
+    unitId?: NullableStringFieldUpdateOperationsInput | string | null
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -37794,6 +39234,7 @@ export namespace Prisma {
     body?: StringFieldUpdateOperationsInput | string
     status?: EnumAnnouncementStatusFieldUpdateOperationsInput | $Enums.AnnouncementStatus
     propertyId?: NullableStringFieldUpdateOperationsInput | string | null
+    unitId?: NullableStringFieldUpdateOperationsInput | string | null
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -37806,6 +39247,7 @@ export namespace Prisma {
     body: string
     status?: $Enums.AnnouncementStatus
     propertyId?: string | null
+    unitId?: string | null
     createdById?: string | null
     publishedAt?: Date | string | null
     createdAt?: Date | string
@@ -37817,6 +39259,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     body?: StringFieldUpdateOperationsInput | string
     status?: EnumAnnouncementStatusFieldUpdateOperationsInput | $Enums.AnnouncementStatus
+    unitId?: NullableStringFieldUpdateOperationsInput | string | null
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -37828,6 +39271,7 @@ export namespace Prisma {
     body?: StringFieldUpdateOperationsInput | string
     status?: EnumAnnouncementStatusFieldUpdateOperationsInput | $Enums.AnnouncementStatus
     propertyId?: NullableStringFieldUpdateOperationsInput | string | null
+    unitId?: NullableStringFieldUpdateOperationsInput | string | null
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -39690,6 +41134,16 @@ export namespace Prisma {
     isNot?: VendorWhereInput | null
   }
 
+  export type RepairStatusUpdateListRelationFilter = {
+    every?: RepairStatusUpdateWhereInput
+    some?: RepairStatusUpdateWhereInput
+    none?: RepairStatusUpdateWhereInput
+  }
+
+  export type RepairStatusUpdateOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type TaskCountOrderByAggregateInput = {
     id?: SortOrder
     type?: SortOrder
@@ -39701,6 +41155,7 @@ export namespace Prisma {
     assignedToId?: SortOrder
     createdById?: SortOrder
     vendorId?: SortOrder
+    tenantId?: SortOrder
     dueDate?: SortOrder
     completedAt?: SortOrder
     estimatedCost?: SortOrder
@@ -39727,6 +41182,7 @@ export namespace Prisma {
     assignedToId?: SortOrder
     createdById?: SortOrder
     vendorId?: SortOrder
+    tenantId?: SortOrder
     dueDate?: SortOrder
     completedAt?: SortOrder
     estimatedCost?: SortOrder
@@ -39747,6 +41203,7 @@ export namespace Prisma {
     assignedToId?: SortOrder
     createdById?: SortOrder
     vendorId?: SortOrder
+    tenantId?: SortOrder
     dueDate?: SortOrder
     completedAt?: SortOrder
     estimatedCost?: SortOrder
@@ -39789,6 +41246,35 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumTaskPriorityFilter<$PrismaModel>
     _max?: NestedEnumTaskPriorityFilter<$PrismaModel>
+  }
+
+  export type TaskScalarRelationFilter = {
+    is?: TaskWhereInput
+    isNot?: TaskWhereInput
+  }
+
+  export type RepairStatusUpdateCountOrderByAggregateInput = {
+    id?: SortOrder
+    taskId?: SortOrder
+    label?: SortOrder
+    description?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type RepairStatusUpdateMaxOrderByAggregateInput = {
+    id?: SortOrder
+    taskId?: SortOrder
+    label?: SortOrder
+    description?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type RepairStatusUpdateMinOrderByAggregateInput = {
+    id?: SortOrder
+    taskId?: SortOrder
+    label?: SortOrder
+    description?: SortOrder
+    createdAt?: SortOrder
   }
 
   export type EnumTransactionTypeFilter<$PrismaModel = never> = {
@@ -40087,6 +41573,7 @@ export namespace Prisma {
     body?: SortOrder
     status?: SortOrder
     propertyId?: SortOrder
+    unitId?: SortOrder
     createdById?: SortOrder
     publishedAt?: SortOrder
     createdAt?: SortOrder
@@ -40099,6 +41586,7 @@ export namespace Prisma {
     body?: SortOrder
     status?: SortOrder
     propertyId?: SortOrder
+    unitId?: SortOrder
     createdById?: SortOrder
     publishedAt?: SortOrder
     createdAt?: SortOrder
@@ -40111,6 +41599,7 @@ export namespace Prisma {
     body?: SortOrder
     status?: SortOrder
     propertyId?: SortOrder
+    unitId?: SortOrder
     createdById?: SortOrder
     publishedAt?: SortOrder
     createdAt?: SortOrder
@@ -41023,6 +42512,13 @@ export namespace Prisma {
     connect?: TransactionWhereUniqueInput | TransactionWhereUniqueInput[]
   }
 
+  export type TaskCreateNestedManyWithoutTenantInput = {
+    create?: XOR<TaskCreateWithoutTenantInput, TaskUncheckedCreateWithoutTenantInput> | TaskCreateWithoutTenantInput[] | TaskUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: TaskCreateOrConnectWithoutTenantInput | TaskCreateOrConnectWithoutTenantInput[]
+    createMany?: TaskCreateManyTenantInputEnvelope
+    connect?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
+  }
+
   export type LeaseUncheckedCreateNestedManyWithoutTenantInput = {
     create?: XOR<LeaseCreateWithoutTenantInput, LeaseUncheckedCreateWithoutTenantInput> | LeaseCreateWithoutTenantInput[] | LeaseUncheckedCreateWithoutTenantInput[]
     connectOrCreate?: LeaseCreateOrConnectWithoutTenantInput | LeaseCreateOrConnectWithoutTenantInput[]
@@ -41042,6 +42538,13 @@ export namespace Prisma {
     connectOrCreate?: TransactionCreateOrConnectWithoutTenantInput | TransactionCreateOrConnectWithoutTenantInput[]
     createMany?: TransactionCreateManyTenantInputEnvelope
     connect?: TransactionWhereUniqueInput | TransactionWhereUniqueInput[]
+  }
+
+  export type TaskUncheckedCreateNestedManyWithoutTenantInput = {
+    create?: XOR<TaskCreateWithoutTenantInput, TaskUncheckedCreateWithoutTenantInput> | TaskCreateWithoutTenantInput[] | TaskUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: TaskCreateOrConnectWithoutTenantInput | TaskCreateOrConnectWithoutTenantInput[]
+    createMany?: TaskCreateManyTenantInputEnvelope
+    connect?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
   }
 
   export type NullableDateTimeFieldUpdateOperationsInput = {
@@ -41098,6 +42601,20 @@ export namespace Prisma {
     deleteMany?: TransactionScalarWhereInput | TransactionScalarWhereInput[]
   }
 
+  export type TaskUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<TaskCreateWithoutTenantInput, TaskUncheckedCreateWithoutTenantInput> | TaskCreateWithoutTenantInput[] | TaskUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: TaskCreateOrConnectWithoutTenantInput | TaskCreateOrConnectWithoutTenantInput[]
+    upsert?: TaskUpsertWithWhereUniqueWithoutTenantInput | TaskUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: TaskCreateManyTenantInputEnvelope
+    set?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
+    disconnect?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
+    delete?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
+    connect?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
+    update?: TaskUpdateWithWhereUniqueWithoutTenantInput | TaskUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: TaskUpdateManyWithWhereWithoutTenantInput | TaskUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: TaskScalarWhereInput | TaskScalarWhereInput[]
+  }
+
   export type LeaseUncheckedUpdateManyWithoutTenantNestedInput = {
     create?: XOR<LeaseCreateWithoutTenantInput, LeaseUncheckedCreateWithoutTenantInput> | LeaseCreateWithoutTenantInput[] | LeaseUncheckedCreateWithoutTenantInput[]
     connectOrCreate?: LeaseCreateOrConnectWithoutTenantInput | LeaseCreateOrConnectWithoutTenantInput[]
@@ -41138,6 +42655,20 @@ export namespace Prisma {
     update?: TransactionUpdateWithWhereUniqueWithoutTenantInput | TransactionUpdateWithWhereUniqueWithoutTenantInput[]
     updateMany?: TransactionUpdateManyWithWhereWithoutTenantInput | TransactionUpdateManyWithWhereWithoutTenantInput[]
     deleteMany?: TransactionScalarWhereInput | TransactionScalarWhereInput[]
+  }
+
+  export type TaskUncheckedUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<TaskCreateWithoutTenantInput, TaskUncheckedCreateWithoutTenantInput> | TaskCreateWithoutTenantInput[] | TaskUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: TaskCreateOrConnectWithoutTenantInput | TaskCreateOrConnectWithoutTenantInput[]
+    upsert?: TaskUpsertWithWhereUniqueWithoutTenantInput | TaskUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: TaskCreateManyTenantInputEnvelope
+    set?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
+    disconnect?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
+    delete?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
+    connect?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
+    update?: TaskUpdateWithWhereUniqueWithoutTenantInput | TaskUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: TaskUpdateManyWithWhereWithoutTenantInput | TaskUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: TaskScalarWhereInput | TaskScalarWhereInput[]
   }
 
   export type TaskCreateNestedManyWithoutVendorInput = {
@@ -42048,6 +43579,12 @@ export namespace Prisma {
     connect?: VendorWhereUniqueInput
   }
 
+  export type TenantCreateNestedOneWithoutMaintenanceRequestsInput = {
+    create?: XOR<TenantCreateWithoutMaintenanceRequestsInput, TenantUncheckedCreateWithoutMaintenanceRequestsInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutMaintenanceRequestsInput
+    connect?: TenantWhereUniqueInput
+  }
+
   export type TransactionCreateNestedManyWithoutTaskInput = {
     create?: XOR<TransactionCreateWithoutTaskInput, TransactionUncheckedCreateWithoutTaskInput> | TransactionCreateWithoutTaskInput[] | TransactionUncheckedCreateWithoutTaskInput[]
     connectOrCreate?: TransactionCreateOrConnectWithoutTaskInput | TransactionCreateOrConnectWithoutTaskInput[]
@@ -42055,11 +43592,25 @@ export namespace Prisma {
     connect?: TransactionWhereUniqueInput | TransactionWhereUniqueInput[]
   }
 
+  export type RepairStatusUpdateCreateNestedManyWithoutTaskInput = {
+    create?: XOR<RepairStatusUpdateCreateWithoutTaskInput, RepairStatusUpdateUncheckedCreateWithoutTaskInput> | RepairStatusUpdateCreateWithoutTaskInput[] | RepairStatusUpdateUncheckedCreateWithoutTaskInput[]
+    connectOrCreate?: RepairStatusUpdateCreateOrConnectWithoutTaskInput | RepairStatusUpdateCreateOrConnectWithoutTaskInput[]
+    createMany?: RepairStatusUpdateCreateManyTaskInputEnvelope
+    connect?: RepairStatusUpdateWhereUniqueInput | RepairStatusUpdateWhereUniqueInput[]
+  }
+
   export type TransactionUncheckedCreateNestedManyWithoutTaskInput = {
     create?: XOR<TransactionCreateWithoutTaskInput, TransactionUncheckedCreateWithoutTaskInput> | TransactionCreateWithoutTaskInput[] | TransactionUncheckedCreateWithoutTaskInput[]
     connectOrCreate?: TransactionCreateOrConnectWithoutTaskInput | TransactionCreateOrConnectWithoutTaskInput[]
     createMany?: TransactionCreateManyTaskInputEnvelope
     connect?: TransactionWhereUniqueInput | TransactionWhereUniqueInput[]
+  }
+
+  export type RepairStatusUpdateUncheckedCreateNestedManyWithoutTaskInput = {
+    create?: XOR<RepairStatusUpdateCreateWithoutTaskInput, RepairStatusUpdateUncheckedCreateWithoutTaskInput> | RepairStatusUpdateCreateWithoutTaskInput[] | RepairStatusUpdateUncheckedCreateWithoutTaskInput[]
+    connectOrCreate?: RepairStatusUpdateCreateOrConnectWithoutTaskInput | RepairStatusUpdateCreateOrConnectWithoutTaskInput[]
+    createMany?: RepairStatusUpdateCreateManyTaskInputEnvelope
+    connect?: RepairStatusUpdateWhereUniqueInput | RepairStatusUpdateWhereUniqueInput[]
   }
 
   export type EnumTaskTypeFieldUpdateOperationsInput = {
@@ -42119,6 +43670,16 @@ export namespace Prisma {
     update?: XOR<XOR<VendorUpdateToOneWithWhereWithoutWorkOrdersInput, VendorUpdateWithoutWorkOrdersInput>, VendorUncheckedUpdateWithoutWorkOrdersInput>
   }
 
+  export type TenantUpdateOneWithoutMaintenanceRequestsNestedInput = {
+    create?: XOR<TenantCreateWithoutMaintenanceRequestsInput, TenantUncheckedCreateWithoutMaintenanceRequestsInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutMaintenanceRequestsInput
+    upsert?: TenantUpsertWithoutMaintenanceRequestsInput
+    disconnect?: TenantWhereInput | boolean
+    delete?: TenantWhereInput | boolean
+    connect?: TenantWhereUniqueInput
+    update?: XOR<XOR<TenantUpdateToOneWithWhereWithoutMaintenanceRequestsInput, TenantUpdateWithoutMaintenanceRequestsInput>, TenantUncheckedUpdateWithoutMaintenanceRequestsInput>
+  }
+
   export type TransactionUpdateManyWithoutTaskNestedInput = {
     create?: XOR<TransactionCreateWithoutTaskInput, TransactionUncheckedCreateWithoutTaskInput> | TransactionCreateWithoutTaskInput[] | TransactionUncheckedCreateWithoutTaskInput[]
     connectOrCreate?: TransactionCreateOrConnectWithoutTaskInput | TransactionCreateOrConnectWithoutTaskInput[]
@@ -42133,6 +43694,20 @@ export namespace Prisma {
     deleteMany?: TransactionScalarWhereInput | TransactionScalarWhereInput[]
   }
 
+  export type RepairStatusUpdateUpdateManyWithoutTaskNestedInput = {
+    create?: XOR<RepairStatusUpdateCreateWithoutTaskInput, RepairStatusUpdateUncheckedCreateWithoutTaskInput> | RepairStatusUpdateCreateWithoutTaskInput[] | RepairStatusUpdateUncheckedCreateWithoutTaskInput[]
+    connectOrCreate?: RepairStatusUpdateCreateOrConnectWithoutTaskInput | RepairStatusUpdateCreateOrConnectWithoutTaskInput[]
+    upsert?: RepairStatusUpdateUpsertWithWhereUniqueWithoutTaskInput | RepairStatusUpdateUpsertWithWhereUniqueWithoutTaskInput[]
+    createMany?: RepairStatusUpdateCreateManyTaskInputEnvelope
+    set?: RepairStatusUpdateWhereUniqueInput | RepairStatusUpdateWhereUniqueInput[]
+    disconnect?: RepairStatusUpdateWhereUniqueInput | RepairStatusUpdateWhereUniqueInput[]
+    delete?: RepairStatusUpdateWhereUniqueInput | RepairStatusUpdateWhereUniqueInput[]
+    connect?: RepairStatusUpdateWhereUniqueInput | RepairStatusUpdateWhereUniqueInput[]
+    update?: RepairStatusUpdateUpdateWithWhereUniqueWithoutTaskInput | RepairStatusUpdateUpdateWithWhereUniqueWithoutTaskInput[]
+    updateMany?: RepairStatusUpdateUpdateManyWithWhereWithoutTaskInput | RepairStatusUpdateUpdateManyWithWhereWithoutTaskInput[]
+    deleteMany?: RepairStatusUpdateScalarWhereInput | RepairStatusUpdateScalarWhereInput[]
+  }
+
   export type TransactionUncheckedUpdateManyWithoutTaskNestedInput = {
     create?: XOR<TransactionCreateWithoutTaskInput, TransactionUncheckedCreateWithoutTaskInput> | TransactionCreateWithoutTaskInput[] | TransactionUncheckedCreateWithoutTaskInput[]
     connectOrCreate?: TransactionCreateOrConnectWithoutTaskInput | TransactionCreateOrConnectWithoutTaskInput[]
@@ -42145,6 +43720,34 @@ export namespace Prisma {
     update?: TransactionUpdateWithWhereUniqueWithoutTaskInput | TransactionUpdateWithWhereUniqueWithoutTaskInput[]
     updateMany?: TransactionUpdateManyWithWhereWithoutTaskInput | TransactionUpdateManyWithWhereWithoutTaskInput[]
     deleteMany?: TransactionScalarWhereInput | TransactionScalarWhereInput[]
+  }
+
+  export type RepairStatusUpdateUncheckedUpdateManyWithoutTaskNestedInput = {
+    create?: XOR<RepairStatusUpdateCreateWithoutTaskInput, RepairStatusUpdateUncheckedCreateWithoutTaskInput> | RepairStatusUpdateCreateWithoutTaskInput[] | RepairStatusUpdateUncheckedCreateWithoutTaskInput[]
+    connectOrCreate?: RepairStatusUpdateCreateOrConnectWithoutTaskInput | RepairStatusUpdateCreateOrConnectWithoutTaskInput[]
+    upsert?: RepairStatusUpdateUpsertWithWhereUniqueWithoutTaskInput | RepairStatusUpdateUpsertWithWhereUniqueWithoutTaskInput[]
+    createMany?: RepairStatusUpdateCreateManyTaskInputEnvelope
+    set?: RepairStatusUpdateWhereUniqueInput | RepairStatusUpdateWhereUniqueInput[]
+    disconnect?: RepairStatusUpdateWhereUniqueInput | RepairStatusUpdateWhereUniqueInput[]
+    delete?: RepairStatusUpdateWhereUniqueInput | RepairStatusUpdateWhereUniqueInput[]
+    connect?: RepairStatusUpdateWhereUniqueInput | RepairStatusUpdateWhereUniqueInput[]
+    update?: RepairStatusUpdateUpdateWithWhereUniqueWithoutTaskInput | RepairStatusUpdateUpdateWithWhereUniqueWithoutTaskInput[]
+    updateMany?: RepairStatusUpdateUpdateManyWithWhereWithoutTaskInput | RepairStatusUpdateUpdateManyWithWhereWithoutTaskInput[]
+    deleteMany?: RepairStatusUpdateScalarWhereInput | RepairStatusUpdateScalarWhereInput[]
+  }
+
+  export type TaskCreateNestedOneWithoutRepairStatusUpdatesInput = {
+    create?: XOR<TaskCreateWithoutRepairStatusUpdatesInput, TaskUncheckedCreateWithoutRepairStatusUpdatesInput>
+    connectOrCreate?: TaskCreateOrConnectWithoutRepairStatusUpdatesInput
+    connect?: TaskWhereUniqueInput
+  }
+
+  export type TaskUpdateOneRequiredWithoutRepairStatusUpdatesNestedInput = {
+    create?: XOR<TaskCreateWithoutRepairStatusUpdatesInput, TaskUncheckedCreateWithoutRepairStatusUpdatesInput>
+    connectOrCreate?: TaskCreateOrConnectWithoutRepairStatusUpdatesInput
+    upsert?: TaskUpsertWithoutRepairStatusUpdatesInput
+    connect?: TaskWhereUniqueInput
+    update?: XOR<XOR<TaskUpdateToOneWithWhereWithoutRepairStatusUpdatesInput, TaskUpdateWithoutRepairStatusUpdatesInput>, TaskUncheckedUpdateWithoutRepairStatusUpdatesInput>
   }
 
   export type LeaseCreateNestedOneWithoutTransactionsInput = {
@@ -43418,7 +45021,9 @@ export namespace Prisma {
     unit?: UnitCreateNestedOneWithoutTasksInput
     createdBy?: UserCreateNestedOneWithoutTasksCreatedInput
     vendor?: VendorCreateNestedOneWithoutWorkOrdersInput
+    tenant?: TenantCreateNestedOneWithoutMaintenanceRequestsInput
     expenses?: TransactionCreateNestedManyWithoutTaskInput
+    repairStatusUpdates?: RepairStatusUpdateCreateNestedManyWithoutTaskInput
   }
 
   export type TaskUncheckedCreateWithoutAssignedToInput = {
@@ -43431,6 +45036,7 @@ export namespace Prisma {
     unitId?: string | null
     createdById?: string | null
     vendorId?: string | null
+    tenantId?: string | null
     dueDate?: Date | string | null
     completedAt?: Date | string | null
     estimatedCost?: number | null
@@ -43440,6 +45046,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     expenses?: TransactionUncheckedCreateNestedManyWithoutTaskInput
+    repairStatusUpdates?: RepairStatusUpdateUncheckedCreateNestedManyWithoutTaskInput
   }
 
   export type TaskCreateOrConnectWithoutAssignedToInput = {
@@ -43470,7 +45077,9 @@ export namespace Prisma {
     unit?: UnitCreateNestedOneWithoutTasksInput
     assignedTo?: UserCreateNestedOneWithoutTasksAssignedInput
     vendor?: VendorCreateNestedOneWithoutWorkOrdersInput
+    tenant?: TenantCreateNestedOneWithoutMaintenanceRequestsInput
     expenses?: TransactionCreateNestedManyWithoutTaskInput
+    repairStatusUpdates?: RepairStatusUpdateCreateNestedManyWithoutTaskInput
   }
 
   export type TaskUncheckedCreateWithoutCreatedByInput = {
@@ -43483,6 +45092,7 @@ export namespace Prisma {
     unitId?: string | null
     assignedToId?: string | null
     vendorId?: string | null
+    tenantId?: string | null
     dueDate?: Date | string | null
     completedAt?: Date | string | null
     estimatedCost?: number | null
@@ -43492,6 +45102,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     expenses?: TransactionUncheckedCreateNestedManyWithoutTaskInput
+    repairStatusUpdates?: RepairStatusUpdateUncheckedCreateNestedManyWithoutTaskInput
   }
 
   export type TaskCreateOrConnectWithoutCreatedByInput = {
@@ -43509,6 +45120,7 @@ export namespace Prisma {
     title: string
     body: string
     status?: $Enums.AnnouncementStatus
+    unitId?: string | null
     publishedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -43521,6 +45133,7 @@ export namespace Prisma {
     body: string
     status?: $Enums.AnnouncementStatus
     propertyId?: string | null
+    unitId?: string | null
     publishedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -43742,6 +45355,7 @@ export namespace Prisma {
     assignedToId?: StringNullableFilter<"Task"> | string | null
     createdById?: StringNullableFilter<"Task"> | string | null
     vendorId?: StringNullableFilter<"Task"> | string | null
+    tenantId?: StringNullableFilter<"Task"> | string | null
     dueDate?: DateTimeNullableFilter<"Task"> | Date | string | null
     completedAt?: DateTimeNullableFilter<"Task"> | Date | string | null
     estimatedCost?: FloatNullableFilter<"Task"> | number | null
@@ -43793,6 +45407,7 @@ export namespace Prisma {
     body?: StringFilter<"Announcement"> | string
     status?: EnumAnnouncementStatusFilter<"Announcement"> | $Enums.AnnouncementStatus
     propertyId?: StringNullableFilter<"Announcement"> | string | null
+    unitId?: StringNullableFilter<"Announcement"> | string | null
     createdById?: StringNullableFilter<"Announcement"> | string | null
     publishedAt?: DateTimeNullableFilter<"Announcement"> | Date | string | null
     createdAt?: DateTimeFilter<"Announcement"> | Date | string
@@ -44329,6 +45944,62 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type TaskCreateWithoutTenantInput = {
+    id?: string
+    type?: $Enums.TaskType
+    title: string
+    description?: string | null
+    status?: $Enums.TaskStatus
+    priority?: $Enums.TaskPriority
+    dueDate?: Date | string | null
+    completedAt?: Date | string | null
+    estimatedCost?: number | null
+    actualCost?: number | null
+    notes?: string | null
+    imageUrls?: TaskCreateimageUrlsInput | string[]
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    unit?: UnitCreateNestedOneWithoutTasksInput
+    assignedTo?: UserCreateNestedOneWithoutTasksAssignedInput
+    createdBy?: UserCreateNestedOneWithoutTasksCreatedInput
+    vendor?: VendorCreateNestedOneWithoutWorkOrdersInput
+    expenses?: TransactionCreateNestedManyWithoutTaskInput
+    repairStatusUpdates?: RepairStatusUpdateCreateNestedManyWithoutTaskInput
+  }
+
+  export type TaskUncheckedCreateWithoutTenantInput = {
+    id?: string
+    type?: $Enums.TaskType
+    title: string
+    description?: string | null
+    status?: $Enums.TaskStatus
+    priority?: $Enums.TaskPriority
+    unitId?: string | null
+    assignedToId?: string | null
+    createdById?: string | null
+    vendorId?: string | null
+    dueDate?: Date | string | null
+    completedAt?: Date | string | null
+    estimatedCost?: number | null
+    actualCost?: number | null
+    notes?: string | null
+    imageUrls?: TaskCreateimageUrlsInput | string[]
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    expenses?: TransactionUncheckedCreateNestedManyWithoutTaskInput
+    repairStatusUpdates?: RepairStatusUpdateUncheckedCreateNestedManyWithoutTaskInput
+  }
+
+  export type TaskCreateOrConnectWithoutTenantInput = {
+    where: TaskWhereUniqueInput
+    create: XOR<TaskCreateWithoutTenantInput, TaskUncheckedCreateWithoutTenantInput>
+  }
+
+  export type TaskCreateManyTenantInputEnvelope = {
+    data: TaskCreateManyTenantInput | TaskCreateManyTenantInput[]
+    skipDuplicates?: boolean
+  }
+
   export type LeaseUpsertWithWhereUniqueWithoutTenantInput = {
     where: LeaseWhereUniqueInput
     update: XOR<LeaseUpdateWithoutTenantInput, LeaseUncheckedUpdateWithoutTenantInput>
@@ -44421,6 +46092,22 @@ export namespace Prisma {
     data: XOR<TransactionUpdateManyMutationInput, TransactionUncheckedUpdateManyWithoutTenantInput>
   }
 
+  export type TaskUpsertWithWhereUniqueWithoutTenantInput = {
+    where: TaskWhereUniqueInput
+    update: XOR<TaskUpdateWithoutTenantInput, TaskUncheckedUpdateWithoutTenantInput>
+    create: XOR<TaskCreateWithoutTenantInput, TaskUncheckedCreateWithoutTenantInput>
+  }
+
+  export type TaskUpdateWithWhereUniqueWithoutTenantInput = {
+    where: TaskWhereUniqueInput
+    data: XOR<TaskUpdateWithoutTenantInput, TaskUncheckedUpdateWithoutTenantInput>
+  }
+
+  export type TaskUpdateManyWithWhereWithoutTenantInput = {
+    where: TaskScalarWhereInput
+    data: XOR<TaskUpdateManyMutationInput, TaskUncheckedUpdateManyWithoutTenantInput>
+  }
+
   export type TaskCreateWithoutVendorInput = {
     id?: string
     type?: $Enums.TaskType
@@ -44439,7 +46126,9 @@ export namespace Prisma {
     unit?: UnitCreateNestedOneWithoutTasksInput
     assignedTo?: UserCreateNestedOneWithoutTasksAssignedInput
     createdBy?: UserCreateNestedOneWithoutTasksCreatedInput
+    tenant?: TenantCreateNestedOneWithoutMaintenanceRequestsInput
     expenses?: TransactionCreateNestedManyWithoutTaskInput
+    repairStatusUpdates?: RepairStatusUpdateCreateNestedManyWithoutTaskInput
   }
 
   export type TaskUncheckedCreateWithoutVendorInput = {
@@ -44452,6 +46141,7 @@ export namespace Prisma {
     unitId?: string | null
     assignedToId?: string | null
     createdById?: string | null
+    tenantId?: string | null
     dueDate?: Date | string | null
     completedAt?: Date | string | null
     estimatedCost?: number | null
@@ -44461,6 +46151,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     expenses?: TransactionUncheckedCreateNestedManyWithoutTaskInput
+    repairStatusUpdates?: RepairStatusUpdateUncheckedCreateNestedManyWithoutTaskInput
   }
 
   export type TaskCreateOrConnectWithoutVendorInput = {
@@ -44943,6 +46634,7 @@ export namespace Prisma {
     title: string
     body: string
     status?: $Enums.AnnouncementStatus
+    unitId?: string | null
     publishedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -44954,6 +46646,7 @@ export namespace Prisma {
     title: string
     body: string
     status?: $Enums.AnnouncementStatus
+    unitId?: string | null
     createdById?: string | null
     publishedAt?: Date | string | null
     createdAt?: Date | string
@@ -45449,7 +47142,9 @@ export namespace Prisma {
     assignedTo?: UserCreateNestedOneWithoutTasksAssignedInput
     createdBy?: UserCreateNestedOneWithoutTasksCreatedInput
     vendor?: VendorCreateNestedOneWithoutWorkOrdersInput
+    tenant?: TenantCreateNestedOneWithoutMaintenanceRequestsInput
     expenses?: TransactionCreateNestedManyWithoutTaskInput
+    repairStatusUpdates?: RepairStatusUpdateCreateNestedManyWithoutTaskInput
   }
 
   export type TaskUncheckedCreateWithoutUnitInput = {
@@ -45462,6 +47157,7 @@ export namespace Prisma {
     assignedToId?: string | null
     createdById?: string | null
     vendorId?: string | null
+    tenantId?: string | null
     dueDate?: Date | string | null
     completedAt?: Date | string | null
     estimatedCost?: number | null
@@ -45471,6 +47167,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     expenses?: TransactionUncheckedCreateNestedManyWithoutTaskInput
+    repairStatusUpdates?: RepairStatusUpdateUncheckedCreateNestedManyWithoutTaskInput
   }
 
   export type TaskCreateOrConnectWithoutUnitInput = {
@@ -45733,6 +47430,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     rentalApplications?: RentalApplicationCreateNestedManyWithoutTenantInput
     tenantTransactions?: TransactionCreateNestedManyWithoutTenantInput
+    maintenanceRequests?: TaskCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutLeasesInput = {
@@ -45757,6 +47455,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     rentalApplications?: RentalApplicationUncheckedCreateNestedManyWithoutTenantInput
     tenantTransactions?: TransactionUncheckedCreateNestedManyWithoutTenantInput
+    maintenanceRequests?: TaskUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutLeasesInput = {
@@ -46089,6 +47788,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     rentalApplications?: RentalApplicationUpdateManyWithoutTenantNestedInput
     tenantTransactions?: TransactionUpdateManyWithoutTenantNestedInput
+    maintenanceRequests?: TaskUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutLeasesInput = {
@@ -46113,6 +47813,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     rentalApplications?: RentalApplicationUncheckedUpdateManyWithoutTenantNestedInput
     tenantTransactions?: TransactionUncheckedUpdateManyWithoutTenantNestedInput
+    maintenanceRequests?: TaskUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type LeaseUpsertWithoutRenewalsInput = {
@@ -46443,6 +48144,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     leases?: LeaseCreateNestedManyWithoutTenantInput
     tenantTransactions?: TransactionCreateNestedManyWithoutTenantInput
+    maintenanceRequests?: TaskCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRentalApplicationsInput = {
@@ -46467,6 +48169,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     leases?: LeaseUncheckedCreateNestedManyWithoutTenantInput
     tenantTransactions?: TransactionUncheckedCreateNestedManyWithoutTenantInput
+    maintenanceRequests?: TaskUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRentalApplicationsInput = {
@@ -46595,6 +48298,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     leases?: LeaseUpdateManyWithoutTenantNestedInput
     tenantTransactions?: TransactionUpdateManyWithoutTenantNestedInput
+    maintenanceRequests?: TaskUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRentalApplicationsInput = {
@@ -46619,6 +48323,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     leases?: LeaseUncheckedUpdateManyWithoutTenantNestedInput
     tenantTransactions?: TransactionUncheckedUpdateManyWithoutTenantNestedInput
+    maintenanceRequests?: TaskUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type ProspectUpsertWithoutRentalApplicationsInput = {
@@ -46856,6 +48561,61 @@ export namespace Prisma {
     create: XOR<VendorCreateWithoutWorkOrdersInput, VendorUncheckedCreateWithoutWorkOrdersInput>
   }
 
+  export type TenantCreateWithoutMaintenanceRequestsInput = {
+    id?: string
+    firstName: string
+    lastName: string
+    email: string
+    phone?: string | null
+    dateOfBirth?: Date | string | null
+    ssn?: string | null
+    idType?: string | null
+    idNumber?: string | null
+    employerName?: string | null
+    monthlyIncome?: number | null
+    emergencyName?: string | null
+    emergencyPhone?: string | null
+    notes?: string | null
+    isFlagged?: boolean
+    flagReason?: string | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    leases?: LeaseCreateNestedManyWithoutTenantInput
+    rentalApplications?: RentalApplicationCreateNestedManyWithoutTenantInput
+    tenantTransactions?: TransactionCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantUncheckedCreateWithoutMaintenanceRequestsInput = {
+    id?: string
+    firstName: string
+    lastName: string
+    email: string
+    phone?: string | null
+    dateOfBirth?: Date | string | null
+    ssn?: string | null
+    idType?: string | null
+    idNumber?: string | null
+    employerName?: string | null
+    monthlyIncome?: number | null
+    emergencyName?: string | null
+    emergencyPhone?: string | null
+    notes?: string | null
+    isFlagged?: boolean
+    flagReason?: string | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    leases?: LeaseUncheckedCreateNestedManyWithoutTenantInput
+    rentalApplications?: RentalApplicationUncheckedCreateNestedManyWithoutTenantInput
+    tenantTransactions?: TransactionUncheckedCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantCreateOrConnectWithoutMaintenanceRequestsInput = {
+    where: TenantWhereUniqueInput
+    create: XOR<TenantCreateWithoutMaintenanceRequestsInput, TenantUncheckedCreateWithoutMaintenanceRequestsInput>
+  }
+
   export type TransactionCreateWithoutTaskInput = {
     id?: string
     type: $Enums.TransactionType
@@ -46909,6 +48669,30 @@ export namespace Prisma {
 
   export type TransactionCreateManyTaskInputEnvelope = {
     data: TransactionCreateManyTaskInput | TransactionCreateManyTaskInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type RepairStatusUpdateCreateWithoutTaskInput = {
+    id?: string
+    label: string
+    description?: string | null
+    createdAt?: Date | string
+  }
+
+  export type RepairStatusUpdateUncheckedCreateWithoutTaskInput = {
+    id?: string
+    label: string
+    description?: string | null
+    createdAt?: Date | string
+  }
+
+  export type RepairStatusUpdateCreateOrConnectWithoutTaskInput = {
+    where: RepairStatusUpdateWhereUniqueInput
+    create: XOR<RepairStatusUpdateCreateWithoutTaskInput, RepairStatusUpdateUncheckedCreateWithoutTaskInput>
+  }
+
+  export type RepairStatusUpdateCreateManyTaskInputEnvelope = {
+    data: RepairStatusUpdateCreateManyTaskInput | RepairStatusUpdateCreateManyTaskInput[]
     skipDuplicates?: boolean
   }
 
@@ -47130,6 +48914,67 @@ export namespace Prisma {
     bills?: BillUncheckedUpdateManyWithoutVendorNestedInput
   }
 
+  export type TenantUpsertWithoutMaintenanceRequestsInput = {
+    update: XOR<TenantUpdateWithoutMaintenanceRequestsInput, TenantUncheckedUpdateWithoutMaintenanceRequestsInput>
+    create: XOR<TenantCreateWithoutMaintenanceRequestsInput, TenantUncheckedCreateWithoutMaintenanceRequestsInput>
+    where?: TenantWhereInput
+  }
+
+  export type TenantUpdateToOneWithWhereWithoutMaintenanceRequestsInput = {
+    where?: TenantWhereInput
+    data: XOR<TenantUpdateWithoutMaintenanceRequestsInput, TenantUncheckedUpdateWithoutMaintenanceRequestsInput>
+  }
+
+  export type TenantUpdateWithoutMaintenanceRequestsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    ssn?: NullableStringFieldUpdateOperationsInput | string | null
+    idType?: NullableStringFieldUpdateOperationsInput | string | null
+    idNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    employerName?: NullableStringFieldUpdateOperationsInput | string | null
+    monthlyIncome?: NullableFloatFieldUpdateOperationsInput | number | null
+    emergencyName?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    isFlagged?: BoolFieldUpdateOperationsInput | boolean
+    flagReason?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    leases?: LeaseUpdateManyWithoutTenantNestedInput
+    rentalApplications?: RentalApplicationUpdateManyWithoutTenantNestedInput
+    tenantTransactions?: TransactionUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TenantUncheckedUpdateWithoutMaintenanceRequestsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    ssn?: NullableStringFieldUpdateOperationsInput | string | null
+    idType?: NullableStringFieldUpdateOperationsInput | string | null
+    idNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    employerName?: NullableStringFieldUpdateOperationsInput | string | null
+    monthlyIncome?: NullableFloatFieldUpdateOperationsInput | number | null
+    emergencyName?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    isFlagged?: BoolFieldUpdateOperationsInput | boolean
+    flagReason?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    leases?: LeaseUncheckedUpdateManyWithoutTenantNestedInput
+    rentalApplications?: RentalApplicationUncheckedUpdateManyWithoutTenantNestedInput
+    tenantTransactions?: TransactionUncheckedUpdateManyWithoutTenantNestedInput
+  }
+
   export type TransactionUpsertWithWhereUniqueWithoutTaskInput = {
     where: TransactionWhereUniqueInput
     update: XOR<TransactionUpdateWithoutTaskInput, TransactionUncheckedUpdateWithoutTaskInput>
@@ -47144,6 +48989,141 @@ export namespace Prisma {
   export type TransactionUpdateManyWithWhereWithoutTaskInput = {
     where: TransactionScalarWhereInput
     data: XOR<TransactionUpdateManyMutationInput, TransactionUncheckedUpdateManyWithoutTaskInput>
+  }
+
+  export type RepairStatusUpdateUpsertWithWhereUniqueWithoutTaskInput = {
+    where: RepairStatusUpdateWhereUniqueInput
+    update: XOR<RepairStatusUpdateUpdateWithoutTaskInput, RepairStatusUpdateUncheckedUpdateWithoutTaskInput>
+    create: XOR<RepairStatusUpdateCreateWithoutTaskInput, RepairStatusUpdateUncheckedCreateWithoutTaskInput>
+  }
+
+  export type RepairStatusUpdateUpdateWithWhereUniqueWithoutTaskInput = {
+    where: RepairStatusUpdateWhereUniqueInput
+    data: XOR<RepairStatusUpdateUpdateWithoutTaskInput, RepairStatusUpdateUncheckedUpdateWithoutTaskInput>
+  }
+
+  export type RepairStatusUpdateUpdateManyWithWhereWithoutTaskInput = {
+    where: RepairStatusUpdateScalarWhereInput
+    data: XOR<RepairStatusUpdateUpdateManyMutationInput, RepairStatusUpdateUncheckedUpdateManyWithoutTaskInput>
+  }
+
+  export type RepairStatusUpdateScalarWhereInput = {
+    AND?: RepairStatusUpdateScalarWhereInput | RepairStatusUpdateScalarWhereInput[]
+    OR?: RepairStatusUpdateScalarWhereInput[]
+    NOT?: RepairStatusUpdateScalarWhereInput | RepairStatusUpdateScalarWhereInput[]
+    id?: StringFilter<"RepairStatusUpdate"> | string
+    taskId?: StringFilter<"RepairStatusUpdate"> | string
+    label?: StringFilter<"RepairStatusUpdate"> | string
+    description?: StringNullableFilter<"RepairStatusUpdate"> | string | null
+    createdAt?: DateTimeFilter<"RepairStatusUpdate"> | Date | string
+  }
+
+  export type TaskCreateWithoutRepairStatusUpdatesInput = {
+    id?: string
+    type?: $Enums.TaskType
+    title: string
+    description?: string | null
+    status?: $Enums.TaskStatus
+    priority?: $Enums.TaskPriority
+    dueDate?: Date | string | null
+    completedAt?: Date | string | null
+    estimatedCost?: number | null
+    actualCost?: number | null
+    notes?: string | null
+    imageUrls?: TaskCreateimageUrlsInput | string[]
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    unit?: UnitCreateNestedOneWithoutTasksInput
+    assignedTo?: UserCreateNestedOneWithoutTasksAssignedInput
+    createdBy?: UserCreateNestedOneWithoutTasksCreatedInput
+    vendor?: VendorCreateNestedOneWithoutWorkOrdersInput
+    tenant?: TenantCreateNestedOneWithoutMaintenanceRequestsInput
+    expenses?: TransactionCreateNestedManyWithoutTaskInput
+  }
+
+  export type TaskUncheckedCreateWithoutRepairStatusUpdatesInput = {
+    id?: string
+    type?: $Enums.TaskType
+    title: string
+    description?: string | null
+    status?: $Enums.TaskStatus
+    priority?: $Enums.TaskPriority
+    unitId?: string | null
+    assignedToId?: string | null
+    createdById?: string | null
+    vendorId?: string | null
+    tenantId?: string | null
+    dueDate?: Date | string | null
+    completedAt?: Date | string | null
+    estimatedCost?: number | null
+    actualCost?: number | null
+    notes?: string | null
+    imageUrls?: TaskCreateimageUrlsInput | string[]
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    expenses?: TransactionUncheckedCreateNestedManyWithoutTaskInput
+  }
+
+  export type TaskCreateOrConnectWithoutRepairStatusUpdatesInput = {
+    where: TaskWhereUniqueInput
+    create: XOR<TaskCreateWithoutRepairStatusUpdatesInput, TaskUncheckedCreateWithoutRepairStatusUpdatesInput>
+  }
+
+  export type TaskUpsertWithoutRepairStatusUpdatesInput = {
+    update: XOR<TaskUpdateWithoutRepairStatusUpdatesInput, TaskUncheckedUpdateWithoutRepairStatusUpdatesInput>
+    create: XOR<TaskCreateWithoutRepairStatusUpdatesInput, TaskUncheckedCreateWithoutRepairStatusUpdatesInput>
+    where?: TaskWhereInput
+  }
+
+  export type TaskUpdateToOneWithWhereWithoutRepairStatusUpdatesInput = {
+    where?: TaskWhereInput
+    data: XOR<TaskUpdateWithoutRepairStatusUpdatesInput, TaskUncheckedUpdateWithoutRepairStatusUpdatesInput>
+  }
+
+  export type TaskUpdateWithoutRepairStatusUpdatesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumTaskTypeFieldUpdateOperationsInput | $Enums.TaskType
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumTaskStatusFieldUpdateOperationsInput | $Enums.TaskStatus
+    priority?: EnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority
+    dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    estimatedCost?: NullableFloatFieldUpdateOperationsInput | number | null
+    actualCost?: NullableFloatFieldUpdateOperationsInput | number | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    imageUrls?: TaskUpdateimageUrlsInput | string[]
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    unit?: UnitUpdateOneWithoutTasksNestedInput
+    assignedTo?: UserUpdateOneWithoutTasksAssignedNestedInput
+    createdBy?: UserUpdateOneWithoutTasksCreatedNestedInput
+    vendor?: VendorUpdateOneWithoutWorkOrdersNestedInput
+    tenant?: TenantUpdateOneWithoutMaintenanceRequestsNestedInput
+    expenses?: TransactionUpdateManyWithoutTaskNestedInput
+  }
+
+  export type TaskUncheckedUpdateWithoutRepairStatusUpdatesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumTaskTypeFieldUpdateOperationsInput | $Enums.TaskType
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumTaskStatusFieldUpdateOperationsInput | $Enums.TaskStatus
+    priority?: EnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority
+    unitId?: NullableStringFieldUpdateOperationsInput | string | null
+    assignedToId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    vendorId?: NullableStringFieldUpdateOperationsInput | string | null
+    tenantId?: NullableStringFieldUpdateOperationsInput | string | null
+    dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    estimatedCost?: NullableFloatFieldUpdateOperationsInput | number | null
+    actualCost?: NullableFloatFieldUpdateOperationsInput | number | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    imageUrls?: TaskUpdateimageUrlsInput | string[]
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    expenses?: TransactionUncheckedUpdateManyWithoutTaskNestedInput
   }
 
   export type LeaseCreateWithoutTransactionsInput = {
@@ -47225,6 +49205,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     leases?: LeaseCreateNestedManyWithoutTenantInput
     rentalApplications?: RentalApplicationCreateNestedManyWithoutTenantInput
+    maintenanceRequests?: TaskCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutTenantTransactionsInput = {
@@ -47249,6 +49230,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     leases?: LeaseUncheckedCreateNestedManyWithoutTenantInput
     rentalApplications?: RentalApplicationUncheckedCreateNestedManyWithoutTenantInput
+    maintenanceRequests?: TaskUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutTenantTransactionsInput = {
@@ -47377,6 +49359,8 @@ export namespace Prisma {
     assignedTo?: UserCreateNestedOneWithoutTasksAssignedInput
     createdBy?: UserCreateNestedOneWithoutTasksCreatedInput
     vendor?: VendorCreateNestedOneWithoutWorkOrdersInput
+    tenant?: TenantCreateNestedOneWithoutMaintenanceRequestsInput
+    repairStatusUpdates?: RepairStatusUpdateCreateNestedManyWithoutTaskInput
   }
 
   export type TaskUncheckedCreateWithoutExpensesInput = {
@@ -47390,6 +49374,7 @@ export namespace Prisma {
     assignedToId?: string | null
     createdById?: string | null
     vendorId?: string | null
+    tenantId?: string | null
     dueDate?: Date | string | null
     completedAt?: Date | string | null
     estimatedCost?: number | null
@@ -47398,6 +49383,7 @@ export namespace Prisma {
     imageUrls?: TaskCreateimageUrlsInput | string[]
     createdAt?: Date | string
     updatedAt?: Date | string
+    repairStatusUpdates?: RepairStatusUpdateUncheckedCreateNestedManyWithoutTaskInput
   }
 
   export type TaskCreateOrConnectWithoutExpensesInput = {
@@ -47648,6 +49634,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     leases?: LeaseUpdateManyWithoutTenantNestedInput
     rentalApplications?: RentalApplicationUpdateManyWithoutTenantNestedInput
+    maintenanceRequests?: TaskUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutTenantTransactionsInput = {
@@ -47672,6 +49659,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     leases?: LeaseUncheckedUpdateManyWithoutTenantNestedInput
     rentalApplications?: RentalApplicationUncheckedUpdateManyWithoutTenantNestedInput
+    maintenanceRequests?: TaskUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type VendorUpsertWithoutVendorTransactionsInput = {
@@ -47818,6 +49806,8 @@ export namespace Prisma {
     assignedTo?: UserUpdateOneWithoutTasksAssignedNestedInput
     createdBy?: UserUpdateOneWithoutTasksCreatedNestedInput
     vendor?: VendorUpdateOneWithoutWorkOrdersNestedInput
+    tenant?: TenantUpdateOneWithoutMaintenanceRequestsNestedInput
+    repairStatusUpdates?: RepairStatusUpdateUpdateManyWithoutTaskNestedInput
   }
 
   export type TaskUncheckedUpdateWithoutExpensesInput = {
@@ -47831,6 +49821,7 @@ export namespace Prisma {
     assignedToId?: NullableStringFieldUpdateOperationsInput | string | null
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
     vendorId?: NullableStringFieldUpdateOperationsInput | string | null
+    tenantId?: NullableStringFieldUpdateOperationsInput | string | null
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     estimatedCost?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -47839,6 +49830,7 @@ export namespace Prisma {
     imageUrls?: TaskUpdateimageUrlsInput | string[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    repairStatusUpdates?: RepairStatusUpdateUncheckedUpdateManyWithoutTaskNestedInput
   }
 
   export type ChartOfAccountUpsertWithoutTransactionsInput = {
@@ -50040,6 +52032,7 @@ export namespace Prisma {
     unitId?: string | null
     createdById?: string | null
     vendorId?: string | null
+    tenantId?: string | null
     dueDate?: Date | string | null
     completedAt?: Date | string | null
     estimatedCost?: number | null
@@ -50060,6 +52053,7 @@ export namespace Prisma {
     unitId?: string | null
     assignedToId?: string | null
     vendorId?: string | null
+    tenantId?: string | null
     dueDate?: Date | string | null
     completedAt?: Date | string | null
     estimatedCost?: number | null
@@ -50076,6 +52070,7 @@ export namespace Prisma {
     body: string
     status?: $Enums.AnnouncementStatus
     propertyId?: string | null
+    unitId?: string | null
     publishedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -50215,7 +52210,9 @@ export namespace Prisma {
     unit?: UnitUpdateOneWithoutTasksNestedInput
     createdBy?: UserUpdateOneWithoutTasksCreatedNestedInput
     vendor?: VendorUpdateOneWithoutWorkOrdersNestedInput
+    tenant?: TenantUpdateOneWithoutMaintenanceRequestsNestedInput
     expenses?: TransactionUpdateManyWithoutTaskNestedInput
+    repairStatusUpdates?: RepairStatusUpdateUpdateManyWithoutTaskNestedInput
   }
 
   export type TaskUncheckedUpdateWithoutAssignedToInput = {
@@ -50228,6 +52225,7 @@ export namespace Prisma {
     unitId?: NullableStringFieldUpdateOperationsInput | string | null
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
     vendorId?: NullableStringFieldUpdateOperationsInput | string | null
+    tenantId?: NullableStringFieldUpdateOperationsInput | string | null
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     estimatedCost?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -50237,6 +52235,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     expenses?: TransactionUncheckedUpdateManyWithoutTaskNestedInput
+    repairStatusUpdates?: RepairStatusUpdateUncheckedUpdateManyWithoutTaskNestedInput
   }
 
   export type TaskUncheckedUpdateManyWithoutAssignedToInput = {
@@ -50249,6 +52248,7 @@ export namespace Prisma {
     unitId?: NullableStringFieldUpdateOperationsInput | string | null
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
     vendorId?: NullableStringFieldUpdateOperationsInput | string | null
+    tenantId?: NullableStringFieldUpdateOperationsInput | string | null
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     estimatedCost?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -50277,7 +52277,9 @@ export namespace Prisma {
     unit?: UnitUpdateOneWithoutTasksNestedInput
     assignedTo?: UserUpdateOneWithoutTasksAssignedNestedInput
     vendor?: VendorUpdateOneWithoutWorkOrdersNestedInput
+    tenant?: TenantUpdateOneWithoutMaintenanceRequestsNestedInput
     expenses?: TransactionUpdateManyWithoutTaskNestedInput
+    repairStatusUpdates?: RepairStatusUpdateUpdateManyWithoutTaskNestedInput
   }
 
   export type TaskUncheckedUpdateWithoutCreatedByInput = {
@@ -50290,6 +52292,7 @@ export namespace Prisma {
     unitId?: NullableStringFieldUpdateOperationsInput | string | null
     assignedToId?: NullableStringFieldUpdateOperationsInput | string | null
     vendorId?: NullableStringFieldUpdateOperationsInput | string | null
+    tenantId?: NullableStringFieldUpdateOperationsInput | string | null
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     estimatedCost?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -50299,6 +52302,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     expenses?: TransactionUncheckedUpdateManyWithoutTaskNestedInput
+    repairStatusUpdates?: RepairStatusUpdateUncheckedUpdateManyWithoutTaskNestedInput
   }
 
   export type TaskUncheckedUpdateManyWithoutCreatedByInput = {
@@ -50311,6 +52315,7 @@ export namespace Prisma {
     unitId?: NullableStringFieldUpdateOperationsInput | string | null
     assignedToId?: NullableStringFieldUpdateOperationsInput | string | null
     vendorId?: NullableStringFieldUpdateOperationsInput | string | null
+    tenantId?: NullableStringFieldUpdateOperationsInput | string | null
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     estimatedCost?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -50326,6 +52331,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     body?: StringFieldUpdateOperationsInput | string
     status?: EnumAnnouncementStatusFieldUpdateOperationsInput | $Enums.AnnouncementStatus
+    unitId?: NullableStringFieldUpdateOperationsInput | string | null
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -50338,6 +52344,7 @@ export namespace Prisma {
     body?: StringFieldUpdateOperationsInput | string
     status?: EnumAnnouncementStatusFieldUpdateOperationsInput | $Enums.AnnouncementStatus
     propertyId?: NullableStringFieldUpdateOperationsInput | string | null
+    unitId?: NullableStringFieldUpdateOperationsInput | string | null
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -50349,6 +52356,7 @@ export namespace Prisma {
     body?: StringFieldUpdateOperationsInput | string
     status?: EnumAnnouncementStatusFieldUpdateOperationsInput | $Enums.AnnouncementStatus
     propertyId?: NullableStringFieldUpdateOperationsInput | string | null
+    unitId?: NullableStringFieldUpdateOperationsInput | string | null
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -50824,6 +52832,27 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
+  export type TaskCreateManyTenantInput = {
+    id?: string
+    type?: $Enums.TaskType
+    title: string
+    description?: string | null
+    status?: $Enums.TaskStatus
+    priority?: $Enums.TaskPriority
+    unitId?: string | null
+    assignedToId?: string | null
+    createdById?: string | null
+    vendorId?: string | null
+    dueDate?: Date | string | null
+    completedAt?: Date | string | null
+    estimatedCost?: number | null
+    actualCost?: number | null
+    notes?: string | null
+    imageUrls?: TaskCreateimageUrlsInput | string[]
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type LeaseUpdateWithoutTenantInput = {
     id?: StringFieldUpdateOperationsInput | string
     status?: EnumLeaseStatusFieldUpdateOperationsInput | $Enums.LeaseStatus
@@ -51008,6 +53037,73 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type TaskUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumTaskTypeFieldUpdateOperationsInput | $Enums.TaskType
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumTaskStatusFieldUpdateOperationsInput | $Enums.TaskStatus
+    priority?: EnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority
+    dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    estimatedCost?: NullableFloatFieldUpdateOperationsInput | number | null
+    actualCost?: NullableFloatFieldUpdateOperationsInput | number | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    imageUrls?: TaskUpdateimageUrlsInput | string[]
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    unit?: UnitUpdateOneWithoutTasksNestedInput
+    assignedTo?: UserUpdateOneWithoutTasksAssignedNestedInput
+    createdBy?: UserUpdateOneWithoutTasksCreatedNestedInput
+    vendor?: VendorUpdateOneWithoutWorkOrdersNestedInput
+    expenses?: TransactionUpdateManyWithoutTaskNestedInput
+    repairStatusUpdates?: RepairStatusUpdateUpdateManyWithoutTaskNestedInput
+  }
+
+  export type TaskUncheckedUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumTaskTypeFieldUpdateOperationsInput | $Enums.TaskType
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumTaskStatusFieldUpdateOperationsInput | $Enums.TaskStatus
+    priority?: EnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority
+    unitId?: NullableStringFieldUpdateOperationsInput | string | null
+    assignedToId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    vendorId?: NullableStringFieldUpdateOperationsInput | string | null
+    dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    estimatedCost?: NullableFloatFieldUpdateOperationsInput | number | null
+    actualCost?: NullableFloatFieldUpdateOperationsInput | number | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    imageUrls?: TaskUpdateimageUrlsInput | string[]
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    expenses?: TransactionUncheckedUpdateManyWithoutTaskNestedInput
+    repairStatusUpdates?: RepairStatusUpdateUncheckedUpdateManyWithoutTaskNestedInput
+  }
+
+  export type TaskUncheckedUpdateManyWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumTaskTypeFieldUpdateOperationsInput | $Enums.TaskType
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumTaskStatusFieldUpdateOperationsInput | $Enums.TaskStatus
+    priority?: EnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority
+    unitId?: NullableStringFieldUpdateOperationsInput | string | null
+    assignedToId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    vendorId?: NullableStringFieldUpdateOperationsInput | string | null
+    dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    estimatedCost?: NullableFloatFieldUpdateOperationsInput | number | null
+    actualCost?: NullableFloatFieldUpdateOperationsInput | number | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    imageUrls?: TaskUpdateimageUrlsInput | string[]
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type TaskCreateManyVendorInput = {
     id?: string
     type?: $Enums.TaskType
@@ -51018,6 +53114,7 @@ export namespace Prisma {
     unitId?: string | null
     assignedToId?: string | null
     createdById?: string | null
+    tenantId?: string | null
     dueDate?: Date | string | null
     completedAt?: Date | string | null
     estimatedCost?: number | null
@@ -51081,7 +53178,9 @@ export namespace Prisma {
     unit?: UnitUpdateOneWithoutTasksNestedInput
     assignedTo?: UserUpdateOneWithoutTasksAssignedNestedInput
     createdBy?: UserUpdateOneWithoutTasksCreatedNestedInput
+    tenant?: TenantUpdateOneWithoutMaintenanceRequestsNestedInput
     expenses?: TransactionUpdateManyWithoutTaskNestedInput
+    repairStatusUpdates?: RepairStatusUpdateUpdateManyWithoutTaskNestedInput
   }
 
   export type TaskUncheckedUpdateWithoutVendorInput = {
@@ -51094,6 +53193,7 @@ export namespace Prisma {
     unitId?: NullableStringFieldUpdateOperationsInput | string | null
     assignedToId?: NullableStringFieldUpdateOperationsInput | string | null
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    tenantId?: NullableStringFieldUpdateOperationsInput | string | null
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     estimatedCost?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -51103,6 +53203,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     expenses?: TransactionUncheckedUpdateManyWithoutTaskNestedInput
+    repairStatusUpdates?: RepairStatusUpdateUncheckedUpdateManyWithoutTaskNestedInput
   }
 
   export type TaskUncheckedUpdateManyWithoutVendorInput = {
@@ -51115,6 +53216,7 @@ export namespace Prisma {
     unitId?: NullableStringFieldUpdateOperationsInput | string | null
     assignedToId?: NullableStringFieldUpdateOperationsInput | string | null
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    tenantId?: NullableStringFieldUpdateOperationsInput | string | null
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     estimatedCost?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -51310,6 +53412,7 @@ export namespace Prisma {
     title: string
     body: string
     status?: $Enums.AnnouncementStatus
+    unitId?: string | null
     createdById?: string | null
     publishedAt?: Date | string | null
     createdAt?: Date | string
@@ -51407,6 +53510,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     body?: StringFieldUpdateOperationsInput | string
     status?: EnumAnnouncementStatusFieldUpdateOperationsInput | $Enums.AnnouncementStatus
+    unitId?: NullableStringFieldUpdateOperationsInput | string | null
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -51418,6 +53522,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     body?: StringFieldUpdateOperationsInput | string
     status?: EnumAnnouncementStatusFieldUpdateOperationsInput | $Enums.AnnouncementStatus
+    unitId?: NullableStringFieldUpdateOperationsInput | string | null
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -51429,6 +53534,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     body?: StringFieldUpdateOperationsInput | string
     status?: EnumAnnouncementStatusFieldUpdateOperationsInput | $Enums.AnnouncementStatus
+    unitId?: NullableStringFieldUpdateOperationsInput | string | null
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -51562,6 +53668,7 @@ export namespace Prisma {
     assignedToId?: string | null
     createdById?: string | null
     vendorId?: string | null
+    tenantId?: string | null
     dueDate?: Date | string | null
     completedAt?: Date | string | null
     estimatedCost?: number | null
@@ -51720,7 +53827,9 @@ export namespace Prisma {
     assignedTo?: UserUpdateOneWithoutTasksAssignedNestedInput
     createdBy?: UserUpdateOneWithoutTasksCreatedNestedInput
     vendor?: VendorUpdateOneWithoutWorkOrdersNestedInput
+    tenant?: TenantUpdateOneWithoutMaintenanceRequestsNestedInput
     expenses?: TransactionUpdateManyWithoutTaskNestedInput
+    repairStatusUpdates?: RepairStatusUpdateUpdateManyWithoutTaskNestedInput
   }
 
   export type TaskUncheckedUpdateWithoutUnitInput = {
@@ -51733,6 +53842,7 @@ export namespace Prisma {
     assignedToId?: NullableStringFieldUpdateOperationsInput | string | null
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
     vendorId?: NullableStringFieldUpdateOperationsInput | string | null
+    tenantId?: NullableStringFieldUpdateOperationsInput | string | null
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     estimatedCost?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -51742,6 +53852,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     expenses?: TransactionUncheckedUpdateManyWithoutTaskNestedInput
+    repairStatusUpdates?: RepairStatusUpdateUncheckedUpdateManyWithoutTaskNestedInput
   }
 
   export type TaskUncheckedUpdateManyWithoutUnitInput = {
@@ -51754,6 +53865,7 @@ export namespace Prisma {
     assignedToId?: NullableStringFieldUpdateOperationsInput | string | null
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
     vendorId?: NullableStringFieldUpdateOperationsInput | string | null
+    tenantId?: NullableStringFieldUpdateOperationsInput | string | null
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     estimatedCost?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -52104,6 +54216,13 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
+  export type RepairStatusUpdateCreateManyTaskInput = {
+    id?: string
+    label: string
+    description?: string | null
+    createdAt?: Date | string
+  }
+
   export type TransactionUpdateWithoutTaskInput = {
     id?: StringFieldUpdateOperationsInput | string
     type?: EnumTransactionTypeFieldUpdateOperationsInput | $Enums.TransactionType
@@ -52170,6 +54289,27 @@ export namespace Prisma {
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RepairStatusUpdateUpdateWithoutTaskInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    label?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RepairStatusUpdateUncheckedUpdateWithoutTaskInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    label?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RepairStatusUpdateUncheckedUpdateManyWithoutTaskInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    label?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type JournalLineCreateManyTransactionInput = {
