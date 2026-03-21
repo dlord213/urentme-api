@@ -1,12 +1,17 @@
 import { prisma } from "../../utils/prisma.ts";
 
 export class AnnouncementService {
-  static async list() {
+  static async list(filters?: { propertyId?: string; unitId?: string }) {
     return prisma.announcement.findMany({
+      where: {
+        ...(filters?.propertyId ? { propertyId: filters.propertyId } : {}),
+        ...(filters?.unitId ? { unitId: filters.unitId } : {}),
+      },
       include: {
         property: true,
         createdBy: { select: { id: true, firstName: true, lastName: true } },
       },
+      orderBy: { createdAt: "desc" },
     });
   }
 
@@ -37,3 +42,4 @@ export class AnnouncementService {
     });
   }
 }
+

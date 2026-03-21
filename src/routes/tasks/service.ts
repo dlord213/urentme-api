@@ -40,4 +40,24 @@ export class TaskService {
       where: { id },
     });
   }
+
+  static async getStatusUpdates(taskId: string) {
+    return prisma.repairStatusUpdate.findMany({
+      where: { taskId },
+      orderBy: { createdAt: "asc" },
+    });
+  }
+
+  static async addStatusUpdate(
+    taskId: string,
+    data: { label: string; description?: string },
+  ) {
+    return prisma.repairStatusUpdate.create({
+      data: {
+        taskId,
+        label: data.label,
+        description: data.description,
+      },
+    });
+  }
 }

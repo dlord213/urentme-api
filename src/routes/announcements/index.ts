@@ -7,10 +7,14 @@ const announcements: FastifyPluginAsync = async (
 ): Promise<void> => {
   // fastify.addHook('preHandler', fastify.authenticate)
 
-  fastify.get("/", async function (request, reply) {
-    const list = await AnnouncementService.list();
-    return list;
-  });
+  fastify.get<{ Querystring: { propertyId?: string; unitId?: string } }>(
+    "/",
+    async function (request, reply) {
+      const { propertyId, unitId } = request.query;
+      const list = await AnnouncementService.list({ propertyId, unitId });
+      return list;
+    },
+  );
 
   fastify.get<{ Params: { id: string } }>(
     "/:id",

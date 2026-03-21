@@ -39,4 +39,22 @@ export class TaskController {
     await TaskService.delete(request.params.id);
     return reply.status(204).send();
   }
+
+  static async getStatusUpdates(
+    request: FastifyRequest<{ Params: { id: string } }>,
+    reply: FastifyReply,
+  ) {
+    return TaskService.getStatusUpdates(request.params.id);
+  }
+
+  static async addStatusUpdate(
+    request: FastifyRequest<{ Params: { id: string }; Body: any }>,
+    reply: FastifyReply,
+  ) {
+    const update = await TaskService.addStatusUpdate(
+      request.params.id,
+      request.body,
+    );
+    return reply.status(201).send(update);
+  }
 }
