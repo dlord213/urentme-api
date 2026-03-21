@@ -1,7 +1,8 @@
 import { faker } from "@faker-js/faker";
 import { PrismaPg } from "@prisma/adapter-pg";
-import { PrismaClient } from "@prisma/client";
-import * as crypto from "node:crypto";
+import { hash } from "bcrypt";
+import { range, pick } from "../src/utils/seeding_utils";
+import { PrismaClient } from "../src/generated/prisma";
 
 const prisma = new PrismaClient({
   adapter: new PrismaPg({
@@ -9,30 +10,54 @@ const prisma = new PrismaClient({
   }),
 });
 
-// ─── helpers ───────────────────────────────────────────────────────────────
-
-const hash = (plain: string) =>
-  crypto.createHash("sha256").update(plain).digest("hex");
-
-const pick = <T>(arr: T[] | readonly T[]): T =>
-  arr[Math.floor(Math.random() * arr.length)];
-
-const range = (n: number) => Array.from({ length: n }, (_, i) => i);
-
-// ─── main ──────────────────────────────────────────────────────────────────
-
 async function main() {
   console.log("🌱 Seeding database…");
 
-  // ── 1. Users ──────────────────────────────────────────────────────────────
-  const roles = ["ADMIN", "MANAGER", "STAFF"] as const;
+  try {
+    const users = await seedUsers();
+    const owners = await seedOwners();
+    const vendors = await seedVendors();
+    const properties = await seedProperties(owners, users);
+    const units = await seedUnits(properties);
+    const tenants = await seedTenants();
+    const prospects = await seedProspects(units);
+    const accounts = await seedChartOfAccounts();
+    const bankAccount = await seedBankAccount(users[0]);
+    const leases = await seedLeases(units, tenants);
+    await seedLeaseDocuments(leases);
+    await seedRentalApplications(prospects, units);
+    const tasks = await seedTasks(units, users, vendors, tenants);
+    await seedRepairStatusUpdates(tasks);
+    await seedTransactions(
+      leases,
+      tenants,
+      vendors,
+      owners,
+      tasks,
+      accounts,
+      bankAccount,
+      users,
+    );
+    await seedAccountingExtras(owners, bankAccount);
+    await seedAnnouncements(properties, users);
+    await seedSignatureRequests(leases, tenants, users);
+    await seedPropertyTaxesAndUtilities(properties);
+    await seedBankReconciliation(bankAccount);
 
+    console.log("\n✅ Seed complete!");
+  } catch (e) {
+    console.log(e);
+  }
+}
+
+async function seedUsers() {
+  const roles = ["ADMIN", "MANAGER", "STAFF"] as const;
   const users = await Promise.all(
-    range(5).map((i) =>
+    range(5).map(async (i) =>
       prisma.user.create({
         data: {
           email: i === 0 ? "admin@urentme.com" : faker.internet.email(),
-          passwordHash: hash("password123"),
+          passwordHash: await hash("password123", 10),
           firstName: faker.person.firstName(),
           lastName: faker.person.lastName(),
           phone: faker.phone.number(),
@@ -42,8 +67,10 @@ async function main() {
     ),
   );
   console.log(`  ✔ ${users.length} users`);
+  return users;
+}
 
-  // ── 2. Owners ─────────────────────────────────────────────────────────────
+async function seedOwners() {
   const owners = await Promise.all(
     range(3).map(() =>
       prisma.owner.create({
@@ -63,15 +90,11 @@ async function main() {
     ),
   );
   console.log(`  ✔ ${owners.length} owners`);
+  return owners;
+}
 
-  // ── 3. Vendors ────────────────────────────────────────────────────────────
-  const vendorCategories = [
-    "Plumber",
-    "Electrician",
-    "Painter",
-    "Carpenter",
-    "HVAC",
-  ];
+async function seedVendors() {
+  const categories = ["Plumber", "Electrician", "Painter", "Carpenter", "HVAC"];
   const vendors = await Promise.all(
     range(4).map(() =>
       prisma.vendor.create({
@@ -84,16 +107,18 @@ async function main() {
           city: faker.location.city(),
           state: faker.location.state(),
           zip: faker.location.zipCode(),
-          category: pick(vendorCategories),
+          category: pick(categories),
         },
       }),
     ),
   );
   console.log(`  ✔ ${vendors.length} vendors`);
+  return vendors;
+}
 
-  // ── 4. Properties ─────────────────────────────────────────────────────────
+async function seedProperties(owners: any[], users: any[]) {
   const properties = await Promise.all(
-    owners.map((owner: any) =>
+    owners.map((owner) =>
       prisma.property.create({
         data: {
           name: `${faker.location.city()} Residences`,
@@ -106,21 +131,18 @@ async function main() {
           yearBuilt: faker.number.int({ min: 1990, max: 2022 }),
           totalUnits: 6,
           ownerId: owner.id,
-          managedByUserId: pick(users as any[]).id,
+          managedByUserId: pick(users).id,
           houseRules: "No smoking. No pets. Quiet hours 10pm–7am.",
         },
       }),
     ),
   );
   console.log(`  ✔ ${properties.length} properties`);
+  return properties;
+}
 
-  // ── 5. Units ──────────────────────────────────────────────────────────────
-  const unitStatuses = [
-    "VACANT",
-    "OCCUPIED",
-    "MAINTENANCE",
-    "RESERVED",
-  ] as const;
+async function seedUnits(properties: any[]) {
+  const statuses = ["VACANT", "OCCUPIED", "MAINTENANCE", "RESERVED"] as const;
   const allUnits: any[] = [];
   for (const property of properties) {
     const units = await Promise.all(
@@ -128,7 +150,7 @@ async function main() {
         prisma.unit.create({
           data: {
             propertyId: property.id,
-            unitNumber: `${i + 1}0${Math.floor(Math.random() * 9) + 1}`,
+            unitNumber: `${i + 1}0${faker.number.int({ min: 1, max: 9 })}`,
             floor: String(i + 1),
             bedrooms: faker.number.int({ min: 1, max: 4 }),
             bathrooms: pick([1, 1.5, 2, 2.5, 3]),
@@ -147,7 +169,7 @@ async function main() {
               max: 50000,
               fractionDigits: 2,
             }),
-            status: pick(unitStatuses),
+            status: pick(statuses),
           },
         }),
       ),
@@ -155,8 +177,10 @@ async function main() {
     allUnits.push(...units);
   }
   console.log(`  ✔ ${allUnits.length} units`);
+  return allUnits;
+}
 
-  // ── 6. Tenants ────────────────────────────────────────────────────────────
+async function seedTenants() {
   const tenants = await Promise.all(
     range(8).map(() =>
       prisma.tenant.create({
@@ -179,9 +203,19 @@ async function main() {
     ),
   );
   console.log(`  ✔ ${tenants.length} tenants`);
+  return tenants;
+}
 
-  // ── 7. Prospects ──────────────────────────────────────────────────────────
+async function seedProspects(units: any[]) {
   const sources = ["Walk-in", "Facebook", "Referral", "Website", "OLX"];
+  const statuses = [
+    "NEW",
+    "CONTACTED",
+    "SHOWING_SCHEDULED",
+    "APPLICATION_SENT",
+    "CONVERTED",
+    "LOST",
+  ] as const;
   const prospects = await Promise.all(
     range(5).map(() =>
       prisma.prospect.create({
@@ -191,72 +225,55 @@ async function main() {
           email: faker.internet.email(),
           phone: faker.phone.number(),
           source: pick(sources),
-          interestedUnitId: pick(allUnits as any[]).id,
+          interestedUnitId: pick(units).id,
           moveInDate: faker.date.soon({ days: 60 }),
-          status: pick([
-            "NEW",
-            "CONTACTED",
-            "SHOWING_SCHEDULED",
-            "APPLICATION_SENT",
-            "CONVERTED",
-            "LOST",
-          ] as const),
+          status: pick(statuses),
         },
       }),
     ),
   );
   console.log(`  ✔ ${prospects.length} prospects`);
+  return prospects;
+}
 
-  // ── 8. Chart of Accounts ──────────────────────────────────────────────────
-  const accounts = await Promise.all([
-    prisma.chartOfAccount.create({
-      data: { code: "1000", name: "Cash & Bank", type: "ASSET" },
-    }),
-    prisma.chartOfAccount.create({
-      data: { code: "1100", name: "Accounts Receivable", type: "ASSET" },
-    }),
-    prisma.chartOfAccount.create({
-      data: { code: "2000", name: "Accounts Payable", type: "LIABILITY" },
-    }),
-    prisma.chartOfAccount.create({
-      data: { code: "2100", name: "Security Deposits Held", type: "LIABILITY" },
-    }),
-    prisma.chartOfAccount.create({
-      data: { code: "3000", name: "Owner Equity", type: "EQUITY" },
-    }),
-    prisma.chartOfAccount.create({
-      data: { code: "4000", name: "Rental Income", type: "REVENUE" },
-    }),
-    prisma.chartOfAccount.create({
-      data: { code: "4100", name: "Late Fee Income", type: "REVENUE" },
-    }),
-    prisma.chartOfAccount.create({
-      data: { code: "5000", name: "Maintenance Expense", type: "EXPENSE" },
-    }),
-    prisma.chartOfAccount.create({
-      data: { code: "5100", name: "Utilities Expense", type: "EXPENSE" },
-    }),
-    prisma.chartOfAccount.create({
-      data: { code: "5200", name: "Management Fee", type: "EXPENSE" },
-    }),
-  ]);
+async function seedChartOfAccounts() {
+  const data = [
+    { code: "1000", name: "Cash & Bank", type: "ASSET" },
+    { code: "1100", name: "Accounts Receivable", type: "ASSET" },
+    { code: "2000", name: "Accounts Payable", type: "LIABILITY" },
+    { code: "2100", name: "Security Deposits Held", type: "LIABILITY" },
+    { code: "3000", name: "Owner Equity", type: "EQUITY" },
+    { code: "4000", name: "Rental Income", type: "REVENUE" },
+    { code: "4100", name: "Late Fee Income", type: "REVENUE" },
+    { code: "5000", name: "Maintenance Expense", type: "EXPENSE" },
+    { code: "5100", name: "Utilities Expense", type: "EXPENSE" },
+    { code: "5200", name: "Management Fee", type: "EXPENSE" },
+  ] as const;
+
+  const accounts = await Promise.all(
+    data.map((item) => prisma.chartOfAccount.create({ data: item })),
+  );
   console.log(`  ✔ ${accounts.length} chart-of-account entries`);
+  return accounts;
+}
 
-  // ── 9. Bank Account ───────────────────────────────────────────────────────
+async function seedBankAccount(admin: any) {
   const bankAccount = await prisma.bankAccount.create({
     data: {
       name: "Main Operating Account",
       bankName: "BDO Unibank",
       accountNumber: "0012345678910",
-      balance: 500_000,
-      managedByUserId: (users[0] as any).id,
+      balance: 500000,
+      managedByUserId: admin.id,
     },
   });
   console.log(`  ✔ 1 bank account`);
+  return bankAccount;
+}
 
-  // ── 10. Leases (for OCCUPIED units) ───────────────────────────────────────
-  const occupiedUnits = allUnits
-    .filter((u: any) => u.status === "OCCUPIED")
+async function seedLeases(units: any[], tenants: any[]) {
+  const occupiedUnits = units
+    .filter((u) => u.status === "OCCUPIED")
     .slice(0, tenants.length);
   const leases: any[] = [];
   for (let i = 0; i < occupiedUnits.length; i++) {
@@ -284,10 +301,9 @@ async function main() {
     });
     leases.push(lease);
   }
-  console.log(`  ✔ ${leases.length} active leases`);
 
-  // ── 11. Draft Lease ───────────────────────────────────────────────────────
-  const vacantUnit = allUnits.find((u: any) => u.status === "VACANT");
+  // Create one draft lease
+  const vacantUnit = units.find((u) => u.status === "VACANT");
   if (vacantUnit) {
     await prisma.lease.create({
       data: {
@@ -300,17 +316,38 @@ async function main() {
         depositAmount: vacantUnit.depositAmount,
       },
     });
-    console.log(`  ✔ 1 draft lease`);
   }
 
-  // ── 12. Rental Applications ───────────────────────────────────────────────
-  await Promise.all(
-    prospects.slice(0, 3).map((prospect: any) =>
+  console.log(`  ✔ ${leases.length + (vacantUnit ? 1 : 0)} leases`);
+  return leases;
+}
+
+async function seedLeaseDocuments(leases: any[]) {
+  if (leases.length === 0) return;
+  const docs = await Promise.all(
+    leases.slice(0, 3).map((lease) =>
+      prisma.leaseDocument.create({
+        data: {
+          leaseId: lease.id,
+          name: "Lease Agreement.pdf",
+          url: `https://cdn.urentme.com/docs/${lease.id}/agreement.pdf`,
+          mimeType: "application/pdf",
+        },
+      }),
+    ),
+  );
+  console.log(`  ✔ ${docs.length} lease documents`);
+}
+
+async function seedRentalApplications(prospects: any[], units: any[]) {
+  const statuses = ["PENDING", "APPROVED", "REJECTED"] as const;
+  const apps = await Promise.all(
+    prospects.map((prospect) =>
       prisma.rentalApplication.create({
         data: {
-          unitId: prospect.interestedUnitId ?? pick(allUnits as any[]).id,
+          unitId: prospect.interestedUnitId ?? pick(units).id,
           prospectId: prospect.id,
-          status: pick(["PENDING", "APPROVED", "REJECTED"] as const),
+          status: pick(statuses),
           moveInDate: prospect.moveInDate,
           monthlyIncome: faker.number.float({
             min: 20000,
@@ -321,16 +358,22 @@ async function main() {
       }),
     ),
   );
-  console.log(`  ✔ 3 rental applications`);
+  console.log(`  ✔ ${apps.length} rental applications`);
+}
 
-  // ── 13. Tasks & Work Orders ───────────────────────────────────────────────
-  const taskTypes = [
+async function seedTasks(
+  units: any[],
+  users: any[],
+  vendors: any[],
+  tenants: any[],
+) {
+  const types = [
     "TASK",
     "WORK_ORDER",
     "TENANT_REQUEST",
     "OWNER_REQUEST",
   ] as const;
-  const taskStatuses = [
+  const statuses = [
     "UNASSIGNED",
     "ASSIGNED",
     "IN_PROGRESS",
@@ -339,22 +382,23 @@ async function main() {
   const priorities = ["LOW", "MEDIUM", "HIGH", "URGENT"] as const;
 
   const tasks = await Promise.all(
-    range(8).map(() =>
+    range(10).map(() =>
       prisma.task.create({
         data: {
-          type: pick(taskTypes),
+          type: pick(types),
           title: faker.lorem.sentence(4),
           description: faker.lorem.sentences(2),
-          status: pick(taskStatuses),
+          status: pick(statuses),
           priority: pick(priorities),
-          unitId: pick(allUnits as any[]).id,
-          assignedToId: Math.random() > 0.3 ? pick(users as any[]).id : null,
-          vendorId: Math.random() > 0.5 ? pick(vendors as any[]).id : null,
-          createdById: pick(users as any[]).id,
+          unitId: pick(units).id,
+          assignedToId: Math.random() > 0.3 ? pick(users).id : null,
+          vendorId: Math.random() > 0.5 ? pick(vendors).id : null,
+          tenantId: Math.random() > 0.7 ? pick(tenants).id : null,
+          createdById: pick(users).id,
           dueDate: faker.date.soon({ days: 30 }),
           estimatedCost: faker.number.float({
             min: 500,
-            max: 50000,
+            max: 20000,
             fractionDigits: 2,
           }),
         },
@@ -362,200 +406,240 @@ async function main() {
     ),
   );
   console.log(`  ✔ ${tasks.length} tasks / work orders`);
+  return tasks;
+}
 
-  // ── 14. Transactions ──────────────────────────────────────────────────────
-  const incomeAccount = accounts.find((a: any) => a.code === "4000")!;
-  const arAccount = accounts.find((a: any) => a.code === "1100")!;
+async function seedRepairStatusUpdates(tasks: any[]) {
+  const taskToUpdate = tasks.find((t) => t.type === "WORK_ORDER");
+  if (!taskToUpdate) return;
 
-  // Lease payments for each active lease
-  for (const lease of leases.slice(0, 3)) {
-    await prisma.transaction.create({
+  const updates = [
+    {
+      label: "Technician Assigned",
+      description: "Plumber has been assigned to the task.",
+    },
+    {
+      label: "Parts Ordered",
+      description: "Spare parts for the sink have been ordered.",
+    },
+    { label: "In Progress", description: "Repair is currently ongoing." },
+  ];
+
+  await Promise.all(
+    updates.map((update) =>
+      prisma.repairStatusUpdate.create({
+        data: {
+          taskId: taskToUpdate.id,
+          ...update,
+        },
+      }),
+    ),
+  );
+  console.log(`  ✔ ${updates.length} repair status updates`);
+}
+
+async function seedTransactions(
+  leases: any[],
+  tenants: any[],
+  vendors: any[],
+  owners: any[],
+  tasks: any[],
+  accounts: any[],
+  bankAccount: any,
+  users: any[],
+) {
+  const bankAssetAccount = accounts.find((a) => a.code === "1000")!;
+  const incomeAccount = accounts.find((a) => a.code === "4000")!;
+  const expenseAccount = accounts.find((a) => a.code === "5000")!;
+  const arAccount = accounts.find((a) => a.code === "1100")!;
+  const apAccount = accounts.find((a) => a.code === "2000")!;
+
+  // Lease payments
+  for (const lease of leases.slice(0, 5)) {
+    const tx = await prisma.transaction.create({
       data: {
         type: "LEASE_PAYMENT",
         status: "COMPLETED",
         amount: lease.rentAmount,
-        description: "Monthly rent payment",
+        description: "Monthly Rent Payment",
         date: faker.date.recent({ days: 30 }),
         leaseId: lease.id,
         tenantId: lease.tenantId,
         chartAccountId: incomeAccount.id,
         bankAccountId: bankAccount.id,
-        createdById: pick(users as any[]).id,
+        createdById: pick(users).id,
       },
     });
-  }
-  console.log(`  ✔ ${leases.slice(0, 3).length} lease payment transactions`);
 
-  // Post a charge
-  if (leases.length > 0) {
-    await prisma.transaction.create({
+    // Seed Journal Lines for double entry
+    await prisma.journalLine.createMany({
+      data: [
+        {
+          transactionId: tx.id,
+          chartAccountId: bankAssetAccount.id,
+          debit: tx.amount,
+          credit: 0,
+          description: "Bank Deposit",
+        },
+        {
+          transactionId: tx.id,
+          chartAccountId: incomeAccount.id,
+          debit: 0,
+          credit: tx.amount,
+          description: "Rental Income",
+        },
+      ],
+    });
+  }
+
+  // Vendor Bills
+  for (const task of tasks
+    .filter((t) => t.type === "WORK_ORDER" && t.vendorId)
+    .slice(0, 2)) {
+    const billAmount = task.estimatedCost ?? 1000;
+    const bill = await prisma.bill.create({
       data: {
-        type: "CHARGE",
+        vendorId: task.vendorId!,
+        amount: billAmount,
+        dueDate: faker.date.soon({ days: 15 }),
+        description: `Repair Bill for ${task.title}`,
         status: "PENDING",
-        amount: 500,
-        description: "Late fee charge",
-        leaseId: leases[0].id,
-        tenantId: leases[0].tenantId,
-        chartAccountId: arAccount.id,
-        createdById: pick(users as any[]).id,
       },
+    });
+
+    const tx = await prisma.transaction.create({
+      data: {
+        type: "BILL",
+        status: "PENDING",
+        amount: billAmount,
+        description: bill.description,
+        vendorId: task.vendorId!,
+        taskId: task.id,
+        chartAccountId: apAccount.id,
+        createdById: pick(users).id,
+      },
+    });
+
+    await prisma.journalLine.createMany({
+      data: [
+        {
+          transactionId: tx.id,
+          chartAccountId: expenseAccount.id,
+          debit: billAmount,
+          credit: 0,
+          description: "Maintenance Expense",
+        },
+        {
+          transactionId: tx.id,
+          chartAccountId: apAccount.id,
+          debit: 0,
+          credit: billAmount,
+          description: "Accounts Payable",
+        },
+      ],
     });
   }
 
-  // Owner distribution
-  await prisma.transaction.create({
-    data: {
-      type: "OWNER_DISTRIBUTION",
-      status: "COMPLETED",
-      amount: faker.number.float({
-        min: 50000,
-        max: 200000,
-        fractionDigits: 2,
-      }),
-      description: "Monthly owner distribution",
-      ownerId: owners[0].id,
-      bankAccountId: bankAccount.id,
-      createdById: pick(users as any[]).id,
-    },
-  });
+  console.log(`  ✔ transactions and journal lines seeded`);
+}
 
-  // Vendor bill
-  const bill = await prisma.bill.create({
-    data: {
-      vendorId: vendors[0].id,
-      amount: faker.number.float({ min: 5000, max: 30000, fractionDigits: 2 }),
-      dueDate: faker.date.soon({ days: 15 }),
-      description: "Maintenance services",
-      status: "PENDING",
-    },
-  });
-
-  await prisma.transaction.create({
-    data: {
-      type: "BILL",
-      status: "PENDING",
-      amount: bill.amount,
-      description: bill.description,
-      vendorId: vendors[0].id,
-      createdById: pick(users as any[]).id,
-    },
-  });
-  console.log(`  ✔ transactions seeded (payments, charge, distribution, bill)`);
-
-  // ── 15. Owner Contributions & Distributions ───────────────────────────────
+async function seedAccountingExtras(owners: any[], bankAccount: any) {
   await prisma.ownerContribution.create({
     data: {
       ownerId: owners[0].id,
-      amount: 100_000,
-      description: "Initial capital contribution",
+      amount: 100000,
+      description: "Initial Capital Contribution",
       bankAccountId: bankAccount.id,
     },
   });
   await prisma.ownerDistribution.create({
     data: {
-      ownerId: owners[0].id,
-      amount: 30_000,
-      description: "Q1 distribution",
+      ownerId: owners[1].id,
+      amount: 20000,
+      description: "Q1 Distribution",
       bankAccountId: bankAccount.id,
     },
   });
-  console.log(`  ✔ 1 owner contribution, 1 owner distribution`);
+  console.log(`  ✔ owner contributions and distributions seeded`);
+}
 
-  // ── 16. Announcements ─────────────────────────────────────────────────────
+async function seedAnnouncements(properties: any[], users: any[]) {
   await Promise.all(
-    properties.slice(0, 2).map((property: any) =>
+    properties.slice(0, 2).map((property) =>
       prisma.announcement.create({
         data: {
-          title: faker.lorem.sentence(5),
-          body: faker.lorem.paragraphs(2),
-          status: pick(["PUBLISHED", "DRAFT"] as const),
+          title: "Upcoming Maintenance",
+          body: "We will be conducting pest control services next week.",
+          status: "PUBLISHED",
           propertyId: property.id,
-          createdById: pick(users as any[]).id,
+          createdById: pick(users).id,
           publishedAt: new Date(),
         },
       }),
     ),
   );
-  console.log(`  ✔ 2 announcements`);
+  console.log(`  ✔ 2 announcements seeded`);
+}
 
-  // ── 17. Signature Requests ────────────────────────────────────────────────
-  if (leases.length > 0) {
-    await prisma.signatureRequest.create({
+async function seedSignatureRequests(
+  leases: any[],
+  tenants: any[],
+  users: any[],
+) {
+  if (leases.length === 0) return;
+  await prisma.signatureRequest.create({
+    data: {
+      title: "Sign Lease Agreement",
+      documentUrl: "https://cdn.urentme.com/docs/sample.pdf",
+      leaseId: leases[0].id,
+      requestedById: pick(users).id,
+      signerEmail: tenants[0].email,
+      signerName: `${tenants[0].firstName} ${tenants[0].lastName}`,
+      status: "PENDING",
+      expiresAt: faker.date.future(),
+    },
+  });
+  console.log(`  ✔ 1 signature request seeded`);
+}
+
+async function seedPropertyTaxesAndUtilities(properties: any[]) {
+  for (const property of properties) {
+    await prisma.propertyTax.create({
       data: {
-        title: "Lease Agreement - Sign Here",
-        documentUrl: "https://cdn.urentme.com/leases/sample-lease.pdf",
-        leaseId: leases[0].id,
-        requestedById: pick(users as any[]).id,
-        signerEmail: tenants[0].email,
-        signerName: `${tenants[0].firstName} ${tenants[0].lastName}`,
-        status: "PENDING",
-        expiresAt: faker.date.soon({ days: 7 }),
+        propertyId: property.id,
+        taxYear: 2025,
+        amount: 50000,
+        dueDate: new Date("2025-12-31"),
+        referenceNo: faker.string.alphanumeric(10).toUpperCase(),
       },
     });
-    console.log(`  ✔ 1 signature request`);
+
+    await prisma.publicUtility.create({
+      data: {
+        propertyId: property.id,
+        utilityType: "Electricity",
+        provider: "Meralco",
+        amount: 3500,
+        dueDate: faker.date.soon(),
+      },
+    });
   }
+  console.log(`  ✔ property taxes and utility bills seeded`);
+}
 
-  // ── 18. Property Taxes & Utilities ────────────────────────────────────────
-  await Promise.all(
-    properties.map((p: any) =>
-      prisma.propertyTax.create({
-        data: {
-          propertyId: p.id,
-          taxYear: 2025,
-          amount: faker.number.float({
-            min: 20000,
-            max: 80000,
-            fractionDigits: 2,
-          }),
-          dueDate: new Date("2025-12-31"),
-          referenceNo: faker.string.alphanumeric(10).toUpperCase(),
-        },
-      }),
-    ),
-  );
-
-  const utilityTypes = ["Electricity", "Water", "Gas", "Internet"];
-  await Promise.all(
-    properties.flatMap((p: any) =>
-      utilityTypes.slice(0, 2).map((type) =>
-        prisma.publicUtility.create({
-          data: {
-            propertyId: p.id,
-            utilityType: type,
-            provider: faker.company.name(),
-            accountNo: faker.string.numeric(10),
-            billingPeriodStart: new Date("2026-02-01"),
-            billingPeriodEnd: new Date("2026-02-28"),
-            amount: faker.number.float({
-              min: 3000,
-              max: 20000,
-              fractionDigits: 2,
-            }),
-            dueDate: new Date("2026-03-15"),
-          },
-        }),
-      ),
-    ),
-  );
-  console.log(
-    `  ✔ ${properties.length} property taxes, ${properties.length * 2} utility bills`,
-  );
-
-  // ── 19. Bank Reconciliation ───────────────────────────────────────────────
+async function seedBankReconciliation(bankAccount: any) {
   await prisma.bankReconciliation.create({
     data: {
       bankAccountId: bankAccount.id,
-      statementDate: new Date("2026-02-28"),
-      statementBalance: 498_500,
-      clearedBalance: 498_500,
+      statementDate: new Date(),
+      statementBalance: bankAccount.balance,
+      clearedBalance: bankAccount.balance,
       difference: 0,
-      reconciledAt: new Date("2026-03-01"),
-      notes: "February 2026 reconciliation completed.",
+      reconciledAt: new Date(),
+      notes: "Monthly reconciliation done.",
     },
   });
-  console.log(`  ✔ 1 bank reconciliation`);
-
-  console.log("\n✅ Seed complete!");
+  console.log(`  ✔ 1 bank reconciliation seeded`);
 }
 
 main()
@@ -563,4 +647,6 @@ main()
     console.error("❌ Seed failed:", e);
     process.exit(1);
   })
-  .finally(() => prisma.$disconnect());
+  .finally(async () => {
+    await prisma.$disconnect();
+  });

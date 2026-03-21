@@ -214,9 +214,10 @@ model Tenant {
   createdAt      DateTime  @default(now())
   updatedAt      DateTime  @updatedAt
 
-  leases             Lease[]
-  rentalApplications RentalApplication[]
-  tenantTransactions Transaction[]       @relation("TenantTransactions")
+  leases              Lease[]
+  rentalApplications  RentalApplication[]
+  tenantTransactions  Transaction[]       @relation("TenantTransactions")
+  maintenanceRequests Task[]              @relation("TenantRequests")
 
   @@map("tenants")
 }
@@ -416,6 +417,8 @@ model Task {
   createdBy     User?        @relation("TaskCreator", fields: [createdById], references: [id])
   vendorId      String? // for work orders
   vendor        Vendor?      @relation("VendorWorkOrders", fields: [vendorId], references: [id])
+  tenantId      String? // for tenant requests
+  tenant        Tenant?      @relation("TenantRequests", fields: [tenantId], references: [id])
   dueDate       DateTime?
   completedAt   DateTime?
   estimatedCost Float?
@@ -425,9 +428,21 @@ model Task {
   createdAt     DateTime     @default(now())
   updatedAt     DateTime     @updatedAt
 
-  expenses Transaction[] @relation("TaskExpenses")
+  expenses            Transaction[]        @relation("TaskExpenses")
+  repairStatusUpdates RepairStatusUpdate[]
 
   @@map("tasks")
+}
+
+model RepairStatusUpdate {
+  id          String   @id @default(cuid())
+  taskId      String
+  task        Task     @relation(fields: [taskId], references: [id])
+  label       String // e.g. "Technician Assigned", "Parts Ordered", "Work Completed"
+  description String?
+  createdAt   DateTime @default(now())
+
+  @@map("repair_status_updates")
 }
 
 // ─────────────────────────────────────────────
@@ -536,6 +551,7 @@ model Announcement {
   status      AnnouncementStatus @default(DRAFT)
   propertyId  String?
   property    Property?          @relation(fields: [propertyId], references: [id])
+  unitId      String? // optional: target a specific unit
   createdById String?
   createdBy   User?              @relation(fields: [createdById], references: [id])
   publishedAt DateTime?

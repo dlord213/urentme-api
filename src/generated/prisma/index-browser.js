@@ -311,6 +311,7 @@ exports.Prisma.TaskScalarFieldEnum = {
   assignedToId: 'assignedToId',
   createdById: 'createdById',
   vendorId: 'vendorId',
+  tenantId: 'tenantId',
   dueDate: 'dueDate',
   completedAt: 'completedAt',
   estimatedCost: 'estimatedCost',
@@ -319,6 +320,14 @@ exports.Prisma.TaskScalarFieldEnum = {
   imageUrls: 'imageUrls',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
+};
+
+exports.Prisma.RepairStatusUpdateScalarFieldEnum = {
+  id: 'id',
+  taskId: 'taskId',
+  label: 'label',
+  description: 'description',
+  createdAt: 'createdAt'
 };
 
 exports.Prisma.TransactionScalarFieldEnum = {
@@ -386,6 +395,7 @@ exports.Prisma.AnnouncementScalarFieldEnum = {
   body: 'body',
   status: 'status',
   propertyId: 'propertyId',
+  unitId: 'unitId',
   createdById: 'createdById',
   publishedAt: 'publishedAt',
   createdAt: 'createdAt',
@@ -624,6 +634,7 @@ exports.Prisma.ModelName = {
   LeaseDocument: 'LeaseDocument',
   RentalApplication: 'RentalApplication',
   Task: 'Task',
+  RepairStatusUpdate: 'RepairStatusUpdate',
   Transaction: 'Transaction',
   Bill: 'Bill',
   OwnerContribution: 'OwnerContribution',
