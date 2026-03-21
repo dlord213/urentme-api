@@ -1,6 +1,6 @@
-import { PrismaClient } from "../src/generated/prisma/index";
 import { faker } from "@faker-js/faker";
 import { PrismaPg } from "@prisma/adapter-pg";
+import { PrismaClient } from "@prisma/client";
 import * as crypto from "node:crypto";
 
 const prisma = new PrismaClient({
