@@ -1,5 +1,10 @@
 import { type FastifyPluginAsync } from "fastify";
-import { registerSchema, loginSchema, refreshSchema } from "./schemas.ts";
+import { type ZodTypeProvider } from "fastify-type-provider-zod";
+import {
+  registerSchemaZod,
+  loginSchemaZod,
+  refreshSchemaZod,
+} from "./schemas.ts";
 import {
   registerHandler,
   loginHandler,
@@ -9,36 +14,38 @@ import {
 } from "./auth.controller.ts";
 
 const auth: FastifyPluginAsync = async (fastify) => {
-  fastify.post(
+  const server = fastify.withTypeProvider<ZodTypeProvider>();
+
+  server.post(
     "/register",
     {
-      schema: registerSchema,
+      schema: { body: registerSchemaZod },
       config: { rateLimit: { max: 10, timeWindow: "1 minute" } },
     },
     registerHandler,
   );
 
-  fastify.post(
+  server.post(
     "/login",
     {
-      schema: loginSchema,
+      schema: { body: loginSchemaZod },
       config: { rateLimit: { max: 10, timeWindow: "1 minute" } },
     },
     loginHandler,
   );
 
-  fastify.post(
+  server.post(
     "/refresh",
     {
-      schema: refreshSchema,
+      schema: { body: refreshSchemaZod },
       config: { rateLimit: { max: 20, timeWindow: "1 minute" } },
     },
     refreshHandler,
   );
 
-  fastify.post("/logout", logoutHandler);
+  server.post("/logout", logoutHandler);
 
-  fastify.get("/me", { preHandler: fastify.authenticate }, meHandler);
+  server.get("/me", { preHandler: fastify.authenticate }, meHandler);
 };
 
 export default auth;

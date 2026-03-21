@@ -1,41 +1,18 @@
-import { type FastifySchema } from "fastify";
+import { z } from "zod";
 
-// ─── Request / Response shapes ────────────────────────────────────────────────
+export const registerSchemaZod = z.object({
+  email: z.string().email(),
+  password: z.string().min(8),
+  firstName: z.string().min(1),
+  lastName: z.string().min(1),
+  phone: z.string().optional(),
+});
 
-export const registerSchema: FastifySchema = {
-  body: {
-    type: "object",
-    required: ["email", "password", "firstName", "lastName"],
-    properties: {
-      email: { type: "string", format: "email" },
-      password: { type: "string", minLength: 8 },
-      firstName: { type: "string", minLength: 1 },
-      lastName: { type: "string", minLength: 1 },
-      phone: { type: "string" },
-    },
-    additionalProperties: false,
-  },
-};
+export const loginSchemaZod = z.object({
+  email: z.string().email(),
+  password: z.string(),
+});
 
-export const loginSchema: FastifySchema = {
-  body: {
-    type: "object",
-    required: ["email", "password"],
-    properties: {
-      email: { type: "string", format: "email" },
-      password: { type: "string" },
-    },
-    additionalProperties: false,
-  },
-};
-
-export const refreshSchema: FastifySchema = {
-  body: {
-    type: "object",
-    required: ["refreshToken"],
-    properties: {
-      refreshToken: { type: "string" },
-    },
-    additionalProperties: false,
-  },
-};
+export const refreshSchemaZod = z.object({
+  refreshToken: z.string(),
+});

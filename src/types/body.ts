@@ -1,16 +1,10 @@
-export interface RegisterBody {
-  email: string;
-  password: string;
-  firstName: string;
-  lastName: string;
-  phone?: string;
-}
+import { z } from "zod";
+import {
+  registerSchemaZod,
+  loginSchemaZod,
+  refreshSchemaZod,
+} from "../routes/auth/schemas.ts";
 
-export interface LoginBody {
-  email: string;
-  password: string;
-}
-
-export interface RefreshBody {
-  refreshToken: string;
-}
+export type RegisterBody = z.infer<typeof registerSchemaZod>;
+export type LoginBody = z.infer<typeof loginSchemaZod>;
+export type RefreshBody = z.infer<typeof refreshSchemaZod>;
