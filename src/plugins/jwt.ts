@@ -61,6 +61,7 @@ declare module "@fastify/jwt" {
       role: string;
     };
     user: {
+      id: string;
       sub: string;
       email: string;
       role: string;

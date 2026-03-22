@@ -1,9 +1,10 @@
 import { prisma } from "../../../utils/prisma.ts";
 
 export class PropertyService {
-  static async list() {
+  static async list(userId: string) {
     return prisma.property.findMany({
       include: { owner: true, units: true },
+      where: { managedByUserId: userId },
     });
   }
 

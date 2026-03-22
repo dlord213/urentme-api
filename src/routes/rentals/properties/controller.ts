@@ -3,7 +3,7 @@ import { PropertyService } from "./service.ts";
 
 export class PropertyController {
   static async list(request: FastifyRequest, reply: FastifyReply) {
-    const list = await PropertyService.list();
+    const list = await PropertyService.list(request.user.id);
     return list;
   }
 
