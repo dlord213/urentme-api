@@ -23,6 +23,14 @@ const app: FastifyPluginAsync<AppOptions> = async (
   fastify.setValidatorCompiler(validatorCompiler);
   fastify.setSerializerCompiler(serializerCompiler);
 
+  fastify.decorate("authenticate", async function (request, reply) {
+    try {
+      await request.jwtVerify();
+    } catch (err) {
+      reply.send(err);
+    }
+  });
+
   // Do not touch the following lines
 
   // This loads all plugins defined in plugins
