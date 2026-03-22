@@ -3,8 +3,7 @@ import { UnitService } from "./service.ts";
 
 export class UnitController {
   static async list(request: FastifyRequest, reply: FastifyReply) {
-    const { propertyId } = request.query as any;
-    const list = await UnitService.list(propertyId);
+    const list = await UnitService.list();
     return list;
   }
 

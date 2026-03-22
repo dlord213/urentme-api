@@ -1,10 +1,16 @@
 import { prisma } from "../../../utils/prisma.ts";
 
 export class UnitService {
-  static async list(propertyId?: string) {
+  static async list() {
     return prisma.unit.findMany({
-      where: propertyId ? { propertyId } : undefined,
-      include: { property: true, leases: true },
+      include: {
+        property: true,
+        leases: {
+          include: {
+            tenant: true,
+          }
+        },
+      },
     });
   }
 
@@ -13,7 +19,7 @@ export class UnitService {
       where: { id },
       include: { property: true, leases: true },
     });
-  }
+  }     
 
   static async create(data: any) {
     return prisma.unit.create({ data });
