@@ -11,7 +11,13 @@ export class UnitService {
           },
         },
       },
-      where: { property: { managedByUserId: userId } },
+      where: {
+        property: {
+          is: {
+            ownerId: userId,
+          },
+        },
+      },
     });
   }
 

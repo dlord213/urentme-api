@@ -2,7 +2,7 @@ import { type FastifyPluginAsync } from "fastify";
 import { PropertyController } from "./controller.ts";
 
 const properties: FastifyPluginAsync = async (fastify, opts): Promise<void> => {
-  // fastify.addHook('preHandler', fastify.authenticate)
+  fastify.addHook("preHandler", fastify.authenticate);
 
   fastify.get("/", PropertyController.list);
 

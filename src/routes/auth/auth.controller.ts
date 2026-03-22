@@ -25,8 +25,8 @@ function setAuthCookies(
 ) {
   const base = {
     httpOnly: true,
-    secure: isProduction,
-    sameSite: "lax" as const,
+    secure: true,
+    sameSite: "none" as const,
     path: "/",
   };
   reply
@@ -108,7 +108,7 @@ export const refreshHandler = async function (
     return reply.unauthorized("Invalid or expired refresh token");
   }
 
-  const payload = { sub: user.id, email: user.email, role: user.role };
+  const payload = { id: user.id, email: user.email, role: user.role };
   const accessToken = this.jwt.sign(payload, { expiresIn: ACCESS_TOKEN_TTL });
   const refreshToken = this.jwt.sign(payload, { expiresIn: REFRESH_TOKEN_TTL });
 
@@ -133,10 +133,10 @@ export const meHandler = async function (
   request: FastifyRequest,
   reply: FastifyReply,
 ) {
-  const { sub } = request.user;
+  const { id } = request.user;
 
   const user = await this.prisma.user.findUnique({
-    where: { id: sub },
+    where: { id: id },
     select: {
       id: true,
       email: true,

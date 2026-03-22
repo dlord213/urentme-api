@@ -70,5 +70,5 @@ export function buildTokenPayload(user: {
   email: string;
   role: string;
 }) {
-  return { sub: user.id, email: user.email, role: user.role };
+  return { id: user.id, email: user.email, role: user.role };
 }
