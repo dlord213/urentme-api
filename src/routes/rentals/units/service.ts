@@ -14,7 +14,7 @@ export class UnitService {
       where: {
         property: {
           is: {
-            ownerId: userId,
+            managedByUserId: userId,
           },
         },
       },
