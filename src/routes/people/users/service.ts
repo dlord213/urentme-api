@@ -8,8 +8,12 @@ export class UserService {
         email: true,
         firstName: true,
         lastName: true,
+        phone: true,
         role: true,
         isActive: true,
+        _count: {
+          select: { ownedProperties: true }
+        }
       },
     });
   }

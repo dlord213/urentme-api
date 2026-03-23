@@ -3,7 +3,7 @@ import { TenantService } from "./service.ts";
 
 export class TenantController {
   static async list(request: FastifyRequest, reply: FastifyReply) {
-    const list = await TenantService.list();
+    const list = await TenantService.list(request.user.id);
     return list;
   }
 
