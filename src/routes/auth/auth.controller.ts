@@ -4,7 +4,7 @@ import {
   type FastifyInstance,
 } from "fastify";
 import {
-  registerUser,
+  registerOwner,
   validateCredentials,
   buildTokenPayload,
 } from "./auth.service.ts";
@@ -21,7 +21,6 @@ function setAuthCookies(
   reply: FastifyReply,
   accessToken: string,
   refreshToken: string,
-  isProduction: boolean,
 ) {
   const base = {
     httpOnly: true,
@@ -42,17 +41,16 @@ export const registerHandler = async function (
   request: FastifyRequest<{ Body: RegisterBody }>,
   reply: FastifyReply,
 ) {
-  const isProd = this.config.NODE_ENV === "production";
-  const user = await registerUser(this.prisma, request.body);
+  const owner = await registerOwner(this.prisma, request.body);
 
-  const payload = buildTokenPayload(user);
+  const payload = buildTokenPayload(owner);
   const accessToken = this.jwt.sign(payload, { expiresIn: ACCESS_TOKEN_TTL });
   const refreshToken = this.jwt.sign(payload, { expiresIn: REFRESH_TOKEN_TTL });
 
-  setAuthCookies(reply, accessToken, refreshToken, isProd);
+  setAuthCookies(reply, accessToken, refreshToken);
 
   return reply.code(201).send({
-    user,
+    user: owner,
     accessToken,
     refreshToken,
   });
@@ -63,20 +61,19 @@ export const loginHandler = async function (
   request: FastifyRequest<{ Body: LoginBody }>,
   reply: FastifyReply,
 ) {
-  const isProd = this.config.NODE_ENV === "production";
-  const user = await validateCredentials(this.prisma, request.body);
-  if (!user) {
+  const owner = await validateCredentials(this.prisma, request.body);
+  if (!owner) {
     return reply.unauthorized("Invalid email or password");
   }
 
-  const payload = buildTokenPayload(user);
+  const payload = buildTokenPayload(owner);
   const accessToken = this.jwt.sign(payload, { expiresIn: ACCESS_TOKEN_TTL });
   const refreshToken = this.jwt.sign(payload, { expiresIn: REFRESH_TOKEN_TTL });
 
-  setAuthCookies(reply, accessToken, refreshToken, isProd);
+  setAuthCookies(reply, accessToken, refreshToken);
 
   return reply.send({
-    user,
+    user: owner,
     accessToken,
     refreshToken,
   });
@@ -87,32 +84,30 @@ export const refreshHandler = async function (
   request: FastifyRequest<{ Body: RefreshBody }>,
   reply: FastifyReply,
 ) {
-  const isProd = this.config.NODE_ENV === "production";
-  let decoded: { sub: string; email: string; role: string };
+  let decoded: { sub: string; email: string };
 
   try {
-    decoded = this.jwt.verify<{ sub: string; email: string; role: string }>(
+    decoded = this.jwt.verify<{ sub: string; email: string }>(
       request.body.refreshToken,
     );
   } catch {
     return reply.unauthorized("Invalid or expired refresh token");
   }
 
-  // Confirm user still exists and is active
-  const user = await this.prisma.user.findUnique({
+  const owner = await this.prisma.owner.findUnique({
     where: { id: decoded.sub },
-    select: { id: true, email: true, role: true, isActive: true },
+    select: { id: true, email: true, isActive: true },
   });
 
-  if (!user || !user.isActive) {
+  if (!owner || !owner.isActive) {
     return reply.unauthorized("Invalid or expired refresh token");
   }
 
-  const payload = { id: user.id, email: user.email, role: user.role };
+  const payload = { id: owner.id, email: owner.email };
   const accessToken = this.jwt.sign(payload, { expiresIn: ACCESS_TOKEN_TTL });
   const refreshToken = this.jwt.sign(payload, { expiresIn: REFRESH_TOKEN_TTL });
 
-  setAuthCookies(reply, accessToken, refreshToken, isProd);
+  setAuthCookies(reply, accessToken, refreshToken);
 
   return reply.send({ accessToken, refreshToken });
 };
@@ -135,15 +130,14 @@ export const meHandler = async function (
 ) {
   const { id } = request.user;
 
-  const user = await this.prisma.user.findUnique({
-    where: { id: id },
+  const owner = await this.prisma.owner.findUnique({
+    where: { id },
     select: {
       id: true,
       email: true,
       firstName: true,
       lastName: true,
-      phone: true,
-      role: true,
+      celNum: true,
       isActive: true,
       isFlagged: true,
       profilePictureUrl: true,
@@ -152,7 +146,7 @@ export const meHandler = async function (
     },
   });
 
-  if (!user) return reply.notFound("User not found");
+  if (!owner) return reply.notFound("Owner not found");
 
-  return reply.send({ user });
+  return reply.send({ user: owner });
 };

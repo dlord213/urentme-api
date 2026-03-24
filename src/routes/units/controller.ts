@@ -1,40 +1,40 @@
 import { type FastifyReply, type FastifyRequest } from "fastify";
-import { OwnerService } from "./service.ts";
+import { UnitService } from "./service.ts";
 
-export class OwnerController {
+export class UnitController {
   static async list(request: FastifyRequest, reply: FastifyReply) {
-    return OwnerService.list();
+    return UnitService.list();
   }
 
   static async getById(
     request: FastifyRequest<{ Params: { id: string } }>,
     reply: FastifyReply,
   ) {
-    const owner = await OwnerService.getById(request.params.id);
-    if (!owner) return reply.notFound();
-    return owner;
+    const unit = await UnitService.getById(request.params.id);
+    if (!unit) return reply.notFound();
+    return unit;
   }
 
   static async create(
     request: FastifyRequest<{ Body: any }>,
     reply: FastifyReply,
   ) {
-    const owner = await OwnerService.create(request.body);
-    return reply.status(201).send(owner);
+    const unit = await UnitService.create(request.body);
+    return reply.status(201).send(unit);
   }
 
   static async update(
     request: FastifyRequest<{ Params: { id: string }; Body: any }>,
     reply: FastifyReply,
   ) {
-    return OwnerService.update(request.params.id, request.body);
+    return UnitService.update(request.params.id, request.body);
   }
 
   static async delete(
     request: FastifyRequest<{ Params: { id: string } }>,
     reply: FastifyReply,
   ) {
-    await OwnerService.delete(request.params.id);
+    await UnitService.delete(request.params.id);
     return reply.status(204).send();
   }
 }

@@ -4,8 +4,11 @@ import { type RegisterInput, type LoginInput } from "../../types/input.ts";
 
 const SALT_ROUNDS = 12;
 
-export async function registerUser(prisma: PrismaClient, input: RegisterInput) {
-  const existing = await prisma.user.findUnique({
+export async function registerOwner(
+  prisma: PrismaClient,
+  input: RegisterInput,
+) {
+  const existing = await prisma.owner.findUnique({
     where: { email: input.email },
   });
   if (existing) {
@@ -18,42 +21,43 @@ export async function registerUser(prisma: PrismaClient, input: RegisterInput) {
 
   const passwordHash = await bcrypt.hash(input.password, SALT_ROUNDS);
 
-  const user = await prisma.user.create({
+  const owner = await prisma.owner.create({
     data: {
       email: input.email,
       passwordHash,
       firstName: input.firstName,
       lastName: input.lastName,
-      phone: input.phone,
+      celNum: input.celNum,
     },
     select: {
       id: true,
       email: true,
       firstName: true,
       lastName: true,
-      phone: true,
-      role: true,
+      celNum: true,
       isActive: true,
       profilePictureUrl: true,
       createdAt: true,
     },
   });
 
-  return user;
+  return owner;
 }
 
 export async function validateCredentials(
   prisma: PrismaClient,
   input: LoginInput,
 ) {
-  const user = await prisma.user.findUnique({ where: { email: input.email } });
+  const owner = await prisma.owner.findUnique({
+    where: { email: input.email },
+  });
 
-  if (!user) return null;
+  if (!owner) return null;
 
-  const match = await bcrypt.compare(input.password, user.passwordHash);
+  const match = await bcrypt.compare(input.password, owner.passwordHash);
   if (!match) return null;
 
-  if (!user.isActive) {
+  if (!owner.isActive) {
     const err = new Error("Account is deactivated") as Error & {
       statusCode: number;
     };
@@ -61,14 +65,10 @@ export async function validateCredentials(
     throw err;
   }
 
-  const { passwordHash: _ph, ...safeUser } = user;
-  return safeUser;
+  const { passwordHash: _ph, ...safeOwner } = owner;
+  return safeOwner;
 }
 
-export function buildTokenPayload(user: {
-  id: string;
-  email: string;
-  role: string;
-}) {
-  return { id: user.id, email: user.email, role: user.role };
+export function buildTokenPayload(owner: { id: string; email: string }) {
+  return { id: owner.id, email: owner.email };
 }

@@ -2,8 +2,6 @@ import { type FastifyPluginAsync } from "fastify";
 import { TenantController } from "./controller.ts";
 
 const tenants: FastifyPluginAsync = async (fastify, opts): Promise<void> => {
-  fastify.addHook("preHandler", fastify.authenticate);
-
   fastify.get("/", TenantController.list);
 
   fastify.get<{ Params: { id: string } }>("/:id", TenantController.getById);

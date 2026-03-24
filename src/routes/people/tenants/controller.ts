@@ -3,8 +3,7 @@ import { TenantService } from "./service.ts";
 
 export class TenantController {
   static async list(request: FastifyRequest, reply: FastifyReply) {
-    const list = await TenantService.list(request.user.id);
-    return list;
+    return TenantService.list();
   }
 
   static async getById(
@@ -28,8 +27,7 @@ export class TenantController {
     request: FastifyRequest<{ Params: { id: string }; Body: any }>,
     reply: FastifyReply,
   ) {
-    const tenant = await TenantService.update(request.params.id, request.body);
-    return tenant;
+    return TenantService.update(request.params.id, request.body);
   }
 
   static async delete(

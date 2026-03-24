@@ -1,8 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Get a free hosted Postgres database in seconds: `npx create-db`
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -12,139 +7,21 @@ datasource db {
 }
 
 // ─────────────────────────────────────────────
-// ENUMS
+// 1. OWNERS
 // ─────────────────────────────────────────────
 
-enum UserRole {
-  ADMIN
-  MANAGER
-  OWNER
-  TENANT
-  VENDOR
-  STAFF
-}
-
-enum PropertyType {
-  RESIDENTIAL
-  COMMERCIAL
-  MIXED
-}
-
-enum UnitStatus {
-  VACANT
-  OCCUPIED
-  MAINTENANCE
-  RESERVED
-}
-
-enum LeaseStatus {
-  DRAFT
-  ACTIVE
-  EXPIRED
-  TERMINATED
-  PENDING_RENEWAL
-}
-
-enum ApplicationStatus {
-  PENDING
-  APPROVED
-  REJECTED
-  WITHDRAWN
-}
-
-enum TaskStatus {
-  UNASSIGNED
-  ASSIGNED
-  IN_PROGRESS
-  COMPLETED
-  CANCELLED
-}
-
-enum TaskType {
-  TASK
-  WORK_ORDER
-  OWNER_REQUEST
-  TENANT_REQUEST
-}
-
-enum TaskPriority {
-  LOW
-  MEDIUM
-  HIGH
-  URGENT
-}
-
-enum TransactionType {
-  // Tenant Transactions
-  CHARGE
-  LEASE_PAYMENT
-  CREDIT
-  REFUND
-  DEPOSIT_WITHHOLD
-  // Vendor Transactions
-  BILL
-  BILL_PAYMENT
-  VENDOR_CREDIT
-  // Owner Transactions
-  OWNER_CONTRIBUTION
-  OWNER_DISTRIBUTION
-  // Other Transactions
-  JOURNAL_ENTRY
-  BANK_TRANSFER
-  BANK_DEPOSIT
-  EXPENSE
-  CHECK
-}
-
-enum TransactionStatus {
-  PENDING
-  COMPLETED
-  VOIDED
-  FAILED
-}
-
-enum AccountType {
-  ASSET
-  LIABILITY
-  EQUITY
-  REVENUE
-  EXPENSE
-}
-
-enum AnnouncementStatus {
-  DRAFT
-  PUBLISHED
-  ARCHIVED
-}
-
-enum SignatureStatus {
-  PENDING
-  SIGNED
-  DECLINED
-  EXPIRED
-}
-
-enum ProspectStatus {
-  NEW
-  CONTACTED
-  SHOWING_SCHEDULED
-  APPLICATION_SENT
-  CONVERTED
-  LOST
-}
-
-// ─────────────────────────────────────────────
-// 1. PEOPLE
-// ─────────────────────────────────────────────
-
-model User {
+model Owner {
   id                String   @id @default(cuid())
   email             String   @unique
   passwordHash      String
   firstName         String
   lastName          String
-  phone             String?
-  role              UserRole @default(STAFF)
+  celNum            String?
+  street            String?
+  barangay          String?
+  city              String?
+  province          String?
+  region            String?
   isActive          Boolean  @default(true)
   isFlagged         Boolean  @default(false)
   flagReason        String?
@@ -152,542 +29,189 @@ model User {
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt
 
-  // Relations
-  ownedProperties   Property[]         @relation("PropertyOwnerUser")
-  tasksAssigned     Task[]             @relation("TaskAssignee")
-  tasksCreated      Task[]             @relation("TaskCreator")
-  announcements     Announcement[]
-  signatureRequests SignatureRequest[]
-  journalEntries    Transaction[]      @relation("TransactionCreatedBy")
-  bankAccounts      BankAccount[]
-
-  @@map("users")
-}
-
-model Owner {
-  id         String   @id @default(cuid())
-  firstName  String
-  lastName   String
-  email      String   @unique
-  phone      String?
-  company    String?
-  taxId      String?
-  address    String?
-  city       String?
-  state      String?
-  zip        String?
-  country    String?
-  notes      String?
-  isFlagged  Boolean  @default(false)
-  flagReason String?
-  isActive   Boolean  @default(true)
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-
-  properties        Property[]
-  ownerTransactions Transaction[]       @relation("OwnerTransactions")
-  contributions     OwnerContribution[]
-  distributions     OwnerDistribution[]
+  properties Property[]
 
   @@map("owners")
 }
+
+// ─────────────────────────────────────────────
+// 2. PROPERTIES
+// ─────────────────────────────────────────────
+
+model Property {
+  id                 String   @id @default(cuid())
+  ownerId            String
+  owner              Owner    @relation(fields: [ownerId], references: [id])
+  name               String
+  type               String
+  street             String?
+  barangay           String?
+  city               String?
+  province           String?
+  region             String?
+  yearBuilt          Int?
+  description        String?
+  imageUrls          String[] @default([])
+  houseRules         String[] @default([])
+  isActive           Boolean  @default(true)
+  isUnderRepair      Boolean  @default(false)
+  isUnderRenovation  Boolean  @default(false)
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  units                  Unit[]
+  propertyAnnouncements  PropertyAnnouncement[]
+
+  @@map("properties")
+}
+
+// ─────────────────────────────────────────────
+// 3. UNITS
+// ─────────────────────────────────────────────
+
+model Unit {
+  id                 String   @id @default(cuid())
+  propertyId         String
+  property           Property @relation(fields: [propertyId], references: [id])
+  unitNumber         String
+  floor              String?
+  bedrooms           Int      @default(0)
+  bathrooms          Int      @default(0)
+  squareFeet         Float?
+  monthlyRentAmount  Float
+  description        String?
+  imageUrls          String[] @default([])
+  status             String   @default("vacant")
+  isActive           Boolean  @default(true)
+  isUnderRepair      Boolean  @default(false)
+  isUnderRenovation  Boolean  @default(false)
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  leases              Lease[]
+  unitAnnouncements   UnitAnnouncement[]
+
+  @@map("units")
+}
+
+// ─────────────────────────────────────────────
+// 4. TENANTS
+// ─────────────────────────────────────────────
 
 model Tenant {
   id             String    @id @default(cuid())
   firstName      String
   lastName       String
   email          String    @unique
-  phone          String?
+  celNum         String?
   dateOfBirth    DateTime?
-  ssn            String? // encrypted
-  idType         String?
-  idNumber       String?
-  employerName   String?
-  monthlyIncome  Float?
   emergencyName  String?
   emergencyPhone String?
   notes          String?
   isFlagged      Boolean   @default(false)
   flagReason     String?
   isActive       Boolean   @default(true)
+  moveInDate     DateTime?
+  moveOutDate    DateTime?
   createdAt      DateTime  @default(now())
   updatedAt      DateTime  @updatedAt
 
-  leases              Lease[]
-  rentalApplications  RentalApplication[]
-  tenantTransactions  Transaction[]       @relation("TenantTransactions")
-  maintenanceRequests Task[]              @relation("TenantRequests")
+  leases Lease[]
 
   @@map("tenants")
 }
 
-model Vendor {
-  id          String   @id @default(cuid())
-  name        String
-  contactName String?
-  email       String?
-  phone       String?
-  taxId       String?
-  address     String?
-  city        String?
-  state       String?
-  zip         String?
-  category    String? // e.g. plumber, electrician, painter
-  notes       String?
-  isFlagged   Boolean  @default(false)
-  flagReason  String?
-  isActive    Boolean  @default(true)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-
-  workOrders         Task[]        @relation("VendorWorkOrders")
-  vendorTransactions Transaction[] @relation("VendorTransactions")
-  bills              Bill[]
-
-  @@map("vendors")
-}
-
-model Prospect {
-  id               String         @id @default(cuid())
-  firstName        String
-  lastName         String
-  email            String?
-  phone            String?
-  source           String? // how they heard about the listing
-  interestedUnitId String?
-  interestedUnit   Unit?          @relation(fields: [interestedUnitId], references: [id])
-  status           ProspectStatus @default(NEW)
-  moveInDate       DateTime?
-  notes            String?
-  createdAt        DateTime       @default(now())
-  updatedAt        DateTime       @updatedAt
-
-  rentalApplications RentalApplication[]
-
-  @@map("prospects")
-}
-
 // ─────────────────────────────────────────────
-// 2. RENTALS — Properties & Units
-// ─────────────────────────────────────────────
-
-model Property {
-  id              String       @id @default(cuid())
-  name            String
-  type            PropertyType @default(RESIDENTIAL)
-  address         String
-  city            String
-  state           String
-  zip             String
-  country         String       @default("PH")
-  yearBuilt       Int?
-  totalUnits      Int          @default(0)
-  description     String?
-  imageUrl        String?
-  ownerId         String
-  owner           Owner        @relation(fields: [ownerId], references: [id])
-  managedByUserId String?
-  managedByUser   User?        @relation("PropertyOwnerUser", fields: [managedByUserId], references: [id])
-  houseRules      String?
-  isActive        Boolean      @default(true)
-  createdAt       DateTime     @default(now())
-  updatedAt       DateTime     @updatedAt
-
-  units         Unit[]
-  announcements Announcement[]
-  propertyTaxes PropertyTax[]
-  utilityBills  PublicUtility[]
-
-  @@map("properties")
-}
-
-model Unit {
-  id            String     @id @default(cuid())
-  propertyId    String
-  property      Property   @relation(fields: [propertyId], references: [id])
-  unitNumber    String
-  floor         String?
-  bedrooms      Int        @default(0)
-  bathrooms     Float      @default(0)
-  squareFeet    Float?
-  rentAmount    Float
-  depositAmount Float      @default(0)
-  status        UnitStatus @default(VACANT)
-  description   String?
-  imageUrl      String?
-  isActive      Boolean    @default(true)
-  createdAt     DateTime   @default(now())
-  updatedAt     DateTime   @updatedAt
-
-  leases             Lease[]
-  rentalApplications RentalApplication[]
-  tasks              Task[]
-  prospects          Prospect[]
-
-  @@unique([propertyId, unitNumber])
-  @@map("units")
-}
-
-// ─────────────────────────────────────────────
-// 3. LEASING
+// 5. LEASES
 // ─────────────────────────────────────────────
 
 model Lease {
-  id                String      @id @default(cuid())
+  id                String    @id @default(cuid())
   unitId            String
-  unit              Unit        @relation(fields: [unitId], references: [id])
+  unit              Unit      @relation(fields: [unitId], references: [id])
   tenantId          String
-  tenant            Tenant      @relation(fields: [tenantId], references: [id])
-  status            LeaseStatus @default(DRAFT)
-  startDate         DateTime
-  endDate           DateTime
-  rentAmount        Float
-  depositAmount     Float       @default(0)
-  depositHeld       Float       @default(0)
-  lateFeeAmount     Float       @default(0)
-  lateFeeGraceDays  Int         @default(5)
-  paymentDueDay     Int         @default(1)
+  tenant            Tenant    @relation(fields: [tenantId], references: [id])
+  status            String    @default("draft")
+  leaseStartDate    DateTime
+  leaseEndDate      DateTime
   terms             String?
   notes             String?
-  parentLeaseId     String? // for renewals
-  parentLease       Lease?      @relation("LeaseRenewals", fields: [parentLeaseId], references: [id])
-  renewals          Lease[]     @relation("LeaseRenewals")
   signedAt          DateTime?
   terminatedAt      DateTime?
   terminationReason String?
-  createdAt         DateTime    @default(now())
-  updatedAt         DateTime    @updatedAt
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
 
-  transactions      Transaction[]
-  signatureRequests SignatureRequest[]
-  leaseDocuments    LeaseDocument[]
+  transactions Transaction[]
 
   @@map("leases")
 }
 
-model LeaseDocument {
-  id        String   @id @default(cuid())
-  leaseId   String
-  lease     Lease    @relation(fields: [leaseId], references: [id])
-  name      String
-  url       String
-  mimeType  String?
-  createdAt DateTime @default(now())
-
-  @@map("lease_documents")
-}
-
-model RentalApplication {
-  id            String            @id @default(cuid())
-  unitId        String
-  unit          Unit              @relation(fields: [unitId], references: [id])
-  tenantId      String?
-  tenant        Tenant?           @relation(fields: [tenantId], references: [id])
-  prospectId    String?
-  prospect      Prospect?         @relation(fields: [prospectId], references: [id])
-  status        ApplicationStatus @default(PENDING)
-  moveInDate    DateTime?
-  monthlyIncome Float?
-  notes         String?
-  appliedAt     DateTime          @default(now())
-  reviewedAt    DateTime?
-  createdAt     DateTime          @default(now())
-  updatedAt     DateTime          @updatedAt
-
-  @@map("rental_applications")
-}
-
 // ─────────────────────────────────────────────
-// 4 & 5. TASKS & MAINTENANCE
-// ─────────────────────────────────────────────
-
-model Task {
-  id            String       @id @default(cuid())
-  type          TaskType     @default(TASK)
-  title         String
-  description   String?
-  status        TaskStatus   @default(UNASSIGNED)
-  priority      TaskPriority @default(MEDIUM)
-  unitId        String?
-  unit          Unit?        @relation(fields: [unitId], references: [id])
-  assignedToId  String?
-  assignedTo    User?        @relation("TaskAssignee", fields: [assignedToId], references: [id])
-  createdById   String?
-  createdBy     User?        @relation("TaskCreator", fields: [createdById], references: [id])
-  vendorId      String? // for work orders
-  vendor        Vendor?      @relation("VendorWorkOrders", fields: [vendorId], references: [id])
-  tenantId      String? // for tenant requests
-  tenant        Tenant?      @relation("TenantRequests", fields: [tenantId], references: [id])
-  dueDate       DateTime?
-  completedAt   DateTime?
-  estimatedCost Float?
-  actualCost    Float?
-  notes         String?
-  imageUrls     String[]     @default([])
-  createdAt     DateTime     @default(now())
-  updatedAt     DateTime     @updatedAt
-
-  expenses            Transaction[]        @relation("TaskExpenses")
-  repairStatusUpdates RepairStatusUpdate[]
-
-  @@map("tasks")
-}
-
-model RepairStatusUpdate {
-  id          String   @id @default(cuid())
-  taskId      String
-  task        Task     @relation(fields: [taskId], references: [id])
-  label       String // e.g. "Technician Assigned", "Parts Ordered", "Work Completed"
-  description String?
-  createdAt   DateTime @default(now())
-
-  @@map("repair_status_updates")
-}
-
-// ─────────────────────────────────────────────
-// 6–9. TRANSACTIONS
+// 6. TRANSACTIONS
 // ─────────────────────────────────────────────
 
 model Transaction {
-  id          String            @id @default(cuid())
-  type        TransactionType
-  status      TransactionStatus @default(PENDING)
-  amount      Float
-  description String?
-  reference   String?
-  date        DateTime          @default(now())
-
-  // Party associations (only the relevant one is set per transaction type)
-  leaseId  String?
-  lease    Lease?  @relation(fields: [leaseId], references: [id])
-  tenantId String?
-  tenant   Tenant? @relation("TenantTransactions", fields: [tenantId], references: [id])
-  vendorId String?
-  vendor   Vendor? @relation("VendorTransactions", fields: [vendorId], references: [id])
-  ownerId  String?
-  owner    Owner?  @relation("OwnerTransactions", fields: [ownerId], references: [id])
-  taskId   String?
-  task     Task?   @relation("TaskExpenses", fields: [taskId], references: [id])
-
-  // Accounting
-  chartAccountId String?
-  chartAccount   ChartOfAccount? @relation(fields: [chartAccountId], references: [id])
-  bankAccountId  String?
-  bankAccount    BankAccount?    @relation(fields: [bankAccountId], references: [id])
-
-  // Journal / splits
-  journalEntries JournalLine[]
-
-  // Check printing
-  checkNumber    String?
-  checkPrintedAt DateTime?
-
-  createdById String?
-  createdBy   User?    @relation("TransactionCreatedBy", fields: [createdById], references: [id])
-  notes       String?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id              String   @id @default(cuid())
+  leaseId         String
+  lease           Lease    @relation(fields: [leaseId], references: [id])
+  amount          Float
+  reference       String   @unique
+  transactionDate DateTime @default(now())
+  notes           String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
 
   @@map("transactions")
 }
 
-// Standalone bill model for vendor bills
-model Bill {
-  id          String            @id @default(cuid())
-  vendorId    String
-  vendor      Vendor            @relation(fields: [vendorId], references: [id])
-  billNumber  String?
-  amount      Float
-  dueDate     DateTime?
-  paidAt      DateTime?
-  status      TransactionStatus @default(PENDING)
-  description String?
-  notes       String?
-  createdAt   DateTime          @default(now())
-  updatedAt   DateTime          @updatedAt
-
-  @@map("bills")
-}
-
-model OwnerContribution {
-  id            String       @id @default(cuid())
-  ownerId       String
-  owner         Owner        @relation(fields: [ownerId], references: [id])
-  amount        Float
-  date          DateTime     @default(now())
-  description   String?
-  bankAccountId String?
-  bankAccount   BankAccount? @relation(fields: [bankAccountId], references: [id])
-  notes         String?
-  createdAt     DateTime     @default(now())
-
-  @@map("owner_contributions")
-}
-
-model OwnerDistribution {
-  id            String       @id @default(cuid())
-  ownerId       String
-  owner         Owner        @relation(fields: [ownerId], references: [id])
-  amount        Float
-  date          DateTime     @default(now())
-  description   String?
-  bankAccountId String?
-  bankAccount   BankAccount? @relation(fields: [bankAccountId], references: [id])
-  notes         String?
-  createdAt     DateTime     @default(now())
-
-  @@map("owner_distributions")
-}
-
 // ─────────────────────────────────────────────
-// 10. COMMUNICATION
+// 7. ANNOUNCEMENTS
 // ─────────────────────────────────────────────
 
 model Announcement {
-  id          String             @id @default(cuid())
+  id          String    @id @default(cuid())
   title       String
   body        String
-  status      AnnouncementStatus @default(DRAFT)
-  propertyId  String?
-  property    Property?          @relation(fields: [propertyId], references: [id])
-  unitId      String? // optional: target a specific unit
-  createdById String?
-  createdBy   User?              @relation(fields: [createdById], references: [id])
+  isActive    Boolean   @default(true)
   publishedAt DateTime?
-  createdAt   DateTime           @default(now())
-  updatedAt   DateTime           @updatedAt
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  propertyAnnouncements PropertyAnnouncement[]
+  unitAnnouncements     UnitAnnouncement[]
 
   @@map("announcements")
 }
 
-model SignatureRequest {
-  id            String          @id @default(cuid())
-  title         String
-  documentUrl   String
-  leaseId       String?
-  lease         Lease?          @relation(fields: [leaseId], references: [id])
-  requestedById String?
-  requestedBy   User?           @relation(fields: [requestedById], references: [id])
-  signerEmail   String
-  signerName    String?
-  status        SignatureStatus @default(PENDING)
-  signedAt      DateTime?
-  expiresAt     DateTime?
-  createdAt     DateTime        @default(now())
-  updatedAt     DateTime        @updatedAt
+// ─────────────────────────────────────────────
+// 8. PROPERTY ANNOUNCEMENTS (join table)
+// ─────────────────────────────────────────────
 
-  @@map("signature_requests")
+model PropertyAnnouncement {
+  id             String       @id @default(cuid())
+  announcementId String
+  announcement   Announcement @relation(fields: [announcementId], references: [id])
+  propertyId     String
+  property       Property     @relation(fields: [propertyId], references: [id])
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+
+  @@map("property_announcements")
 }
 
 // ─────────────────────────────────────────────
-// 11. ACCOUNTING
+// 9. UNIT ANNOUNCEMENTS (join table)
 // ─────────────────────────────────────────────
 
-model ChartOfAccount {
-  id          String           @id @default(cuid())
-  code        String           @unique
-  name        String
-  type        AccountType
-  description String?
-  isActive    Boolean          @default(true)
-  parentId    String?
-  parent      ChartOfAccount?  @relation("AccountHierarchy", fields: [parentId], references: [id])
-  children    ChartOfAccount[] @relation("AccountHierarchy")
-  createdAt   DateTime         @default(now())
-  updatedAt   DateTime         @updatedAt
+model UnitAnnouncement {
+  id             String       @id @default(cuid())
+  announcementId String
+  announcement   Announcement @relation(fields: [announcementId], references: [id])
+  unitId         String
+  unit           Unit         @relation(fields: [unitId], references: [id])
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
 
-  transactions Transaction[]
-  journalLines JournalLine[]
-
-  @@map("chart_of_accounts")
-}
-
-model JournalLine {
-  id             String         @id @default(cuid())
-  transactionId  String
-  transaction    Transaction    @relation(fields: [transactionId], references: [id])
-  chartAccountId String
-  chartAccount   ChartOfAccount @relation(fields: [chartAccountId], references: [id])
-  debit          Float          @default(0)
-  credit         Float          @default(0)
-  description    String?
-  createdAt      DateTime       @default(now())
-
-  @@map("journal_lines")
-}
-
-model BankAccount {
-  id              String   @id @default(cuid())
-  name            String
-  accountNumber   String?
-  bankName        String?
-  routingNumber   String?
-  balance         Float    @default(0)
-  isActive        Boolean  @default(true)
-  managedByUserId String?
-  managedBy       User?    @relation(fields: [managedByUserId], references: [id])
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
-
-  transactions        Transaction[]
-  contributions       OwnerContribution[]
-  distributions       OwnerDistribution[]
-  bankReconciliations BankReconciliation[]
-
-  @@map("bank_accounts")
-}
-
-model BankReconciliation {
-  id               String      @id @default(cuid())
-  bankAccountId    String
-  bankAccount      BankAccount @relation(fields: [bankAccountId], references: [id])
-  statementDate    DateTime
-  statementBalance Float
-  clearedBalance   Float       @default(0)
-  difference       Float       @default(0)
-  reconciledAt     DateTime?
-  notes            String?
-  createdAt        DateTime    @default(now())
-  updatedAt        DateTime    @updatedAt
-
-  @@map("bank_reconciliations")
-}
-
-// ─────────────────────────────────────────────
-// DIAGRAM EXTRAS: Property Tax & Public Utilities
-// ─────────────────────────────────────────────
-
-model PropertyTax {
-  id          String    @id @default(cuid())
-  propertyId  String
-  property    Property  @relation(fields: [propertyId], references: [id])
-  taxYear     Int
-  amount      Float
-  dueDate     DateTime?
-  paidAt      DateTime?
-  referenceNo String?
-  notes       String?
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-
-  @@map("property_taxes")
-}
-
-model PublicUtility {
-  id                 String    @id @default(cuid())
-  propertyId         String
-  property           Property  @relation(fields: [propertyId], references: [id])
-  utilityType        String // electricity, water, gas, internet
-  provider           String?
-  accountNo          String?
-  billingPeriodStart DateTime?
-  billingPeriodEnd   DateTime?
-  amount             Float
-  dueDate            DateTime?
-  paidAt             DateTime?
-  notes              String?
-  createdAt          DateTime  @default(now())
-  updatedAt          DateTime  @updatedAt
-
-  @@map("public_utilities")
+  @@map("unit_announcements")
 }
