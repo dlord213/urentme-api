@@ -67,8 +67,6 @@ async function seedProperties(owners: any[]) {
     "Residential",
     "Commercial",
     "Mixed",
-    "Apartment",
-    "Condominium",
   ];
   const properties = await Promise.all(
     owners.slice(0, 3).map((owner) =>
@@ -102,7 +100,7 @@ async function seedProperties(owners: any[]) {
 // ─────────────────────────────────────────────
 
 async function seedUnits(properties: any[]) {
-  const statuses = ["vacant", "occupied", "maintenance", "reserved"];
+  const statuses = ["vacant", "occupied", "reserved"];
   const allUnits: any[] = [];
   for (const property of properties) {
     const units = await Promise.all(
