@@ -3,9 +3,36 @@ import { prisma } from "../../utils/prisma.ts";
 export class UnitService {
   static async list() {
     return prisma.unit.findMany({
-      include: {
-        property: true,
-        leases: true,
+      select: {
+        id: true,
+        unitNumber: true,
+        monthlyRentAmount: true,
+        bedrooms: true,
+        status: true,
+        isActive: true,
+        isUnderRepair: true,
+        isUnderRenovation: true,
+
+        property: {
+          select: {
+            id: true,
+            name: true,
+          },
+        },
+
+        leases: {
+          select: {
+            id: true,
+
+            tenant: {
+              select: {
+                id: true,
+                firstName: true,
+                lastName: true,
+              },
+            },
+          },
+        },
       },
     });
   }

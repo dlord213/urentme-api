@@ -3,9 +3,25 @@ import { prisma } from "../../utils/prisma.ts";
 export class PropertyService {
   static async list() {
     return prisma.property.findMany({
-      include: {
-        owner: true,
-        units: true,
+      select: {
+        id: true,
+        name: true,
+        type: true,
+        street: true,
+        barangay: true,
+        city: true,
+        province: true,
+        region: true,
+        isActive: true,
+        isUnderRepair: true,
+        isUnderRenovation: true,
+
+        units: {
+          select: {
+            id: true,
+            status: true,
+          }
+        }
       },
     });
   }
@@ -13,12 +29,34 @@ export class PropertyService {
   static async getById(id: string) {
     return prisma.property.findUnique({
       where: { id },
-      include: {
-        owner: true,
-        units: true,
-        propertyAnnouncements: {
-          include: { announcement: true },
-        },
+      select: {
+        name: true,
+        type: true,
+        street: true,
+        barangay: true,
+        city: true,
+        province: true,
+        region: true,
+        yearBuilt: true,
+        description: true,
+        imageUrls: true,
+        houseRules: true,
+        isActive: true,
+        isUnderRepair: true,
+        isUnderRenovation: true,
+
+        units: {
+          select: {
+            id: true,
+            unitNumber: true,
+            floor: true,
+            monthlyRentAmount: true,
+            status: true,
+            isActive: true,
+            isUnderRepair: true,
+            isUnderRenovation: true,
+          }
+        }
       },
     });
   }

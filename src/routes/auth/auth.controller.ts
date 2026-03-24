@@ -14,7 +14,7 @@ import {
   type RefreshBody,
 } from "../../types/body.ts";
 
-const ACCESS_TOKEN_TTL = "15m";
+const ACCESS_TOKEN_TTL = "1d" // SET FOR DEVELOPMENT;
 const REFRESH_TOKEN_TTL = "7d";
 
 function setAuthCookies(
@@ -29,7 +29,7 @@ function setAuthCookies(
     path: "/",
   };
   reply
-    .setCookie("access_token", accessToken, { ...base, maxAge: 15 * 60 })
+    .setCookie("access_token", accessToken, { ...base, maxAge: 1440 * 60 }) // SET FOR DEVELOPMENT
     .setCookie("refresh_token", refreshToken, {
       ...base,
       maxAge: 7 * 24 * 60 * 60,
