@@ -20,8 +20,8 @@ const app: FastifyPluginAsync<AppOptions> = async (
   opts,
 ): Promise<void> => {
   // Place here your custom code!
-  fastify.setValidatorCompiler(validatorCompiler);
-  fastify.setSerializerCompiler(serializerCompiler);
+  // fastify.setValidatorCompiler(validatorCompiler);
+  // fastify.setSerializerCompiler(serializerCompiler);
   // Do not touch the following lines
 
   // This loads all plugins defined in plugins
