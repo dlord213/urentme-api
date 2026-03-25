@@ -2,6 +2,10 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import AutoLoad, { type AutoloadPluginOptions } from "@fastify/autoload";
 import { type FastifyPluginAsync, type FastifyServerOptions } from "fastify";
+import {
+  serializerCompiler,
+  validatorCompiler,
+} from "fastify-type-provider-zod";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -16,8 +20,8 @@ const app: FastifyPluginAsync<AppOptions> = async (
   opts,
 ): Promise<void> => {
   // Place here your custom code!
-  // fastify.setValidatorCompiler(validatorCompiler);
-  // fastify.setSerializerCompiler(serializerCompiler);
+  fastify.setValidatorCompiler(validatorCompiler);
+  fastify.setSerializerCompiler(serializerCompiler);
   // Do not touch the following lines
 
   // This loads all plugins defined in plugins
