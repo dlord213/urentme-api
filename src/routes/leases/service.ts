@@ -1,7 +1,23 @@
 import { prisma } from "../../utils/prisma.ts";
 
 export class LeaseService {
+  private static async checkAndExpireLeases() {
+    const now = new Date();
+    await prisma.lease.updateMany({
+      where: {
+        status: "active",
+        leaseEndDate: {
+          lte: now,
+        },
+      },
+      data: {
+        status: "expired",
+      },
+    });
+  }
+
   static async list() {
+    await this.checkAndExpireLeases();
     return prisma.lease.findMany({
       select: {
         id: true,
@@ -36,6 +52,7 @@ export class LeaseService {
   }
 
   static async getById(id: string) {
+    await this.checkAndExpireLeases();
     return prisma.lease.findUnique({
       where: { id },
       select: {
@@ -46,6 +63,8 @@ export class LeaseService {
         notes: true,
         status: true,
         signedAt: true,
+        terminatedAt: true,
+        terminationReason: true,
 
         unit: {
           select: {
