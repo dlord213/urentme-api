@@ -1,4 +1,4 @@
-import { prisma } from "../../utils/prisma.ts";
+import { prisma } from "../../utils/prisma";
 
 export class AnnouncementService {
   static async list() {

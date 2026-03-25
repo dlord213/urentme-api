@@ -4,14 +4,14 @@ import {
   registerSchemaZod,
   loginSchemaZod,
   refreshSchemaZod,
-} from "./schemas.ts";
+} from "./schemas";
 import {
   registerHandler,
   loginHandler,
   refreshHandler,
   logoutHandler,
   meHandler,
-} from "./auth.controller.ts";
+} from "./auth.controller";
 
 const auth: FastifyPluginAsync = async (fastify) => {
   const server = fastify.withTypeProvider<ZodTypeProvider>();

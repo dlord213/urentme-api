@@ -7,12 +7,12 @@ import {
   registerOwner,
   validateCredentials,
   buildTokenPayload,
-} from "./auth.service.ts";
+} from "./auth.service";
 import {
   type RegisterBody,
   type LoginBody,
   type RefreshBody,
-} from "../../types/body.ts";
+} from "../../types/body";
 
 const ACCESS_TOKEN_TTL = "1d" // SET FOR DEVELOPMENT;
 const REFRESH_TOKEN_TTL = "7d";

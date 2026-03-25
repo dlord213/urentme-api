@@ -1,4 +1,4 @@
-import { prisma } from "../../utils/prisma.ts";
+import { prisma } from "../../utils/prisma";
 
 export class LeaseService {
   private static async checkAndExpireLeases() {
