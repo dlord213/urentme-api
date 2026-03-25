@@ -3,11 +3,39 @@ import { prisma } from "../../utils/prisma.ts";
 export class TransactionService {
   static async list() {
     return prisma.transaction.findMany({
-      include: {
+      select: {
+        id: true,
+        amount: true,
+        notes: true,
+        reference: true,
+        transactionDate: true,
+
         lease: {
-          include: {
-            tenant: true,
-            unit: true,
+          select: {
+            id: true,
+
+            unit: {
+              select: {
+                id: true,
+                unitNumber: true,
+                floor: true,
+
+                property: {
+                  select: {
+                    id: true,
+                    name: true,
+                  },
+                },
+              },
+            },
+
+            tenant: {
+              select: {
+                id: true,
+                firstName: true,
+                lastName: true,
+              },
+            },
           },
         },
       },
@@ -17,11 +45,50 @@ export class TransactionService {
   static async getById(id: string) {
     return prisma.transaction.findUnique({
       where: { id },
-      include: {
+      select: {
+        id: true,
+        amount: true,
+        notes: true,
+        reference: true,
+        transactionDate: true,
+
         lease: {
-          include: {
-            tenant: true,
-            unit: { include: { property: true } },
+          select: {
+            id: true,
+            notes: true,
+
+            unit: {
+              select: {
+                id: true,
+                unitNumber: true,
+                floor: true,
+
+                property: {
+                  select: {
+                    id: true,
+                    name: true,
+
+                    owner: {
+                      select: {
+                        id: true,
+                        firstName: true,
+                        lastName: true,
+                        email: true,
+                      },
+                    },
+                  },
+                },
+              },
+            },
+
+            tenant: {
+              select: {
+                id: true,
+                firstName: true,
+                lastName: true,
+                email: true,
+              },
+            },
           },
         },
       },

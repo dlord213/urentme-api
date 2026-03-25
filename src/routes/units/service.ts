@@ -40,13 +40,48 @@ export class UnitService {
   static async getById(id: string) {
     return prisma.unit.findUnique({
       where: { id },
-      include: {
-        property: true,
-        leases: {
-          include: { tenant: true },
+      select: {
+        id: true,
+        unitNumber: true,
+        floor: true,
+        monthlyRentAmount: true,
+        imageUrls: true,
+        description: true,
+        squareFeet: true,
+        bedrooms: true,
+        bathrooms: true,
+        status: true,
+        isActive: true,
+        isUnderRepair: true,
+        isUnderRenovation: true,
+
+        property: {
+          select: {
+            id: true,
+            name: true,
+            street: true,
+            barangay: true,
+            city: true,
+            province: true,
+            region: true,
+          },
         },
-        unitAnnouncements: {
-          include: { announcement: true },
+
+        leases: {
+          select: {
+            id: true,
+            status: true,
+            leaseStartDate: true,
+            leaseEndDate: true,
+
+            tenant: {
+              select: {
+                id: true,
+                firstName: true,
+                lastName: true,
+              },
+            },
+          },
         },
       },
     });

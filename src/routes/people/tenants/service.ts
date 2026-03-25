@@ -3,14 +3,54 @@ import { prisma } from "../../../utils/prisma.ts";
 export class TenantService {
   static async list() {
     return prisma.tenant.findMany({
-      include: { leases: true },
+      select: {
+        id: true,
+        firstName: true,
+        lastName: true,
+        email: true,
+        celNum: true,
+        isActive: true,
+        isFlagged: true,
+
+        leases: {
+          select: {
+            id: true,
+            leaseEndDate: true,
+
+            unit: {
+              select: {
+                id: true,
+                unitNumber: true,
+                floor: true,
+
+                property: {
+                  select: {
+                    id: true,
+                    name: true,
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
     });
   }
 
   static async getById(id: string) {
     return prisma.tenant.findUnique({
       where: { id },
-      include: { leases: true },
+      include: {
+        leases: {
+          include: {
+            unit: {
+              include: {
+                property: true,
+              },
+            },
+          },
+        },
+      },
     });
   }
 
