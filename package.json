@@ -9,7 +9,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "server:ts": "npx tsx ./src/app.ts | pino-pretty",
-    "dev": "npx tsx ./src/app.ts | pino-pretty",
+    "dev": "npx tsx watch ./src/app.ts | pino-pretty",
     "server": "npx prisma generate && npx tsc && node dist/src/app.js",
     "build": "npx tsc",
     "db:gen": "prisma generate",
