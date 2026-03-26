@@ -1,5 +1,6 @@
 generator client {
   provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
 }
 
 datasource db {
@@ -39,28 +40,28 @@ model Owner {
 // ─────────────────────────────────────────────
 
 model Property {
-  id                 String   @id @default(cuid())
-  ownerId            String
-  owner              Owner    @relation(fields: [ownerId], references: [id])
-  name               String
-  type               String
-  street             String?
-  barangay           String?
-  city               String?
-  province           String?
-  region             String?
-  yearBuilt          Int?
-  description        String?
-  imageUrls          String[] @default([])
-  houseRules         String[] @default([])
-  isActive           Boolean  @default(true)
-  isUnderRepair      Boolean  @default(false)
-  isUnderRenovation  Boolean  @default(false)
-  createdAt          DateTime @default(now())
-  updatedAt          DateTime @updatedAt
+  id                String   @id @default(cuid())
+  ownerId           String
+  owner             Owner    @relation(fields: [ownerId], references: [id])
+  name              String
+  type              String
+  street            String?
+  barangay          String?
+  city              String?
+  province          String?
+  region            String?
+  yearBuilt         Int?
+  description       String?
+  imageUrls         String[] @default([])
+  houseRules        String[] @default([])
+  isActive          Boolean  @default(true)
+  isUnderRepair     Boolean  @default(false)
+  isUnderRenovation Boolean  @default(false)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
 
-  units                  Unit[]
-  propertyAnnouncements  PropertyAnnouncement[]
+  units                 Unit[]
+  propertyAnnouncements PropertyAnnouncement[]
 
   @@map("properties")
 }
@@ -70,26 +71,26 @@ model Property {
 // ─────────────────────────────────────────────
 
 model Unit {
-  id                 String   @id @default(cuid())
-  propertyId         String
-  property           Property @relation(fields: [propertyId], references: [id])
-  unitNumber         String
-  floor              String?
-  bedrooms           Int      @default(0)
-  bathrooms          Int      @default(0)
-  squareFeet         Float?
-  monthlyRentAmount  Float
-  description        String?
-  imageUrls          String[] @default([])
-  status             String   @default("vacant")
-  isActive           Boolean  @default(true)
-  isUnderRepair      Boolean  @default(false)
-  isUnderRenovation  Boolean  @default(false)
-  createdAt          DateTime @default(now())
-  updatedAt          DateTime @updatedAt
+  id                String   @id @default(cuid())
+  propertyId        String
+  property          Property @relation(fields: [propertyId], references: [id])
+  unitNumber        String
+  floor             String?
+  bedrooms          Int      @default(0)
+  bathrooms         Int      @default(0)
+  squareFeet        Float?
+  monthlyRentAmount Float
+  description       String?
+  imageUrls         String[] @default([])
+  status            String   @default("vacant")
+  isActive          Boolean  @default(true)
+  isUnderRepair     Boolean  @default(false)
+  isUnderRenovation Boolean  @default(false)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
 
-  leases              Lease[]
-  unitAnnouncements   UnitAnnouncement[]
+  leases            Lease[]
+  unitAnnouncements UnitAnnouncement[]
 
   @@map("units")
 }

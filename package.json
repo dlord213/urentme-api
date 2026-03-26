@@ -2,7 +2,7 @@
   "name": "urentme-api",
   "version": "1.0.0",
   "description": "This project was bootstrapped with Fastify-CLI.",
-  "main": "src/app.ts",
+  "main": "index.js",
   "directories": {
     "test": "test"
   },
