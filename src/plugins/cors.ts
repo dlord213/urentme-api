@@ -10,10 +10,11 @@ import { type FastifyInstance } from "fastify";
  */
 export default fp(async (fastify: FastifyInstance) => {
   fastify.register(cors, {
-    origin:
-      fastify.config.CORS_ORIGIN === "*"
-        ? true
-        : fastify.config.CORS_ORIGIN.split(","),
+    origin: [
+      "http://localhost:5173",
+      "https://urentme-web-ten.vercel.app/",
+      "https://www.urentme.online/",
+    ],
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization", "X-CSRF-Token"],
     credentials: true,
