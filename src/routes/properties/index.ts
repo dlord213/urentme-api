@@ -1,5 +1,5 @@
 import { type FastifyPluginAsync } from "fastify";
-import { PropertyController } from "./controller";
+import { PropertyController } from "./controller.js";
 
 const properties: FastifyPluginAsync = async (fastify, opts): Promise<void> => {
   fastify.get("/", PropertyController.list);

@@ -3,7 +3,7 @@ import {
   registerSchemaZod,
   loginSchemaZod,
   refreshSchemaZod,
-} from "../routes/auth/schemas";
+} from "../routes/auth/schemas.js";
 
 export type RegisterBody = z.infer<typeof registerSchemaZod>;
 export type LoginBody = z.infer<typeof loginSchemaZod>;

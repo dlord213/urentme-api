@@ -3,7 +3,7 @@ export interface RegisterInput {
   password: string;
   firstName: string;
   lastName: string;
-  celNum?: string;
+  celNum: string;
 }
 
 export interface LoginInput {

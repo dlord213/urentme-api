@@ -1,5 +1,5 @@
 import { type FastifyReply, type FastifyRequest } from "fastify";
-import { PropertyService } from "./service";
+import { PropertyService } from "./service.js";
 
 export class PropertyController {
   static async list(request: FastifyRequest, reply: FastifyReply) {

@@ -1,5 +1,5 @@
 import { type FastifyReply, type FastifyRequest } from "fastify";
-import { AnnouncementService } from "./service";
+import { AnnouncementService } from "./service.js";
 
 export class AnnouncementController {
   static async list(request: FastifyRequest, reply: FastifyReply) {

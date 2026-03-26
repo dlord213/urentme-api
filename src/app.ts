@@ -1,48 +1,65 @@
-import { dirname, join } from "node:path";
-import { fileURLToPath } from "node:url";
-import AutoLoad, { type AutoloadPluginOptions } from "@fastify/autoload";
-import { type FastifyPluginAsync, type FastifyServerOptions } from "fastify";
-import {
-  serializerCompiler,
-  validatorCompiler,
-} from "fastify-type-provider-zod";
+import fastify, { type FastifyReply, type FastifyRequest } from "fastify";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+import FastifyConfig from "./server.config.js";
+import { prisma as _PRISMA_INSTANCE } from "./utils/prisma.js";
 
-export interface AppOptions
-  extends FastifyServerOptions, Partial<AutoloadPluginOptions> {}
-// Pass --options via CLI arguments in command to enable these options.
-const options: AppOptions = {};
+export const server = fastify({
+  logger: true,
+});
 
-const app: FastifyPluginAsync<AppOptions> = async (
-  fastify,
-  opts,
-): Promise<void> => {
-  // Place here your custom code!
-  fastify.setValidatorCompiler(validatorCompiler);
-  fastify.setSerializerCompiler(serializerCompiler);
-  // Do not touch the following lines
+const start = async () => {
+  try {
+    server.decorate(
+      "isVerified",
+      async function (request: FastifyRequest, reply: FastifyReply) {
+        const { id } = request.user as { id: string };
 
-  // This loads all plugins defined in plugins
-  // those should be support plugins that are reused
-  // through your application
-  // eslint-disable-next-line no-void
-  void fastify.register(AutoLoad, {
-    dir: join(__dirname, "plugins"),
-    options: opts,
-  });
+        try {
+          const owner = await _PRISMA_INSTANCE.owner.findUnique({
+            where: { id },
+          });
 
-  // This loads all plugins defined in routes
-  // define your routes in one of these
-  // eslint-disable-next-line no-void
-  void fastify.register(AutoLoad, {
-    dir: join(__dirname, "routes"),
-    options: {
-      prefix: "/api",
-    },
-  });
+          if (!owner?.isActive) {
+            reply.status(403).send({
+              error: "Forbidden",
+              message: "Account is not active",
+            });
+          }
+        } catch (err: any) {
+          reply.status(500).send({
+            error: "Internal Server Error",
+            message: "Failed to verify account status",
+          });
+        }
+      },
+    );
+
+    await FastifyConfig.initializePlugins(server);
+    await FastifyConfig.initializeServerRoutes(server);
+    await FastifyConfig.initializeTestRoutes(server);
+
+    if (process.env.NODE_ENV !== "production" || !process.env.VERCEL) {
+      const _PORT = Number(process.env.PORT) || 3000;
+
+      await server.listen({ port: _PORT, host: "0.0.0.0" }, (err, address) => {
+        if (err) {
+          console.error(err);
+          process.exit(1);
+        }
+
+        console.log(`Server listening at ${address}`);
+      });
+    }
+  } catch (err) {
+    server.log.error(err);
+    process.exit(1);
+  }
 };
 
-export default app;
-export { app, options };
+const setupPromise = start();
+
+export default async (req: any, res: any) => {
+  await setupPromise;
+  await server.ready();
+  server.server.emit("request", req, res);
+};

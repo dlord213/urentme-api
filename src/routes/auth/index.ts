@@ -1,13 +1,17 @@
 import { type FastifyPluginAsync } from "fastify";
 import { type ZodTypeProvider } from "fastify-type-provider-zod";
-import { registerSchemaZod, loginSchemaZod, refreshSchemaZod } from "./schemas";
+import {
+  registerSchemaZod,
+  loginSchemaZod,
+  refreshSchemaZod,
+} from "./schemas.js";
 import {
   registerHandler,
   loginHandler,
   refreshHandler,
   logoutHandler,
   meHandler,
-} from "./auth.controller";
+} from "./auth.controller.js";
 
 const auth: FastifyPluginAsync = async (fastify) => {
   const server = fastify.withTypeProvider<ZodTypeProvider>();
@@ -15,7 +19,6 @@ const auth: FastifyPluginAsync = async (fastify) => {
   server.post(
     "/register",
     {
-      schema: { body: registerSchemaZod },
       config: { rateLimit: { max: 10, timeWindow: "1 minute" } },
     },
     registerHandler,
@@ -24,7 +27,6 @@ const auth: FastifyPluginAsync = async (fastify) => {
   server.post(
     "/login",
     {
-      schema: { body: loginSchemaZod },
       config: { rateLimit: { max: 10, timeWindow: "1 minute" } },
     },
     loginHandler,
@@ -33,7 +35,6 @@ const auth: FastifyPluginAsync = async (fastify) => {
   server.post(
     "/refresh",
     {
-      schema: { body: refreshSchemaZod },
       config: { rateLimit: { max: 20, timeWindow: "1 minute" } },
     },
     refreshHandler,

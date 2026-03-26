@@ -3,7 +3,7 @@ import { hash as bcryptHash } from "bcrypt";
 export const hash = (plain: string) => bcryptHash(plain, 10);
 
 export const pick = <T>(arr: T[] | readonly T[]): T =>
-  arr[Math.floor(Math.random() * arr.length)];
+  arr[Math.floor(Math.random() * arr.length)] as T;
 
 export const range = (n: number) => Array.from({ length: n }, (_, i) => i);
 

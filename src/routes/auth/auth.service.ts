@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt";
-import { PrismaClient } from "../../generated/prisma/client";
-import { type RegisterInput, type LoginInput } from "../../types/input";
+import { PrismaClient } from "../../generated/prisma/client.js";
+import { type RegisterInput, type LoginInput } from "../../types/input.js";
 
 const SALT_ROUNDS = 12;
 

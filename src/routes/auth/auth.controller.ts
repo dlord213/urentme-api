@@ -7,12 +7,12 @@ import {
   registerOwner,
   validateCredentials,
   buildTokenPayload,
-} from "./auth.service";
+} from "./auth.service.js";
 import {
   type RegisterBody,
   type LoginBody,
   type RefreshBody,
-} from "../../types/body";
+} from "../../types/body.js";
 
 const ACCESS_TOKEN_TTL = "1d"; // SET FOR DEVELOPMENT;
 const REFRESH_TOKEN_TTL = "7d";
@@ -41,7 +41,7 @@ export const registerHandler = async function (
   request: FastifyRequest<{ Body: RegisterBody }>,
   reply: FastifyReply,
 ) {
-  const owner = await registerOwner(this.prisma, request.body);
+  const owner = await registerOwner(this.prisma, request.body as RegisterBody);
 
   const payload = buildTokenPayload(owner);
   const accessToken = this.jwt.sign(payload, { expiresIn: ACCESS_TOKEN_TTL });
