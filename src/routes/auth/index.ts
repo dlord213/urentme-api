@@ -1,10 +1,6 @@
 import { type FastifyPluginAsync } from "fastify";
 import { type ZodTypeProvider } from "fastify-type-provider-zod";
-import {
-  registerSchemaZod,
-  loginSchemaZod,
-  refreshSchemaZod,
-} from "./schemas";
+import { registerSchemaZod, loginSchemaZod, refreshSchemaZod } from "./schemas";
 import {
   registerHandler,
   loginHandler,

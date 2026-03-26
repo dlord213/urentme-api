@@ -62,9 +62,7 @@ export class AnnouncementController {
     request: FastifyRequest<{ Params: { linkId: string } }>,
     reply: FastifyReply,
   ) {
-    await AnnouncementService.removePropertyAnnouncement(
-      request.params.linkId,
-    );
+    await AnnouncementService.removePropertyAnnouncement(request.params.linkId);
     return reply.status(204).send();
   }
 
