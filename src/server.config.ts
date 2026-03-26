@@ -9,6 +9,7 @@ import tenantRoutes from "./routes/people/tenants/index.js";
 import propertyRoutes from "./routes/properties/index.js";
 import transactionRoutes from "./routes/transactions/index.js";
 import unitRoutes from "./routes/units/index.js";
+import dashboardRoutes from "./routes/dashboard/index.js";
 
 // Plugins
 import envPlugin from "./plugins/00-env.js";
@@ -40,6 +41,7 @@ class FastifyConfig {
     await server.register(propertyRoutes, { prefix: "api/properties" });
     await server.register(transactionRoutes, { prefix: "api/transactions" });
     await server.register(unitRoutes, { prefix: "api/units" });
+    await server.register(dashboardRoutes, { prefix: "api/dashboard" });
   }
 
   public static async initializeTestRoutes(server: FastifyInstance) {
