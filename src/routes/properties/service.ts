@@ -1,4 +1,4 @@
-import { prisma } from "../../utils/prisma.ts";
+import { prisma } from "../../utils/prisma";
 
 export class PropertyService {
   static async list() {
@@ -20,8 +20,8 @@ export class PropertyService {
           select: {
             id: true,
             status: true,
-          }
-        }
+          },
+        },
       },
     });
   }
@@ -55,8 +55,8 @@ export class PropertyService {
             isActive: true,
             isUnderRepair: true,
             isUnderRenovation: true,
-          }
-        }
+          },
+        },
       },
     });
   }

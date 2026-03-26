@@ -3,7 +3,7 @@ import {
   registerSchemaZod,
   loginSchemaZod,
   refreshSchemaZod,
-} from "../routes/auth/schemas.ts";
+} from "../routes/auth/schemas";
 
 export type RegisterBody = z.infer<typeof registerSchemaZod>;
 export type LoginBody = z.infer<typeof loginSchemaZod>;

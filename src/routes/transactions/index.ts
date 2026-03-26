@@ -1,5 +1,5 @@
 import { type FastifyPluginAsync } from "fastify";
-import { TransactionController } from "./controller.ts";
+import { TransactionController } from "./controller";
 
 const transactions: FastifyPluginAsync = async (
   fastify,

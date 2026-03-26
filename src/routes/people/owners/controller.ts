@@ -1,5 +1,5 @@
 import { type FastifyReply, type FastifyRequest } from "fastify";
-import { OwnerService } from "./service.ts";
+import { OwnerService } from "./service";
 
 export class OwnerController {
   static async list(request: FastifyRequest, reply: FastifyReply) {

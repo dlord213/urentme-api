@@ -1,17 +1,13 @@
 import { type FastifyPluginAsync } from "fastify";
 import { type ZodTypeProvider } from "fastify-type-provider-zod";
-import {
-  registerSchemaZod,
-  loginSchemaZod,
-  refreshSchemaZod,
-} from "./schemas.ts";
+import { registerSchemaZod, loginSchemaZod, refreshSchemaZod } from "./schemas";
 import {
   registerHandler,
   loginHandler,
   refreshHandler,
   logoutHandler,
   meHandler,
-} from "./auth.controller.ts";
+} from "./auth.controller";
 
 const auth: FastifyPluginAsync = async (fastify) => {
   const server = fastify.withTypeProvider<ZodTypeProvider>();

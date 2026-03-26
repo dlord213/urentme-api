@@ -1,5 +1,5 @@
 import { type FastifyReply, type FastifyRequest } from "fastify";
-import { AnnouncementService } from "./service.ts";
+import { AnnouncementService } from "./service";
 
 export class AnnouncementController {
   static async list(request: FastifyRequest, reply: FastifyReply) {
@@ -62,9 +62,7 @@ export class AnnouncementController {
     request: FastifyRequest<{ Params: { linkId: string } }>,
     reply: FastifyReply,
   ) {
-    await AnnouncementService.removePropertyAnnouncement(
-      request.params.linkId,
-    );
+    await AnnouncementService.removePropertyAnnouncement(request.params.linkId);
     return reply.status(204).send();
   }
 

@@ -1,5 +1,5 @@
 import { type FastifyPluginAsync } from "fastify";
-import { AnnouncementController } from "./controller.ts";
+import { AnnouncementController } from "./controller";
 
 const announcements: FastifyPluginAsync = async (
   fastify,

@@ -1,5 +1,5 @@
 import { type FastifyPluginAsync } from "fastify";
-import { LeaseController } from "./controller.ts";
+import { LeaseController } from "./controller";
 
 const leases: FastifyPluginAsync = async (fastify, opts): Promise<void> => {
   fastify.get("/", LeaseController.list);
