@@ -2,8 +2,8 @@ import "dotenv/config";
 import { faker } from "@faker-js/faker";
 import { PrismaPg } from "@prisma/adapter-pg";
 import { hash } from "bcrypt";
-import { range, pick } from "../src/utils/seeding_utils";
-import { PrismaClient } from "@prisma/client";
+import { range, pick } from "../src/utils/seeding_utils.js";
+import { PrismaClient } from "../src/generated/prisma/client.js";
 
 const prisma = new PrismaClient({
   adapter: new PrismaPg({
@@ -63,11 +63,7 @@ async function seedOwners() {
 // ─────────────────────────────────────────────
 
 async function seedProperties(owners: any[]) {
-  const types = [
-    "Residential",
-    "Commercial",
-    "Mixed",
-  ];
+  const types = ["Residential", "Commercial", "Mixed"];
   const properties = await Promise.all(
     owners.slice(0, 3).map((owner) =>
       prisma.property.create({
@@ -82,11 +78,7 @@ async function seedProperties(owners: any[]) {
           region: "NCR",
           yearBuilt: faker.number.int({ min: 1990, max: 2024 }),
           description: faker.lorem.sentences(2),
-          houseRules: [
-            "No smoking",
-            "No pets",
-            "Quiet hours 10pm–7am",
-          ],
+          houseRules: ["No smoking", "No pets", "Quiet hours 10pm–7am"],
         },
       }),
     ),
