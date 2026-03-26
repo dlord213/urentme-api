@@ -12,8 +12,8 @@ export default fp(async (fastify: FastifyInstance) => {
   fastify.register(cors, {
     origin: [
       "http://localhost:5173",
-      "https://urentme-web-ten.vercel.app/",
-      "https://www.urentme.online/",
+      "https://urentme-web-ten.vercel.app",
+      "https://www.urentme.online",
     ],
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization", "X-CSRF-Token"],
