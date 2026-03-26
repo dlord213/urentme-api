@@ -13,10 +13,7 @@ const properties: FastifyPluginAsync = async (fastify, opts): Promise<void> => {
     PropertyController.update,
   );
 
-  fastify.delete<{ Params: { id: string } }>(
-    "/:id",
-    PropertyController.delete,
-  );
+  fastify.delete<{ Params: { id: string } }>("/:id", PropertyController.delete);
 };
 
 export default properties;

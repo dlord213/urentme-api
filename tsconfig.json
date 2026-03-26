@@ -7,9 +7,7 @@
     "strict": true,
     "esModuleInterop": true,
     "outDir": "./dist/",
-    "rootDir": "./src",
-    "allowImportingTsExtensions": false,
-    "noEmit": false
+    "rootDir": "./src"
   },
   "include": ["src/**/*.ts", "src/*.ts"]
 }

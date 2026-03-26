@@ -20,8 +20,8 @@ export class PropertyService {
           select: {
             id: true,
             status: true,
-          }
-        }
+          },
+        },
       },
     });
   }
@@ -55,8 +55,8 @@ export class PropertyService {
             isActive: true,
             isUnderRepair: true,
             isUnderRenovation: true,
-          }
-        }
+          },
+        },
       },
     });
   }
