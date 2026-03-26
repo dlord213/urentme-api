@@ -35,8 +35,8 @@ class FastifyConfig {
     await server.register(announcementRoutes, { prefix: "api/announcements" });
     await server.register(authRoutes, { prefix: "api/auth" });
     await server.register(leaseRoutes, { prefix: "api/leases" });
-    await server.register(ownerRoutes, { prefix: "api/owners" });
-    await server.register(tenantRoutes, { prefix: "api/tenants" });
+    await server.register(ownerRoutes, { prefix: "api/people/owners" });
+    await server.register(tenantRoutes, { prefix: "api/people/tenants" });
     await server.register(propertyRoutes, { prefix: "api/properties" });
     await server.register(transactionRoutes, { prefix: "api/transactions" });
     await server.register(unitRoutes, { prefix: "api/units" });
