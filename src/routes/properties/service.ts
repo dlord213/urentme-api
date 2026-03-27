@@ -1,29 +1,62 @@
 import { prisma } from "../../utils/prisma.js";
 
-export class PropertyService {
-  static async list() {
-    return prisma.property.findMany({
-      select: {
-        id: true,
-        name: true,
-        type: true,
-        street: true,
-        barangay: true,
-        city: true,
-        province: true,
-        region: true,
-        isActive: true,
-        isUnderRepair: true,
-        isUnderRenovation: true,
+const PAGE_SIZE = 10;
 
-        units: {
-          select: {
-            id: true,
-            status: true,
+export class PropertyService {
+  static async list(page: number = 1, search?: string, type?: string) {
+    const skip = (page - 1) * PAGE_SIZE;
+
+    const where: any = {};
+
+    if (search) {
+      where.OR = [
+        { name: { contains: search, mode: "insensitive" } },
+        { street: { contains: search, mode: "insensitive" } },
+        { city: { contains: search, mode: "insensitive" } },
+        { barangay: { contains: search, mode: "insensitive" } },
+        { province: { contains: search, mode: "insensitive" } },
+      ];
+    }
+
+    if (type) {
+      where.type = type;
+    }
+
+    const [data, total] = await Promise.all([
+      prisma.property.findMany({
+        where,
+        skip,
+        take: PAGE_SIZE,
+        select: {
+          id: true,
+          name: true,
+          type: true,
+          street: true,
+          barangay: true,
+          city: true,
+          province: true,
+          region: true,
+          isActive: true,
+          isUnderRepair: true,
+          isUnderRenovation: true,
+
+          units: {
+            select: {
+              id: true,
+              status: true,
+            },
           },
         },
-      },
-    });
+      }),
+      prisma.property.count({ where }),
+    ]);
+
+    return {
+      data,
+      total,
+      page,
+      totalPages: Math.ceil(total / PAGE_SIZE),
+    };
   }
 
   static async getById(id: string) {

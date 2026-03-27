@@ -16,6 +16,11 @@ const owners: FastifyPluginAsync = async (fastify, opts): Promise<void> => {
   );
 
   fastify.delete<{ Params: { id: string } }>("/:id", OwnerController.delete);
+
+  // Profile self-edit routes
+  fastify.get<{ Params: { id: string } }>("/profile/:id", OwnerController.getProfile);
+
+  fastify.put<{ Params: { id: string }; Body: any }>("/profile/:id", OwnerController.updateProfile);
 };
 
 export default owners;

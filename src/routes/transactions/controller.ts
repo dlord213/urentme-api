@@ -2,8 +2,11 @@ import { type FastifyReply, type FastifyRequest } from "fastify";
 import { TransactionService } from "./service.js";
 
 export class TransactionController {
-  static async list(request: FastifyRequest, reply: FastifyReply) {
-    return TransactionService.list();
+  static async list(request: FastifyRequest<{ Querystring: { page?: string; search?: string; month?: string } }>, reply: FastifyReply) {
+    const page = Math.max(1, parseInt(request.query.page || "1", 10) || 1);
+    const search = request.query.search || undefined;
+    const month = request.query.month || undefined;
+    return TransactionService.list(page, search, month);
   }
 
   static async getById(

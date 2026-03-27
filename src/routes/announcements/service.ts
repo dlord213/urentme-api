@@ -1,49 +1,81 @@
 import { prisma } from "../../utils/prisma.js";
 
+const PAGE_SIZE = 10;
+
 export class AnnouncementService {
-  static async list() {
-    return prisma.announcement.findMany({
-      select: {
-        id: true,
-        title: true,
-        createdAt: true,
-        publishedAt: true,
-        isActive: true,
+  static async list(page: number = 1, search?: string, status?: string) {
+    const skip = (page - 1) * PAGE_SIZE;
 
-        unitAnnouncements: {
-          select: {
-            id: true,
+    const where: any = {};
 
-            unit: {
-              select: {
-                id: true,
-                unitNumber: true,
+    if (search) {
+      where.OR = [
+        { title: { contains: search, mode: "insensitive" } },
+        { body: { contains: search, mode: "insensitive" } },
+      ];
+    }
 
-                property: {
-                  select: {
-                    id: true,
-                    name: true,
+    if (status === "sent") {
+      where.publishedAt = { not: null };
+    } else if (status === "draft") {
+      where.publishedAt = null;
+    }
+
+    const [data, total] = await Promise.all([
+      prisma.announcement.findMany({
+        where,
+        skip,
+        take: PAGE_SIZE,
+        select: {
+          id: true,
+          title: true,
+          createdAt: true,
+          publishedAt: true,
+          isActive: true,
+
+          unitAnnouncements: {
+            select: {
+              id: true,
+
+              unit: {
+                select: {
+                  id: true,
+                  unitNumber: true,
+
+                  property: {
+                    select: {
+                      id: true,
+                      name: true,
+                    },
                   },
                 },
               },
             },
           },
-        },
 
-        propertyAnnouncements: {
-          select: {
-            id: true,
+          propertyAnnouncements: {
+            select: {
+              id: true,
 
-            property: {
-              select: {
-                id: true,
-                name: true,
+              property: {
+                select: {
+                  id: true,
+                  name: true,
+                },
               },
             },
           },
         },
-      },
-    });
+      }),
+      prisma.announcement.count({ where }),
+    ]);
+
+    return {
+      data,
+      total,
+      page,
+      totalPages: Math.ceil(total / PAGE_SIZE),
+    };
   }
 
   static async getById(id: string) {
@@ -101,22 +133,17 @@ export class AnnouncementService {
   static async update(id: string, data: any) {
     const { propertyAnnouncements, unitAnnouncements, ...rest } = data;
 
-    // Use a transaction to ensure atomic update
     return prisma.$transaction(async (tx) => {
-      // 1. Update basic announcement info
       const announcement = await tx.announcement.update({
         where: { id },
         data: rest,
       });
 
-      // 2. Handle property links if provided
       if (propertyAnnouncements) {
-        // Delete all existing
         await tx.propertyAnnouncement.deleteMany({
           where: { announcementId: id },
         });
 
-        // Create new ones (if using nested create syntax or array of IDs)
         if (propertyAnnouncements.create) {
           await tx.propertyAnnouncement.createMany({
             data: propertyAnnouncements.create.map((p: any) => ({
@@ -127,14 +154,11 @@ export class AnnouncementService {
         }
       }
 
-      // 3. Handle unit links if provided
       if (unitAnnouncements) {
-        // Delete all existing
         await tx.unitAnnouncement.deleteMany({
           where: { announcementId: id },
         });
 
-        // Create new ones
         if (unitAnnouncements.create) {
           await tx.unitAnnouncement.createMany({
             data: unitAnnouncements.create.map((u: any) => ({
@@ -151,17 +175,14 @@ export class AnnouncementService {
 
   static async delete(id: string) {
     return prisma.$transaction(async (tx) => {
-      // 1. Delete property links
       await tx.propertyAnnouncement.deleteMany({
         where: { announcementId: id },
       });
 
-      // 2. Delete unit links
       await tx.unitAnnouncement.deleteMany({
         where: { announcementId: id },
       });
 
-      // 3. Delete the announcement itself
       return tx.announcement.delete({
         where: { id },
       });

@@ -2,8 +2,11 @@ import { type FastifyReply, type FastifyRequest } from "fastify";
 import { AnnouncementService } from "./service.js";
 
 export class AnnouncementController {
-  static async list(request: FastifyRequest, reply: FastifyReply) {
-    return AnnouncementService.list();
+  static async list(request: FastifyRequest<{ Querystring: { page?: string; search?: string; status?: string } }>, reply: FastifyReply) {
+    const page = Math.max(1, parseInt(request.query.page || "1", 10) || 1);
+    const search = request.query.search || undefined;
+    const status = request.query.status || undefined;
+    return AnnouncementService.list(page, search, status);
   }
 
   static async getById(

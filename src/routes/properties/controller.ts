@@ -2,8 +2,11 @@ import { type FastifyReply, type FastifyRequest } from "fastify";
 import { PropertyService } from "./service.js";
 
 export class PropertyController {
-  static async list(request: FastifyRequest, reply: FastifyReply) {
-    return PropertyService.list();
+  static async list(request: FastifyRequest<{ Querystring: { page?: string; search?: string; type?: string } }>, reply: FastifyReply) {
+    const page = Math.max(1, parseInt(request.query.page || "1", 10) || 1);
+    const search = request.query.search || undefined;
+    const type = request.query.type || undefined;
+    return PropertyService.list(page, search, type);
   }
 
   static async getById(

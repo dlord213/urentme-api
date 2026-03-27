@@ -1,5 +1,7 @@
 import { prisma } from "../../../utils/prisma.js";
 
+const PAGE_SIZE = 10;
+
 export class TenantService {
   private static async checkAndExpireLeases() {
     const now = new Date();
@@ -16,42 +18,86 @@ export class TenantService {
     });
   }
 
-  static async list() {
+  static async list(page: number = 1, search?: string, status?: string) {
     await this.checkAndExpireLeases();
-    return prisma.tenant.findMany({
-      select: {
-        id: true,
-        firstName: true,
-        lastName: true,
-        email: true,
-        celNum: true,
-        isActive: true,
-        isFlagged: true,
 
-        leases: {
-          select: {
-            id: true,
-            status: true,
-            leaseEndDate: true,
+    const skip = (page - 1) * PAGE_SIZE;
 
-            unit: {
-              select: {
-                id: true,
-                unitNumber: true,
-                floor: true,
+    const where: any = {};
 
-                property: {
-                  select: {
-                    id: true,
-                    name: true,
+    if (search) {
+      const parts = search.split(/\s+/).filter(Boolean);
+      where.OR = [
+        { firstName: { contains: search, mode: "insensitive" } },
+        { lastName: { contains: search, mode: "insensitive" } },
+        { email: { contains: search, mode: "insensitive" } },
+      ];
+
+      if (parts.length > 1) {
+        const first = parts[0];
+        const last = parts.slice(1).join(" ");
+        where.OR.push({
+          AND: [
+            { firstName: { contains: first, mode: "insensitive" } },
+            { lastName: { contains: last, mode: "insensitive" } },
+          ],
+        });
+      }
+    }
+
+    if (status === "active") {
+      where.isActive = true;
+    } else if (status === "inactive") {
+      where.isActive = false;
+    }
+
+    const [data, total] = await Promise.all([
+      prisma.tenant.findMany({
+        where,
+        skip,
+        take: PAGE_SIZE,
+        select: {
+          id: true,
+          firstName: true,
+          lastName: true,
+          email: true,
+          celNum: true,
+          isActive: true,
+          isFlagged: true,
+
+          leases: {
+            select: {
+              id: true,
+              status: true,
+              leaseEndDate: true,
+
+              unit: {
+                select: {
+                  id: true,
+                  unitNumber: true,
+                  floor: true,
+
+                  property: {
+                    select: {
+                      id: true,
+                      name: true,
+                    },
                   },
                 },
               },
             },
           },
         },
-      },
-    });
+      }),
+      prisma.tenant.count({ where }),
+    ]);
+
+    return {
+      data,
+      total,
+      page,
+      totalPages: Math.ceil(total / PAGE_SIZE),
+    };
   }
 
   static async getById(id: string) {

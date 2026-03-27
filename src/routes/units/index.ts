@@ -14,6 +14,11 @@ const units: FastifyPluginAsync = async (fastify, opts): Promise<void> => {
   );
 
   fastify.delete<{ Params: { id: string } }>("/:id", UnitController.delete);
+
+  fastify.post<{ Params: { id: string }; Body: any }>(
+    "/:id/reserve",
+    UnitController.reserve,
+  );
 };
 
 export default units;
