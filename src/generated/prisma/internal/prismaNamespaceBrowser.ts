@@ -59,7 +59,9 @@ export const ModelName = {
   Transaction: 'Transaction',
   Announcement: 'Announcement',
   PropertyAnnouncement: 'PropertyAnnouncement',
-  UnitAnnouncement: 'UnitAnnouncement'
+  UnitAnnouncement: 'UnitAnnouncement',
+  MaintenanceRequest: 'MaintenanceRequest',
+  LeaseDocument: 'LeaseDocument'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -162,6 +164,10 @@ export const TenantScalarFieldEnum = {
   isActive: 'isActive',
   moveInDate: 'moveInDate',
   moveOutDate: 'moveOutDate',
+  passwordHash: 'passwordHash',
+  inviteToken: 'inviteToken',
+  inviteTokenExpiry: 'inviteTokenExpiry',
+  portalEnabled: 'portalEnabled',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -235,6 +241,33 @@ export const UnitAnnouncementScalarFieldEnum = {
 } as const
 
 export type UnitAnnouncementScalarFieldEnum = (typeof UnitAnnouncementScalarFieldEnum)[keyof typeof UnitAnnouncementScalarFieldEnum]
+
+
+export const MaintenanceRequestScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  leaseId: 'leaseId',
+  title: 'title',
+  description: 'description',
+  photoUrl: 'photoUrl',
+  permissionToEnter: 'permissionToEnter',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type MaintenanceRequestScalarFieldEnum = (typeof MaintenanceRequestScalarFieldEnum)[keyof typeof MaintenanceRequestScalarFieldEnum]
+
+
+export const LeaseDocumentScalarFieldEnum = {
+  id: 'id',
+  leaseId: 'leaseId',
+  label: 'label',
+  url: 'url',
+  createdAt: 'createdAt'
+} as const
+
+export type LeaseDocumentScalarFieldEnum = (typeof LeaseDocumentScalarFieldEnum)[keyof typeof LeaseDocumentScalarFieldEnum]
 
 
 export const SortOrder = {

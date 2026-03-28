@@ -100,24 +100,30 @@ model Unit {
 // ─────────────────────────────────────────────
 
 model Tenant {
-  id             String    @id @default(cuid())
-  firstName      String
-  lastName       String
-  email          String    @unique
-  celNum         String?
-  dateOfBirth    DateTime?
-  emergencyName  String?
-  emergencyPhone String?
-  notes          String?
-  isFlagged      Boolean   @default(false)
-  flagReason     String?
-  isActive       Boolean   @default(true)
-  moveInDate     DateTime?
-  moveOutDate    DateTime?
-  createdAt      DateTime  @default(now())
-  updatedAt      DateTime  @updatedAt
+  id                 String    @id @default(cuid())
+  firstName          String
+  lastName           String
+  email              String    @unique
+  celNum             String?
+  dateOfBirth        DateTime?
+  emergencyName      String?
+  emergencyPhone     String?
+  notes              String?
+  isFlagged          Boolean   @default(false)
+  flagReason         String?
+  isActive           Boolean   @default(true)
+  moveInDate         DateTime?
+  moveOutDate        DateTime?
+  // Portal auth
+  passwordHash       String?
+  inviteToken        String?   @unique
+  inviteTokenExpiry  DateTime?
+  portalEnabled      Boolean   @default(false)
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
 
-  leases Lease[]
+  leases               Lease[]
+  maintenanceRequests  MaintenanceRequest[]
 
   @@map("tenants")
 }
@@ -143,7 +149,9 @@ model Lease {
   createdAt         DateTime  @default(now())
   updatedAt         DateTime  @updatedAt
 
-  transactions Transaction[]
+  transactions        Transaction[]
+  maintenanceRequests MaintenanceRequest[]
+  documents           LeaseDocument[]
 
   @@map("leases")
 }
@@ -215,4 +223,40 @@ model UnitAnnouncement {
   updatedAt      DateTime     @updatedAt
 
   @@map("unit_announcements")
+}
+
+// ─────────────────────────────────────────────
+// 10. MAINTENANCE REQUESTS
+// ─────────────────────────────────────────────
+
+model MaintenanceRequest {
+  id               String   @id @default(cuid())
+  tenantId         String
+  tenant           Tenant   @relation(fields: [tenantId], references: [id])
+  leaseId          String
+  lease            Lease    @relation(fields: [leaseId], references: [id])
+  title            String
+  description      String
+  photoUrl         String?
+  permissionToEnter Boolean @default(false)
+  status           String   @default("open")
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  @@map("maintenance_requests")
+}
+
+// ─────────────────────────────────────────────
+// 11. LEASE DOCUMENTS
+// ─────────────────────────────────────────────
+
+model LeaseDocument {
+  id        String   @id @default(cuid())
+  leaseId   String
+  lease     Lease    @relation(fields: [leaseId], references: [id])
+  label     String
+  url       String
+  createdAt DateTime @default(now())
+
+  @@map("lease_documents")
 }

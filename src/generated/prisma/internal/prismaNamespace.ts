@@ -392,7 +392,9 @@ export const ModelName = {
   Transaction: 'Transaction',
   Announcement: 'Announcement',
   PropertyAnnouncement: 'PropertyAnnouncement',
-  UnitAnnouncement: 'UnitAnnouncement'
+  UnitAnnouncement: 'UnitAnnouncement',
+  MaintenanceRequest: 'MaintenanceRequest',
+  LeaseDocument: 'LeaseDocument'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -408,7 +410,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "owner" | "property" | "unit" | "tenant" | "lease" | "transaction" | "announcement" | "propertyAnnouncement" | "unitAnnouncement"
+    modelProps: "owner" | "property" | "unit" | "tenant" | "lease" | "transaction" | "announcement" | "propertyAnnouncement" | "unitAnnouncement" | "maintenanceRequest" | "leaseDocument"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1078,6 +1080,154 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    MaintenanceRequest: {
+      payload: Prisma.$MaintenanceRequestPayload<ExtArgs>
+      fields: Prisma.MaintenanceRequestFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.MaintenanceRequestFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MaintenanceRequestPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.MaintenanceRequestFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MaintenanceRequestPayload>
+        }
+        findFirst: {
+          args: Prisma.MaintenanceRequestFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MaintenanceRequestPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.MaintenanceRequestFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MaintenanceRequestPayload>
+        }
+        findMany: {
+          args: Prisma.MaintenanceRequestFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MaintenanceRequestPayload>[]
+        }
+        create: {
+          args: Prisma.MaintenanceRequestCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MaintenanceRequestPayload>
+        }
+        createMany: {
+          args: Prisma.MaintenanceRequestCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.MaintenanceRequestCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MaintenanceRequestPayload>[]
+        }
+        delete: {
+          args: Prisma.MaintenanceRequestDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MaintenanceRequestPayload>
+        }
+        update: {
+          args: Prisma.MaintenanceRequestUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MaintenanceRequestPayload>
+        }
+        deleteMany: {
+          args: Prisma.MaintenanceRequestDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.MaintenanceRequestUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.MaintenanceRequestUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MaintenanceRequestPayload>[]
+        }
+        upsert: {
+          args: Prisma.MaintenanceRequestUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MaintenanceRequestPayload>
+        }
+        aggregate: {
+          args: Prisma.MaintenanceRequestAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateMaintenanceRequest>
+        }
+        groupBy: {
+          args: Prisma.MaintenanceRequestGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.MaintenanceRequestGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.MaintenanceRequestCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.MaintenanceRequestCountAggregateOutputType> | number
+        }
+      }
+    }
+    LeaseDocument: {
+      payload: Prisma.$LeaseDocumentPayload<ExtArgs>
+      fields: Prisma.LeaseDocumentFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.LeaseDocumentFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LeaseDocumentPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.LeaseDocumentFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LeaseDocumentPayload>
+        }
+        findFirst: {
+          args: Prisma.LeaseDocumentFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LeaseDocumentPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.LeaseDocumentFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LeaseDocumentPayload>
+        }
+        findMany: {
+          args: Prisma.LeaseDocumentFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LeaseDocumentPayload>[]
+        }
+        create: {
+          args: Prisma.LeaseDocumentCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LeaseDocumentPayload>
+        }
+        createMany: {
+          args: Prisma.LeaseDocumentCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.LeaseDocumentCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LeaseDocumentPayload>[]
+        }
+        delete: {
+          args: Prisma.LeaseDocumentDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LeaseDocumentPayload>
+        }
+        update: {
+          args: Prisma.LeaseDocumentUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LeaseDocumentPayload>
+        }
+        deleteMany: {
+          args: Prisma.LeaseDocumentDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.LeaseDocumentUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.LeaseDocumentUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LeaseDocumentPayload>[]
+        }
+        upsert: {
+          args: Prisma.LeaseDocumentUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LeaseDocumentPayload>
+        }
+        aggregate: {
+          args: Prisma.LeaseDocumentAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateLeaseDocument>
+        }
+        groupBy: {
+          args: Prisma.LeaseDocumentGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.LeaseDocumentGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.LeaseDocumentCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.LeaseDocumentCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -1201,6 +1351,10 @@ export const TenantScalarFieldEnum = {
   isActive: 'isActive',
   moveInDate: 'moveInDate',
   moveOutDate: 'moveOutDate',
+  passwordHash: 'passwordHash',
+  inviteToken: 'inviteToken',
+  inviteTokenExpiry: 'inviteTokenExpiry',
+  portalEnabled: 'portalEnabled',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -1274,6 +1428,33 @@ export const UnitAnnouncementScalarFieldEnum = {
 } as const
 
 export type UnitAnnouncementScalarFieldEnum = (typeof UnitAnnouncementScalarFieldEnum)[keyof typeof UnitAnnouncementScalarFieldEnum]
+
+
+export const MaintenanceRequestScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  leaseId: 'leaseId',
+  title: 'title',
+  description: 'description',
+  photoUrl: 'photoUrl',
+  permissionToEnter: 'permissionToEnter',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type MaintenanceRequestScalarFieldEnum = (typeof MaintenanceRequestScalarFieldEnum)[keyof typeof MaintenanceRequestScalarFieldEnum]
+
+
+export const LeaseDocumentScalarFieldEnum = {
+  id: 'id',
+  leaseId: 'leaseId',
+  label: 'label',
+  url: 'url',
+  createdAt: 'createdAt'
+} as const
+
+export type LeaseDocumentScalarFieldEnum = (typeof LeaseDocumentScalarFieldEnum)[keyof typeof LeaseDocumentScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -1472,6 +1653,8 @@ export type GlobalOmitConfig = {
   announcement?: Prisma.AnnouncementOmit
   propertyAnnouncement?: Prisma.PropertyAnnouncementOmit
   unitAnnouncement?: Prisma.UnitAnnouncementOmit
+  maintenanceRequest?: Prisma.MaintenanceRequestOmit
+  leaseDocument?: Prisma.LeaseDocumentOmit
 }
 
 /* Types for Logging */

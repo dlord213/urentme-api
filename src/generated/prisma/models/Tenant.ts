@@ -39,6 +39,10 @@ export type TenantMinAggregateOutputType = {
   isActive: boolean | null
   moveInDate: Date | null
   moveOutDate: Date | null
+  passwordHash: string | null
+  inviteToken: string | null
+  inviteTokenExpiry: Date | null
+  portalEnabled: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -58,6 +62,10 @@ export type TenantMaxAggregateOutputType = {
   isActive: boolean | null
   moveInDate: Date | null
   moveOutDate: Date | null
+  passwordHash: string | null
+  inviteToken: string | null
+  inviteTokenExpiry: Date | null
+  portalEnabled: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -77,6 +85,10 @@ export type TenantCountAggregateOutputType = {
   isActive: number
   moveInDate: number
   moveOutDate: number
+  passwordHash: number
+  inviteToken: number
+  inviteTokenExpiry: number
+  portalEnabled: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -98,6 +110,10 @@ export type TenantMinAggregateInputType = {
   isActive?: true
   moveInDate?: true
   moveOutDate?: true
+  passwordHash?: true
+  inviteToken?: true
+  inviteTokenExpiry?: true
+  portalEnabled?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -117,6 +133,10 @@ export type TenantMaxAggregateInputType = {
   isActive?: true
   moveInDate?: true
   moveOutDate?: true
+  passwordHash?: true
+  inviteToken?: true
+  inviteTokenExpiry?: true
+  portalEnabled?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -136,6 +156,10 @@ export type TenantCountAggregateInputType = {
   isActive?: true
   moveInDate?: true
   moveOutDate?: true
+  passwordHash?: true
+  inviteToken?: true
+  inviteTokenExpiry?: true
+  portalEnabled?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -228,6 +252,10 @@ export type TenantGroupByOutputType = {
   isActive: boolean
   moveInDate: Date | null
   moveOutDate: Date | null
+  passwordHash: string | null
+  inviteToken: string | null
+  inviteTokenExpiry: Date | null
+  portalEnabled: boolean
   createdAt: Date
   updatedAt: Date
   _count: TenantCountAggregateOutputType | null
@@ -268,9 +296,14 @@ export type TenantWhereInput = {
   isActive?: Prisma.BoolFilter<"Tenant"> | boolean
   moveInDate?: Prisma.DateTimeNullableFilter<"Tenant"> | Date | string | null
   moveOutDate?: Prisma.DateTimeNullableFilter<"Tenant"> | Date | string | null
+  passwordHash?: Prisma.StringNullableFilter<"Tenant"> | string | null
+  inviteToken?: Prisma.StringNullableFilter<"Tenant"> | string | null
+  inviteTokenExpiry?: Prisma.DateTimeNullableFilter<"Tenant"> | Date | string | null
+  portalEnabled?: Prisma.BoolFilter<"Tenant"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Tenant"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Tenant"> | Date | string
   leases?: Prisma.LeaseListRelationFilter
+  maintenanceRequests?: Prisma.MaintenanceRequestListRelationFilter
 }
 
 export type TenantOrderByWithRelationInput = {
@@ -288,14 +321,20 @@ export type TenantOrderByWithRelationInput = {
   isActive?: Prisma.SortOrder
   moveInDate?: Prisma.SortOrderInput | Prisma.SortOrder
   moveOutDate?: Prisma.SortOrderInput | Prisma.SortOrder
+  passwordHash?: Prisma.SortOrderInput | Prisma.SortOrder
+  inviteToken?: Prisma.SortOrderInput | Prisma.SortOrder
+  inviteTokenExpiry?: Prisma.SortOrderInput | Prisma.SortOrder
+  portalEnabled?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   leases?: Prisma.LeaseOrderByRelationAggregateInput
+  maintenanceRequests?: Prisma.MaintenanceRequestOrderByRelationAggregateInput
 }
 
 export type TenantWhereUniqueInput = Prisma.AtLeast<{
   id?: string
   email?: string
+  inviteToken?: string
   AND?: Prisma.TenantWhereInput | Prisma.TenantWhereInput[]
   OR?: Prisma.TenantWhereInput[]
   NOT?: Prisma.TenantWhereInput | Prisma.TenantWhereInput[]
@@ -311,10 +350,14 @@ export type TenantWhereUniqueInput = Prisma.AtLeast<{
   isActive?: Prisma.BoolFilter<"Tenant"> | boolean
   moveInDate?: Prisma.DateTimeNullableFilter<"Tenant"> | Date | string | null
   moveOutDate?: Prisma.DateTimeNullableFilter<"Tenant"> | Date | string | null
+  passwordHash?: Prisma.StringNullableFilter<"Tenant"> | string | null
+  inviteTokenExpiry?: Prisma.DateTimeNullableFilter<"Tenant"> | Date | string | null
+  portalEnabled?: Prisma.BoolFilter<"Tenant"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Tenant"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Tenant"> | Date | string
   leases?: Prisma.LeaseListRelationFilter
-}, "id" | "email">
+  maintenanceRequests?: Prisma.MaintenanceRequestListRelationFilter
+}, "id" | "email" | "inviteToken">
 
 export type TenantOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -331,6 +374,10 @@ export type TenantOrderByWithAggregationInput = {
   isActive?: Prisma.SortOrder
   moveInDate?: Prisma.SortOrderInput | Prisma.SortOrder
   moveOutDate?: Prisma.SortOrderInput | Prisma.SortOrder
+  passwordHash?: Prisma.SortOrderInput | Prisma.SortOrder
+  inviteToken?: Prisma.SortOrderInput | Prisma.SortOrder
+  inviteTokenExpiry?: Prisma.SortOrderInput | Prisma.SortOrder
+  portalEnabled?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.TenantCountOrderByAggregateInput
@@ -356,6 +403,10 @@ export type TenantScalarWhereWithAggregatesInput = {
   isActive?: Prisma.BoolWithAggregatesFilter<"Tenant"> | boolean
   moveInDate?: Prisma.DateTimeNullableWithAggregatesFilter<"Tenant"> | Date | string | null
   moveOutDate?: Prisma.DateTimeNullableWithAggregatesFilter<"Tenant"> | Date | string | null
+  passwordHash?: Prisma.StringNullableWithAggregatesFilter<"Tenant"> | string | null
+  inviteToken?: Prisma.StringNullableWithAggregatesFilter<"Tenant"> | string | null
+  inviteTokenExpiry?: Prisma.DateTimeNullableWithAggregatesFilter<"Tenant"> | Date | string | null
+  portalEnabled?: Prisma.BoolWithAggregatesFilter<"Tenant"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Tenant"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Tenant"> | Date | string
 }
@@ -375,9 +426,14 @@ export type TenantCreateInput = {
   isActive?: boolean
   moveInDate?: Date | string | null
   moveOutDate?: Date | string | null
+  passwordHash?: string | null
+  inviteToken?: string | null
+  inviteTokenExpiry?: Date | string | null
+  portalEnabled?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   leases?: Prisma.LeaseCreateNestedManyWithoutTenantInput
+  maintenanceRequests?: Prisma.MaintenanceRequestCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateInput = {
@@ -395,9 +451,14 @@ export type TenantUncheckedCreateInput = {
   isActive?: boolean
   moveInDate?: Date | string | null
   moveOutDate?: Date | string | null
+  passwordHash?: string | null
+  inviteToken?: string | null
+  inviteTokenExpiry?: Date | string | null
+  portalEnabled?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   leases?: Prisma.LeaseUncheckedCreateNestedManyWithoutTenantInput
+  maintenanceRequests?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUpdateInput = {
@@ -415,9 +476,14 @@ export type TenantUpdateInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   moveInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   moveOutDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  inviteToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  inviteTokenExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  portalEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   leases?: Prisma.LeaseUpdateManyWithoutTenantNestedInput
+  maintenanceRequests?: Prisma.MaintenanceRequestUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateInput = {
@@ -435,9 +501,14 @@ export type TenantUncheckedUpdateInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   moveInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   moveOutDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  inviteToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  inviteTokenExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  portalEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   leases?: Prisma.LeaseUncheckedUpdateManyWithoutTenantNestedInput
+  maintenanceRequests?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateManyInput = {
@@ -455,6 +526,10 @@ export type TenantCreateManyInput = {
   isActive?: boolean
   moveInDate?: Date | string | null
   moveOutDate?: Date | string | null
+  passwordHash?: string | null
+  inviteToken?: string | null
+  inviteTokenExpiry?: Date | string | null
+  portalEnabled?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -474,6 +549,10 @@ export type TenantUpdateManyMutationInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   moveInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   moveOutDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  inviteToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  inviteTokenExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  portalEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -493,6 +572,10 @@ export type TenantUncheckedUpdateManyInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   moveInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   moveOutDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  inviteToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  inviteTokenExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  portalEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -512,6 +595,10 @@ export type TenantCountOrderByAggregateInput = {
   isActive?: Prisma.SortOrder
   moveInDate?: Prisma.SortOrder
   moveOutDate?: Prisma.SortOrder
+  passwordHash?: Prisma.SortOrder
+  inviteToken?: Prisma.SortOrder
+  inviteTokenExpiry?: Prisma.SortOrder
+  portalEnabled?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -531,6 +618,10 @@ export type TenantMaxOrderByAggregateInput = {
   isActive?: Prisma.SortOrder
   moveInDate?: Prisma.SortOrder
   moveOutDate?: Prisma.SortOrder
+  passwordHash?: Prisma.SortOrder
+  inviteToken?: Prisma.SortOrder
+  inviteTokenExpiry?: Prisma.SortOrder
+  portalEnabled?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -550,6 +641,10 @@ export type TenantMinOrderByAggregateInput = {
   isActive?: Prisma.SortOrder
   moveInDate?: Prisma.SortOrder
   moveOutDate?: Prisma.SortOrder
+  passwordHash?: Prisma.SortOrder
+  inviteToken?: Prisma.SortOrder
+  inviteTokenExpiry?: Prisma.SortOrder
+  portalEnabled?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -577,6 +672,20 @@ export type TenantUpdateOneRequiredWithoutLeasesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.TenantUpdateToOneWithWhereWithoutLeasesInput, Prisma.TenantUpdateWithoutLeasesInput>, Prisma.TenantUncheckedUpdateWithoutLeasesInput>
 }
 
+export type TenantCreateNestedOneWithoutMaintenanceRequestsInput = {
+  create?: Prisma.XOR<Prisma.TenantCreateWithoutMaintenanceRequestsInput, Prisma.TenantUncheckedCreateWithoutMaintenanceRequestsInput>
+  connectOrCreate?: Prisma.TenantCreateOrConnectWithoutMaintenanceRequestsInput
+  connect?: Prisma.TenantWhereUniqueInput
+}
+
+export type TenantUpdateOneRequiredWithoutMaintenanceRequestsNestedInput = {
+  create?: Prisma.XOR<Prisma.TenantCreateWithoutMaintenanceRequestsInput, Prisma.TenantUncheckedCreateWithoutMaintenanceRequestsInput>
+  connectOrCreate?: Prisma.TenantCreateOrConnectWithoutMaintenanceRequestsInput
+  upsert?: Prisma.TenantUpsertWithoutMaintenanceRequestsInput
+  connect?: Prisma.TenantWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.TenantUpdateToOneWithWhereWithoutMaintenanceRequestsInput, Prisma.TenantUpdateWithoutMaintenanceRequestsInput>, Prisma.TenantUncheckedUpdateWithoutMaintenanceRequestsInput>
+}
+
 export type TenantCreateWithoutLeasesInput = {
   id?: string
   firstName: string
@@ -592,8 +701,13 @@ export type TenantCreateWithoutLeasesInput = {
   isActive?: boolean
   moveInDate?: Date | string | null
   moveOutDate?: Date | string | null
+  passwordHash?: string | null
+  inviteToken?: string | null
+  inviteTokenExpiry?: Date | string | null
+  portalEnabled?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  maintenanceRequests?: Prisma.MaintenanceRequestCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutLeasesInput = {
@@ -611,8 +725,13 @@ export type TenantUncheckedCreateWithoutLeasesInput = {
   isActive?: boolean
   moveInDate?: Date | string | null
   moveOutDate?: Date | string | null
+  passwordHash?: string | null
+  inviteToken?: string | null
+  inviteTokenExpiry?: Date | string | null
+  portalEnabled?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  maintenanceRequests?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutLeasesInput = {
@@ -646,8 +765,13 @@ export type TenantUpdateWithoutLeasesInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   moveInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   moveOutDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  inviteToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  inviteTokenExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  portalEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  maintenanceRequests?: Prisma.MaintenanceRequestUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutLeasesInput = {
@@ -665,8 +789,125 @@ export type TenantUncheckedUpdateWithoutLeasesInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   moveInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   moveOutDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  inviteToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  inviteTokenExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  portalEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  maintenanceRequests?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutTenantNestedInput
+}
+
+export type TenantCreateWithoutMaintenanceRequestsInput = {
+  id?: string
+  firstName: string
+  lastName: string
+  email: string
+  celNum?: string | null
+  dateOfBirth?: Date | string | null
+  emergencyName?: string | null
+  emergencyPhone?: string | null
+  notes?: string | null
+  isFlagged?: boolean
+  flagReason?: string | null
+  isActive?: boolean
+  moveInDate?: Date | string | null
+  moveOutDate?: Date | string | null
+  passwordHash?: string | null
+  inviteToken?: string | null
+  inviteTokenExpiry?: Date | string | null
+  portalEnabled?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  leases?: Prisma.LeaseCreateNestedManyWithoutTenantInput
+}
+
+export type TenantUncheckedCreateWithoutMaintenanceRequestsInput = {
+  id?: string
+  firstName: string
+  lastName: string
+  email: string
+  celNum?: string | null
+  dateOfBirth?: Date | string | null
+  emergencyName?: string | null
+  emergencyPhone?: string | null
+  notes?: string | null
+  isFlagged?: boolean
+  flagReason?: string | null
+  isActive?: boolean
+  moveInDate?: Date | string | null
+  moveOutDate?: Date | string | null
+  passwordHash?: string | null
+  inviteToken?: string | null
+  inviteTokenExpiry?: Date | string | null
+  portalEnabled?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  leases?: Prisma.LeaseUncheckedCreateNestedManyWithoutTenantInput
+}
+
+export type TenantCreateOrConnectWithoutMaintenanceRequestsInput = {
+  where: Prisma.TenantWhereUniqueInput
+  create: Prisma.XOR<Prisma.TenantCreateWithoutMaintenanceRequestsInput, Prisma.TenantUncheckedCreateWithoutMaintenanceRequestsInput>
+}
+
+export type TenantUpsertWithoutMaintenanceRequestsInput = {
+  update: Prisma.XOR<Prisma.TenantUpdateWithoutMaintenanceRequestsInput, Prisma.TenantUncheckedUpdateWithoutMaintenanceRequestsInput>
+  create: Prisma.XOR<Prisma.TenantCreateWithoutMaintenanceRequestsInput, Prisma.TenantUncheckedCreateWithoutMaintenanceRequestsInput>
+  where?: Prisma.TenantWhereInput
+}
+
+export type TenantUpdateToOneWithWhereWithoutMaintenanceRequestsInput = {
+  where?: Prisma.TenantWhereInput
+  data: Prisma.XOR<Prisma.TenantUpdateWithoutMaintenanceRequestsInput, Prisma.TenantUncheckedUpdateWithoutMaintenanceRequestsInput>
+}
+
+export type TenantUpdateWithoutMaintenanceRequestsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  firstName?: Prisma.StringFieldUpdateOperationsInput | string
+  lastName?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  celNum?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  emergencyName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emergencyPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isFlagged?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  flagReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  moveInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  moveOutDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  inviteToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  inviteTokenExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  portalEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  leases?: Prisma.LeaseUpdateManyWithoutTenantNestedInput
+}
+
+export type TenantUncheckedUpdateWithoutMaintenanceRequestsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  firstName?: Prisma.StringFieldUpdateOperationsInput | string
+  lastName?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  celNum?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  emergencyName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emergencyPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isFlagged?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  flagReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  moveInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  moveOutDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  inviteToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  inviteTokenExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  portalEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  leases?: Prisma.LeaseUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 
@@ -676,10 +917,12 @@ export type TenantUncheckedUpdateWithoutLeasesInput = {
 
 export type TenantCountOutputType = {
   leases: number
+  maintenanceRequests: number
 }
 
 export type TenantCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   leases?: boolean | TenantCountOutputTypeCountLeasesArgs
+  maintenanceRequests?: boolean | TenantCountOutputTypeCountMaintenanceRequestsArgs
 }
 
 /**
@@ -699,6 +942,13 @@ export type TenantCountOutputTypeCountLeasesArgs<ExtArgs extends runtime.Types.E
   where?: Prisma.LeaseWhereInput
 }
 
+/**
+ * TenantCountOutputType without action
+ */
+export type TenantCountOutputTypeCountMaintenanceRequestsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.MaintenanceRequestWhereInput
+}
+
 
 export type TenantSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -715,9 +965,14 @@ export type TenantSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   isActive?: boolean
   moveInDate?: boolean
   moveOutDate?: boolean
+  passwordHash?: boolean
+  inviteToken?: boolean
+  inviteTokenExpiry?: boolean
+  portalEnabled?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   leases?: boolean | Prisma.Tenant$leasesArgs<ExtArgs>
+  maintenanceRequests?: boolean | Prisma.Tenant$maintenanceRequestsArgs<ExtArgs>
   _count?: boolean | Prisma.TenantCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["tenant"]>
 
@@ -736,6 +991,10 @@ export type TenantSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extens
   isActive?: boolean
   moveInDate?: boolean
   moveOutDate?: boolean
+  passwordHash?: boolean
+  inviteToken?: boolean
+  inviteTokenExpiry?: boolean
+  portalEnabled?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["tenant"]>
@@ -755,6 +1014,10 @@ export type TenantSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
   isActive?: boolean
   moveInDate?: boolean
   moveOutDate?: boolean
+  passwordHash?: boolean
+  inviteToken?: boolean
+  inviteTokenExpiry?: boolean
+  portalEnabled?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["tenant"]>
@@ -774,13 +1037,18 @@ export type TenantSelectScalar = {
   isActive?: boolean
   moveInDate?: boolean
   moveOutDate?: boolean
+  passwordHash?: boolean
+  inviteToken?: boolean
+  inviteTokenExpiry?: boolean
+  portalEnabled?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type TenantOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "firstName" | "lastName" | "email" | "celNum" | "dateOfBirth" | "emergencyName" | "emergencyPhone" | "notes" | "isFlagged" | "flagReason" | "isActive" | "moveInDate" | "moveOutDate" | "createdAt" | "updatedAt", ExtArgs["result"]["tenant"]>
+export type TenantOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "firstName" | "lastName" | "email" | "celNum" | "dateOfBirth" | "emergencyName" | "emergencyPhone" | "notes" | "isFlagged" | "flagReason" | "isActive" | "moveInDate" | "moveOutDate" | "passwordHash" | "inviteToken" | "inviteTokenExpiry" | "portalEnabled" | "createdAt" | "updatedAt", ExtArgs["result"]["tenant"]>
 export type TenantInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   leases?: boolean | Prisma.Tenant$leasesArgs<ExtArgs>
+  maintenanceRequests?: boolean | Prisma.Tenant$maintenanceRequestsArgs<ExtArgs>
   _count?: boolean | Prisma.TenantCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type TenantIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -790,6 +1058,7 @@ export type $TenantPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
   name: "Tenant"
   objects: {
     leases: Prisma.$LeasePayload<ExtArgs>[]
+    maintenanceRequests: Prisma.$MaintenanceRequestPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -806,6 +1075,10 @@ export type $TenantPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     isActive: boolean
     moveInDate: Date | null
     moveOutDate: Date | null
+    passwordHash: string | null
+    inviteToken: string | null
+    inviteTokenExpiry: Date | null
+    portalEnabled: boolean
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["tenant"]>
@@ -1203,6 +1476,7 @@ readonly fields: TenantFieldRefs;
 export interface Prisma__TenantClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   leases<T extends Prisma.Tenant$leasesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$leasesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$LeasePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  maintenanceRequests<T extends Prisma.Tenant$maintenanceRequestsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$maintenanceRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MaintenanceRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1246,6 +1520,10 @@ export interface TenantFieldRefs {
   readonly isActive: Prisma.FieldRef<"Tenant", 'Boolean'>
   readonly moveInDate: Prisma.FieldRef<"Tenant", 'DateTime'>
   readonly moveOutDate: Prisma.FieldRef<"Tenant", 'DateTime'>
+  readonly passwordHash: Prisma.FieldRef<"Tenant", 'String'>
+  readonly inviteToken: Prisma.FieldRef<"Tenant", 'String'>
+  readonly inviteTokenExpiry: Prisma.FieldRef<"Tenant", 'DateTime'>
+  readonly portalEnabled: Prisma.FieldRef<"Tenant", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"Tenant", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Tenant", 'DateTime'>
 }
@@ -1662,6 +1940,30 @@ export type Tenant$leasesArgs<ExtArgs extends runtime.Types.Extensions.InternalA
   take?: number
   skip?: number
   distinct?: Prisma.LeaseScalarFieldEnum | Prisma.LeaseScalarFieldEnum[]
+}
+
+/**
+ * Tenant.maintenanceRequests
+ */
+export type Tenant$maintenanceRequestsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the MaintenanceRequest
+   */
+  select?: Prisma.MaintenanceRequestSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the MaintenanceRequest
+   */
+  omit?: Prisma.MaintenanceRequestOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MaintenanceRequestInclude<ExtArgs> | null
+  where?: Prisma.MaintenanceRequestWhereInput
+  orderBy?: Prisma.MaintenanceRequestOrderByWithRelationInput | Prisma.MaintenanceRequestOrderByWithRelationInput[]
+  cursor?: Prisma.MaintenanceRequestWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.MaintenanceRequestScalarFieldEnum | Prisma.MaintenanceRequestScalarFieldEnum[]
 }
 
 /**

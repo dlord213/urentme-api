@@ -10,6 +10,8 @@ import propertyRoutes from "./routes/properties/index.js";
 import transactionRoutes from "./routes/transactions/index.js";
 import unitRoutes from "./routes/units/index.js";
 import dashboardRoutes from "./routes/dashboard/index.js";
+import tenantAuthRoutes from "./routes/tenant-auth/index.js";
+import portalRoutes from "./routes/portal/index.js";
 
 // Plugins
 import envPlugin from "./plugins/00-env.js";
@@ -42,6 +44,8 @@ class FastifyConfig {
     await server.register(transactionRoutes, { prefix: "api/transactions" });
     await server.register(unitRoutes, { prefix: "api/units" });
     await server.register(dashboardRoutes, { prefix: "api/dashboard" });
+    await server.register(tenantAuthRoutes, { prefix: "api/tenant-auth" });
+    await server.register(portalRoutes, { prefix: "api/portal" });
   }
 
   public static async initializeTestRoutes(server: FastifyInstance) {

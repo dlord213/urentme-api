@@ -45,11 +45,38 @@ export default fp(async (fastify: FastifyInstance) => {
       }
     },
   );
+
+  /**
+   * Tenant-only preHandler. Reads `tenant_access_token` cookie and
+   * asserts role === "tenant".
+   */
+  fastify.decorate(
+    "authenticateTenant",
+    async function (request: FastifyRequest, reply: FastifyReply) {
+      try {
+        const token = request.cookies["tenant_access_token"];
+        if (!token) throw new Error("No tenant token");
+        const payload = fastify.jwt.verify<{
+          tenantId: string;
+          email: string;
+          role: string;
+        }>(token);
+        if (payload.role !== "tenant") throw new Error("Forbidden");
+        request.tenantUser = payload;
+      } catch {
+        reply.status(401).send({ error: "Unauthorized" });
+      }
+    },
+  );
 });
 
 declare module "fastify" {
   interface FastifyInstance {
     authenticate(request: FastifyRequest, reply: FastifyReply): Promise<void>;
+    authenticateTenant(request: FastifyRequest, reply: FastifyReply): Promise<void>;
+  }
+  interface FastifyRequest {
+    tenantUser?: { tenantId: string; email: string; role: string };
   }
 }
 

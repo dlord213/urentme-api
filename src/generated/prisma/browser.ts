@@ -62,3 +62,13 @@ export type PropertyAnnouncement = Prisma.PropertyAnnouncementModel
  * 
  */
 export type UnitAnnouncement = Prisma.UnitAnnouncementModel
+/**
+ * Model MaintenanceRequest
+ * 
+ */
+export type MaintenanceRequest = Prisma.MaintenanceRequestModel
+/**
+ * Model LeaseDocument
+ * 
+ */
+export type LeaseDocument = Prisma.LeaseDocumentModel
