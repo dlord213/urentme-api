@@ -28,6 +28,11 @@ const schema = {
       type: "string",
       default: "*",
     },
+    SMTP_HOST: { type: "string" },
+    SMTP_PORT: { type: "integer" },
+    SMTP_SECURE: { type: "boolean" },
+    SMTP_USER: { type: "string" },
+    SMTP_PASS: { type: "string" },
   },
 };
 
