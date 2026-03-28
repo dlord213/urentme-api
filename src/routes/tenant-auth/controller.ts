@@ -20,7 +20,10 @@ function setTenantCookies(
     path: "/",
   };
   reply
-    .setCookie("tenant_access_token", accessToken, { ...base, maxAge: 1440 * 60 })
+    .setCookie("tenant_access_token", accessToken, {
+      ...base,
+      maxAge: 1440 * 60,
+    })
     .setCookie("tenant_refresh_token", refreshToken, {
       ...base,
       maxAge: 7 * 24 * 60 * 60,
@@ -33,8 +36,7 @@ export const inviteHandler = async function (
   reply: FastifyReply,
 ) {
   const origin =
-    request.headers.origin ||
-    `${request.protocol}://${request.hostname}`;
+    request.headers.origin || `${request.protocol}://${request.hostname}`;
   const result = await TenantAuthService.createInvite(
     request.params.tenantId,
     origin,
@@ -71,7 +73,7 @@ export const tenantLoginHandler = async function (
     return reply.forbidden("Account is deactivated");
   }
 
-  const payload = { tenantId: tenant.id, email: tenant.email, role: "tenant" };
+  const payload = { id: tenant.id, email: tenant.email, role: "tenant" };
   const accessToken = this.jwt.sign(payload, { expiresIn: ACCESS_TOKEN_TTL });
   const refreshToken = this.jwt.sign(payload, { expiresIn: REFRESH_TOKEN_TTL });
 
