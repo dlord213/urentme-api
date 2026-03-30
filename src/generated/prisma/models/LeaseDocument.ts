@@ -30,6 +30,7 @@ export type LeaseDocumentMinAggregateOutputType = {
   label: string | null
   url: string | null
   createdAt: Date | null
+  updatedAt: Date | null
 }
 
 export type LeaseDocumentMaxAggregateOutputType = {
@@ -38,6 +39,7 @@ export type LeaseDocumentMaxAggregateOutputType = {
   label: string | null
   url: string | null
   createdAt: Date | null
+  updatedAt: Date | null
 }
 
 export type LeaseDocumentCountAggregateOutputType = {
@@ -46,6 +48,7 @@ export type LeaseDocumentCountAggregateOutputType = {
   label: number
   url: number
   createdAt: number
+  updatedAt: number
   _all: number
 }
 
@@ -56,6 +59,7 @@ export type LeaseDocumentMinAggregateInputType = {
   label?: true
   url?: true
   createdAt?: true
+  updatedAt?: true
 }
 
 export type LeaseDocumentMaxAggregateInputType = {
@@ -64,6 +68,7 @@ export type LeaseDocumentMaxAggregateInputType = {
   label?: true
   url?: true
   createdAt?: true
+  updatedAt?: true
 }
 
 export type LeaseDocumentCountAggregateInputType = {
@@ -72,6 +77,7 @@ export type LeaseDocumentCountAggregateInputType = {
   label?: true
   url?: true
   createdAt?: true
+  updatedAt?: true
   _all?: true
 }
 
@@ -153,6 +159,7 @@ export type LeaseDocumentGroupByOutputType = {
   label: string
   url: string
   createdAt: Date
+  updatedAt: Date
   _count: LeaseDocumentCountAggregateOutputType | null
   _min: LeaseDocumentMinAggregateOutputType | null
   _max: LeaseDocumentMaxAggregateOutputType | null
@@ -182,6 +189,7 @@ export type LeaseDocumentWhereInput = {
   label?: Prisma.StringFilter<"LeaseDocument"> | string
   url?: Prisma.StringFilter<"LeaseDocument"> | string
   createdAt?: Prisma.DateTimeFilter<"LeaseDocument"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"LeaseDocument"> | Date | string
   lease?: Prisma.XOR<Prisma.LeaseScalarRelationFilter, Prisma.LeaseWhereInput>
 }
 
@@ -191,6 +199,7 @@ export type LeaseDocumentOrderByWithRelationInput = {
   label?: Prisma.SortOrder
   url?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   lease?: Prisma.LeaseOrderByWithRelationInput
 }
 
@@ -203,6 +212,7 @@ export type LeaseDocumentWhereUniqueInput = Prisma.AtLeast<{
   label?: Prisma.StringFilter<"LeaseDocument"> | string
   url?: Prisma.StringFilter<"LeaseDocument"> | string
   createdAt?: Prisma.DateTimeFilter<"LeaseDocument"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"LeaseDocument"> | Date | string
   lease?: Prisma.XOR<Prisma.LeaseScalarRelationFilter, Prisma.LeaseWhereInput>
 }, "id">
 
@@ -212,6 +222,7 @@ export type LeaseDocumentOrderByWithAggregationInput = {
   label?: Prisma.SortOrder
   url?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   _count?: Prisma.LeaseDocumentCountOrderByAggregateInput
   _max?: Prisma.LeaseDocumentMaxOrderByAggregateInput
   _min?: Prisma.LeaseDocumentMinOrderByAggregateInput
@@ -226,6 +237,7 @@ export type LeaseDocumentScalarWhereWithAggregatesInput = {
   label?: Prisma.StringWithAggregatesFilter<"LeaseDocument"> | string
   url?: Prisma.StringWithAggregatesFilter<"LeaseDocument"> | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"LeaseDocument"> | Date | string
+  updatedAt?: Prisma.DateTimeWithAggregatesFilter<"LeaseDocument"> | Date | string
 }
 
 export type LeaseDocumentCreateInput = {
@@ -233,6 +245,7 @@ export type LeaseDocumentCreateInput = {
   label: string
   url: string
   createdAt?: Date | string
+  updatedAt?: Date | string
   lease: Prisma.LeaseCreateNestedOneWithoutDocumentsInput
 }
 
@@ -242,6 +255,7 @@ export type LeaseDocumentUncheckedCreateInput = {
   label: string
   url: string
   createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type LeaseDocumentUpdateInput = {
@@ -249,6 +263,7 @@ export type LeaseDocumentUpdateInput = {
   label?: Prisma.StringFieldUpdateOperationsInput | string
   url?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lease?: Prisma.LeaseUpdateOneRequiredWithoutDocumentsNestedInput
 }
 
@@ -258,6 +273,7 @@ export type LeaseDocumentUncheckedUpdateInput = {
   label?: Prisma.StringFieldUpdateOperationsInput | string
   url?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type LeaseDocumentCreateManyInput = {
@@ -266,6 +282,7 @@ export type LeaseDocumentCreateManyInput = {
   label: string
   url: string
   createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type LeaseDocumentUpdateManyMutationInput = {
@@ -273,6 +290,7 @@ export type LeaseDocumentUpdateManyMutationInput = {
   label?: Prisma.StringFieldUpdateOperationsInput | string
   url?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type LeaseDocumentUncheckedUpdateManyInput = {
@@ -281,6 +299,7 @@ export type LeaseDocumentUncheckedUpdateManyInput = {
   label?: Prisma.StringFieldUpdateOperationsInput | string
   url?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type LeaseDocumentListRelationFilter = {
@@ -299,6 +318,7 @@ export type LeaseDocumentCountOrderByAggregateInput = {
   label?: Prisma.SortOrder
   url?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type LeaseDocumentMaxOrderByAggregateInput = {
@@ -307,6 +327,7 @@ export type LeaseDocumentMaxOrderByAggregateInput = {
   label?: Prisma.SortOrder
   url?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type LeaseDocumentMinOrderByAggregateInput = {
@@ -315,6 +336,7 @@ export type LeaseDocumentMinOrderByAggregateInput = {
   label?: Prisma.SortOrder
   url?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type LeaseDocumentCreateNestedManyWithoutLeaseInput = {
@@ -364,6 +386,7 @@ export type LeaseDocumentCreateWithoutLeaseInput = {
   label: string
   url: string
   createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type LeaseDocumentUncheckedCreateWithoutLeaseInput = {
@@ -371,6 +394,7 @@ export type LeaseDocumentUncheckedCreateWithoutLeaseInput = {
   label: string
   url: string
   createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type LeaseDocumentCreateOrConnectWithoutLeaseInput = {
@@ -408,6 +432,7 @@ export type LeaseDocumentScalarWhereInput = {
   label?: Prisma.StringFilter<"LeaseDocument"> | string
   url?: Prisma.StringFilter<"LeaseDocument"> | string
   createdAt?: Prisma.DateTimeFilter<"LeaseDocument"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"LeaseDocument"> | Date | string
 }
 
 export type LeaseDocumentCreateManyLeaseInput = {
@@ -415,6 +440,7 @@ export type LeaseDocumentCreateManyLeaseInput = {
   label: string
   url: string
   createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type LeaseDocumentUpdateWithoutLeaseInput = {
@@ -422,6 +448,7 @@ export type LeaseDocumentUpdateWithoutLeaseInput = {
   label?: Prisma.StringFieldUpdateOperationsInput | string
   url?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type LeaseDocumentUncheckedUpdateWithoutLeaseInput = {
@@ -429,6 +456,7 @@ export type LeaseDocumentUncheckedUpdateWithoutLeaseInput = {
   label?: Prisma.StringFieldUpdateOperationsInput | string
   url?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type LeaseDocumentUncheckedUpdateManyWithoutLeaseInput = {
@@ -436,6 +464,7 @@ export type LeaseDocumentUncheckedUpdateManyWithoutLeaseInput = {
   label?: Prisma.StringFieldUpdateOperationsInput | string
   url?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 
@@ -446,6 +475,7 @@ export type LeaseDocumentSelect<ExtArgs extends runtime.Types.Extensions.Interna
   label?: boolean
   url?: boolean
   createdAt?: boolean
+  updatedAt?: boolean
   lease?: boolean | Prisma.LeaseDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["leaseDocument"]>
 
@@ -455,6 +485,7 @@ export type LeaseDocumentSelectCreateManyAndReturn<ExtArgs extends runtime.Types
   label?: boolean
   url?: boolean
   createdAt?: boolean
+  updatedAt?: boolean
   lease?: boolean | Prisma.LeaseDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["leaseDocument"]>
 
@@ -464,6 +495,7 @@ export type LeaseDocumentSelectUpdateManyAndReturn<ExtArgs extends runtime.Types
   label?: boolean
   url?: boolean
   createdAt?: boolean
+  updatedAt?: boolean
   lease?: boolean | Prisma.LeaseDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["leaseDocument"]>
 
@@ -473,9 +505,10 @@ export type LeaseDocumentSelectScalar = {
   label?: boolean
   url?: boolean
   createdAt?: boolean
+  updatedAt?: boolean
 }
 
-export type LeaseDocumentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "leaseId" | "label" | "url" | "createdAt", ExtArgs["result"]["leaseDocument"]>
+export type LeaseDocumentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "leaseId" | "label" | "url" | "createdAt" | "updatedAt", ExtArgs["result"]["leaseDocument"]>
 export type LeaseDocumentInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   lease?: boolean | Prisma.LeaseDefaultArgs<ExtArgs>
 }
@@ -497,6 +530,7 @@ export type $LeaseDocumentPayload<ExtArgs extends runtime.Types.Extensions.Inter
     label: string
     url: string
     createdAt: Date
+    updatedAt: Date
   }, ExtArgs["result"]["leaseDocument"]>
   composites: {}
 }
@@ -926,6 +960,7 @@ export interface LeaseDocumentFieldRefs {
   readonly label: Prisma.FieldRef<"LeaseDocument", 'String'>
   readonly url: Prisma.FieldRef<"LeaseDocument", 'String'>
   readonly createdAt: Prisma.FieldRef<"LeaseDocument", 'DateTime'>
+  readonly updatedAt: Prisma.FieldRef<"LeaseDocument", 'DateTime'>
 }
     
 

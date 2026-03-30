@@ -245,7 +245,6 @@ export type UnitAnnouncementScalarFieldEnum = (typeof UnitAnnouncementScalarFiel
 
 export const MaintenanceRequestScalarFieldEnum = {
   id: 'id',
-  tenantId: 'tenantId',
   leaseId: 'leaseId',
   title: 'title',
   description: 'description',
@@ -264,7 +263,8 @@ export const LeaseDocumentScalarFieldEnum = {
   leaseId: 'leaseId',
   label: 'label',
   url: 'url',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type LeaseDocumentScalarFieldEnum = (typeof LeaseDocumentScalarFieldEnum)[keyof typeof LeaseDocumentScalarFieldEnum]

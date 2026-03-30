@@ -10,7 +10,6 @@ export class PortalService {
         transactions: { orderBy: { transactionDate: "desc" } },
         documents: true,
         maintenanceRequests: {
-          where: { tenantId },
           orderBy: { createdAt: "desc" },
         },
       },
@@ -135,7 +134,6 @@ export class PortalService {
 
     return prisma.maintenanceRequest.create({
       data: {
-        tenantId: data.tenantId,
         leaseId: lease.id,
         title: data.title,
         description: data.description,
