@@ -1,10 +1,11 @@
 import { prisma } from "../../utils/prisma.js";
+import { EmailService } from "../email/service.js";
 
 const PAGE_SIZE = 10;
 
 export class UnitService {
-  static async list(page: number = 1, search?: string, status?: string) {
-    const skip = (page - 1) * PAGE_SIZE;
+  static async list(page: number = 1, search?: string, status?: string, limit: number = PAGE_SIZE) {
+    const skip = (page - 1) * limit;
 
     const where: any = {};
 
@@ -43,7 +44,7 @@ export class UnitService {
       prisma.unit.findMany({
         where,
         skip,
-        take: PAGE_SIZE,
+        take: limit,
         select: {
           id: true,
           unitNumber: true,
@@ -87,7 +88,7 @@ export class UnitService {
       data,
       total,
       page,
-      totalPages: Math.ceil(total / PAGE_SIZE),
+      totalPages: Math.ceil(total / limit),
     };
   }
 
@@ -146,6 +147,15 @@ export class UnitService {
   }
 
   static async update(id: string, data: any) {
+    if (data.status === "vacant") {
+      const oldUnit = await prisma.unit.findUnique({ where: { id } });
+      if (oldUnit?.status === "reserved") {
+        // Automatically delete the draft lease (assigned tenant) to fully cancel the reservation
+        await prisma.lease.deleteMany({
+          where: { unitId: id, status: "draft" }
+        });
+      }
+    }
     return prisma.unit.update({ where: { id }, data });
   }
 
@@ -164,7 +174,10 @@ export class UnitService {
     leaseEndDate: string,
   ) {
     // Validate unit exists and is vacant
-    const unit = await prisma.unit.findUnique({ where: { id: unitId } });
+    const unit = await prisma.unit.findUnique({ 
+      where: { id: unitId },
+      include: { property: true }
+    });
     if (!unit) throw new Error("Unit not found");
     if (unit.status !== "vacant") throw new Error("Only vacant units can be reserved");
 
@@ -183,10 +196,22 @@ export class UnitService {
           leaseEndDate: new Date(leaseEndDate),
         },
         include: {
-          tenant: { select: { id: true, firstName: true, lastName: true } },
+          tenant: { select: { id: true, firstName: true, lastName: true, email: true } },
         },
       }),
     ]);
+
+    if (lease.tenant?.email) {
+      const html = EmailService.generateUrentMeEmail(
+        lease.tenant.firstName,
+        "Unit Reserved",
+        [
+          `Great news! The unit <strong>${unit.property?.name || "Property"} - Unit ${unit.unitNumber}</strong> has been successfully reserved for you.`,
+          `Your property manager is currently processing the documentation. You will be notified once the final lease is ready for review and signing.`
+        ]
+      );
+      EmailService.sendEmail(lease.tenant.email, "Your Unit is Reserved", "Your unit has been reserved.", html).catch(console.error);
+    }
 
     return { unit: updatedUnit, lease };
   }

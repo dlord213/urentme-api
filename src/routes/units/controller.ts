@@ -2,11 +2,12 @@ import { type FastifyReply, type FastifyRequest } from "fastify";
 import { UnitService } from "./service.js";
 
 export class UnitController {
-  static async list(request: FastifyRequest<{ Querystring: { page?: string; search?: string; status?: string } }>, reply: FastifyReply) {
+  static async list(request: FastifyRequest<{ Querystring: { page?: string; search?: string; status?: string; limit?: string } }>, reply: FastifyReply) {
     const page = Math.max(1, parseInt(request.query.page || "1", 10) || 1);
     const search = request.query.search || undefined;
     const status = request.query.status || undefined;
-    return UnitService.list(page, search, status);
+    const limit = parseInt(request.query.limit || "10", 10) || 10;
+    return UnitService.list(page, search, status, limit);
   }
 
   static async getById(

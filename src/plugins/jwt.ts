@@ -73,7 +73,10 @@ export default fp(async (fastify: FastifyInstance) => {
 declare module "fastify" {
   interface FastifyInstance {
     authenticate(request: FastifyRequest, reply: FastifyReply): Promise<void>;
-    authenticateTenant(request: FastifyRequest, reply: FastifyReply): Promise<void>;
+    authenticateTenant(
+      request: FastifyRequest,
+      reply: FastifyReply,
+    ): Promise<void>;
   }
   interface FastifyRequest {
     tenantUser?: { tenantId: string; email: string; role: string };
