@@ -246,11 +246,11 @@ export type LeaseWhereInput = {
   terminationReason?: Prisma.StringNullableFilter<"Lease"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Lease"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Lease"> | Date | string
-  unit?: Prisma.XOR<Prisma.UnitScalarRelationFilter, Prisma.UnitWhereInput>
-  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
-  transactions?: Prisma.TransactionListRelationFilter
-  maintenanceRequests?: Prisma.MaintenanceRequestListRelationFilter
   documents?: Prisma.LeaseDocumentListRelationFilter
+  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
+  unit?: Prisma.XOR<Prisma.UnitScalarRelationFilter, Prisma.UnitWhereInput>
+  maintenanceRequests?: Prisma.MaintenanceRequestListRelationFilter
+  transactions?: Prisma.TransactionListRelationFilter
 }
 
 export type LeaseOrderByWithRelationInput = {
@@ -267,11 +267,11 @@ export type LeaseOrderByWithRelationInput = {
   terminationReason?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  unit?: Prisma.UnitOrderByWithRelationInput
-  tenant?: Prisma.TenantOrderByWithRelationInput
-  transactions?: Prisma.TransactionOrderByRelationAggregateInput
-  maintenanceRequests?: Prisma.MaintenanceRequestOrderByRelationAggregateInput
   documents?: Prisma.LeaseDocumentOrderByRelationAggregateInput
+  tenant?: Prisma.TenantOrderByWithRelationInput
+  unit?: Prisma.UnitOrderByWithRelationInput
+  maintenanceRequests?: Prisma.MaintenanceRequestOrderByRelationAggregateInput
+  transactions?: Prisma.TransactionOrderByRelationAggregateInput
 }
 
 export type LeaseWhereUniqueInput = Prisma.AtLeast<{
@@ -291,11 +291,11 @@ export type LeaseWhereUniqueInput = Prisma.AtLeast<{
   terminationReason?: Prisma.StringNullableFilter<"Lease"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Lease"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Lease"> | Date | string
-  unit?: Prisma.XOR<Prisma.UnitScalarRelationFilter, Prisma.UnitWhereInput>
-  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
-  transactions?: Prisma.TransactionListRelationFilter
-  maintenanceRequests?: Prisma.MaintenanceRequestListRelationFilter
   documents?: Prisma.LeaseDocumentListRelationFilter
+  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
+  unit?: Prisma.XOR<Prisma.UnitScalarRelationFilter, Prisma.UnitWhereInput>
+  maintenanceRequests?: Prisma.MaintenanceRequestListRelationFilter
+  transactions?: Prisma.TransactionListRelationFilter
 }, "id">
 
 export type LeaseOrderByWithAggregationInput = {
@@ -348,11 +348,11 @@ export type LeaseCreateInput = {
   terminationReason?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  unit: Prisma.UnitCreateNestedOneWithoutLeasesInput
-  tenant: Prisma.TenantCreateNestedOneWithoutLeasesInput
-  transactions?: Prisma.TransactionCreateNestedManyWithoutLeaseInput
-  maintenanceRequests?: Prisma.MaintenanceRequestCreateNestedManyWithoutLeaseInput
   documents?: Prisma.LeaseDocumentCreateNestedManyWithoutLeaseInput
+  tenant: Prisma.TenantCreateNestedOneWithoutLeasesInput
+  unit: Prisma.UnitCreateNestedOneWithoutLeasesInput
+  maintenanceRequests?: Prisma.MaintenanceRequestCreateNestedManyWithoutLeaseInput
+  transactions?: Prisma.TransactionCreateNestedManyWithoutLeaseInput
 }
 
 export type LeaseUncheckedCreateInput = {
@@ -369,9 +369,9 @@ export type LeaseUncheckedCreateInput = {
   terminationReason?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutLeaseInput
-  maintenanceRequests?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutLeaseInput
   documents?: Prisma.LeaseDocumentUncheckedCreateNestedManyWithoutLeaseInput
+  maintenanceRequests?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutLeaseInput
+  transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutLeaseInput
 }
 
 export type LeaseUpdateInput = {
@@ -386,11 +386,11 @@ export type LeaseUpdateInput = {
   terminationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  unit?: Prisma.UnitUpdateOneRequiredWithoutLeasesNestedInput
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutLeasesNestedInput
-  transactions?: Prisma.TransactionUpdateManyWithoutLeaseNestedInput
-  maintenanceRequests?: Prisma.MaintenanceRequestUpdateManyWithoutLeaseNestedInput
   documents?: Prisma.LeaseDocumentUpdateManyWithoutLeaseNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutLeasesNestedInput
+  unit?: Prisma.UnitUpdateOneRequiredWithoutLeasesNestedInput
+  maintenanceRequests?: Prisma.MaintenanceRequestUpdateManyWithoutLeaseNestedInput
+  transactions?: Prisma.TransactionUpdateManyWithoutLeaseNestedInput
 }
 
 export type LeaseUncheckedUpdateInput = {
@@ -407,9 +407,9 @@ export type LeaseUncheckedUpdateInput = {
   terminationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  transactions?: Prisma.TransactionUncheckedUpdateManyWithoutLeaseNestedInput
-  maintenanceRequests?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutLeaseNestedInput
   documents?: Prisma.LeaseDocumentUncheckedUpdateManyWithoutLeaseNestedInput
+  maintenanceRequests?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutLeaseNestedInput
+  transactions?: Prisma.TransactionUncheckedUpdateManyWithoutLeaseNestedInput
 }
 
 export type LeaseCreateManyInput = {
@@ -659,10 +659,10 @@ export type LeaseCreateWithoutUnitInput = {
   terminationReason?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  tenant: Prisma.TenantCreateNestedOneWithoutLeasesInput
-  transactions?: Prisma.TransactionCreateNestedManyWithoutLeaseInput
-  maintenanceRequests?: Prisma.MaintenanceRequestCreateNestedManyWithoutLeaseInput
   documents?: Prisma.LeaseDocumentCreateNestedManyWithoutLeaseInput
+  tenant: Prisma.TenantCreateNestedOneWithoutLeasesInput
+  maintenanceRequests?: Prisma.MaintenanceRequestCreateNestedManyWithoutLeaseInput
+  transactions?: Prisma.TransactionCreateNestedManyWithoutLeaseInput
 }
 
 export type LeaseUncheckedCreateWithoutUnitInput = {
@@ -678,9 +678,9 @@ export type LeaseUncheckedCreateWithoutUnitInput = {
   terminationReason?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutLeaseInput
-  maintenanceRequests?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutLeaseInput
   documents?: Prisma.LeaseDocumentUncheckedCreateNestedManyWithoutLeaseInput
+  maintenanceRequests?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutLeaseInput
+  transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutLeaseInput
 }
 
 export type LeaseCreateOrConnectWithoutUnitInput = {
@@ -740,10 +740,10 @@ export type LeaseCreateWithoutTenantInput = {
   terminationReason?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  unit: Prisma.UnitCreateNestedOneWithoutLeasesInput
-  transactions?: Prisma.TransactionCreateNestedManyWithoutLeaseInput
-  maintenanceRequests?: Prisma.MaintenanceRequestCreateNestedManyWithoutLeaseInput
   documents?: Prisma.LeaseDocumentCreateNestedManyWithoutLeaseInput
+  unit: Prisma.UnitCreateNestedOneWithoutLeasesInput
+  maintenanceRequests?: Prisma.MaintenanceRequestCreateNestedManyWithoutLeaseInput
+  transactions?: Prisma.TransactionCreateNestedManyWithoutLeaseInput
 }
 
 export type LeaseUncheckedCreateWithoutTenantInput = {
@@ -759,9 +759,9 @@ export type LeaseUncheckedCreateWithoutTenantInput = {
   terminationReason?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutLeaseInput
-  maintenanceRequests?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutLeaseInput
   documents?: Prisma.LeaseDocumentUncheckedCreateNestedManyWithoutLeaseInput
+  maintenanceRequests?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutLeaseInput
+  transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutLeaseInput
 }
 
 export type LeaseCreateOrConnectWithoutTenantInput = {
@@ -802,10 +802,10 @@ export type LeaseCreateWithoutTransactionsInput = {
   terminationReason?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  unit: Prisma.UnitCreateNestedOneWithoutLeasesInput
-  tenant: Prisma.TenantCreateNestedOneWithoutLeasesInput
-  maintenanceRequests?: Prisma.MaintenanceRequestCreateNestedManyWithoutLeaseInput
   documents?: Prisma.LeaseDocumentCreateNestedManyWithoutLeaseInput
+  tenant: Prisma.TenantCreateNestedOneWithoutLeasesInput
+  unit: Prisma.UnitCreateNestedOneWithoutLeasesInput
+  maintenanceRequests?: Prisma.MaintenanceRequestCreateNestedManyWithoutLeaseInput
 }
 
 export type LeaseUncheckedCreateWithoutTransactionsInput = {
@@ -822,8 +822,8 @@ export type LeaseUncheckedCreateWithoutTransactionsInput = {
   terminationReason?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  maintenanceRequests?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutLeaseInput
   documents?: Prisma.LeaseDocumentUncheckedCreateNestedManyWithoutLeaseInput
+  maintenanceRequests?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutLeaseInput
 }
 
 export type LeaseCreateOrConnectWithoutTransactionsInput = {
@@ -854,10 +854,10 @@ export type LeaseUpdateWithoutTransactionsInput = {
   terminationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  unit?: Prisma.UnitUpdateOneRequiredWithoutLeasesNestedInput
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutLeasesNestedInput
-  maintenanceRequests?: Prisma.MaintenanceRequestUpdateManyWithoutLeaseNestedInput
   documents?: Prisma.LeaseDocumentUpdateManyWithoutLeaseNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutLeasesNestedInput
+  unit?: Prisma.UnitUpdateOneRequiredWithoutLeasesNestedInput
+  maintenanceRequests?: Prisma.MaintenanceRequestUpdateManyWithoutLeaseNestedInput
 }
 
 export type LeaseUncheckedUpdateWithoutTransactionsInput = {
@@ -874,8 +874,8 @@ export type LeaseUncheckedUpdateWithoutTransactionsInput = {
   terminationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  maintenanceRequests?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutLeaseNestedInput
   documents?: Prisma.LeaseDocumentUncheckedUpdateManyWithoutLeaseNestedInput
+  maintenanceRequests?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutLeaseNestedInput
 }
 
 export type LeaseCreateWithoutMaintenanceRequestsInput = {
@@ -890,10 +890,10 @@ export type LeaseCreateWithoutMaintenanceRequestsInput = {
   terminationReason?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  unit: Prisma.UnitCreateNestedOneWithoutLeasesInput
-  tenant: Prisma.TenantCreateNestedOneWithoutLeasesInput
-  transactions?: Prisma.TransactionCreateNestedManyWithoutLeaseInput
   documents?: Prisma.LeaseDocumentCreateNestedManyWithoutLeaseInput
+  tenant: Prisma.TenantCreateNestedOneWithoutLeasesInput
+  unit: Prisma.UnitCreateNestedOneWithoutLeasesInput
+  transactions?: Prisma.TransactionCreateNestedManyWithoutLeaseInput
 }
 
 export type LeaseUncheckedCreateWithoutMaintenanceRequestsInput = {
@@ -910,8 +910,8 @@ export type LeaseUncheckedCreateWithoutMaintenanceRequestsInput = {
   terminationReason?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutLeaseInput
   documents?: Prisma.LeaseDocumentUncheckedCreateNestedManyWithoutLeaseInput
+  transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutLeaseInput
 }
 
 export type LeaseCreateOrConnectWithoutMaintenanceRequestsInput = {
@@ -942,10 +942,10 @@ export type LeaseUpdateWithoutMaintenanceRequestsInput = {
   terminationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  unit?: Prisma.UnitUpdateOneRequiredWithoutLeasesNestedInput
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutLeasesNestedInput
-  transactions?: Prisma.TransactionUpdateManyWithoutLeaseNestedInput
   documents?: Prisma.LeaseDocumentUpdateManyWithoutLeaseNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutLeasesNestedInput
+  unit?: Prisma.UnitUpdateOneRequiredWithoutLeasesNestedInput
+  transactions?: Prisma.TransactionUpdateManyWithoutLeaseNestedInput
 }
 
 export type LeaseUncheckedUpdateWithoutMaintenanceRequestsInput = {
@@ -962,8 +962,8 @@ export type LeaseUncheckedUpdateWithoutMaintenanceRequestsInput = {
   terminationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  transactions?: Prisma.TransactionUncheckedUpdateManyWithoutLeaseNestedInput
   documents?: Prisma.LeaseDocumentUncheckedUpdateManyWithoutLeaseNestedInput
+  transactions?: Prisma.TransactionUncheckedUpdateManyWithoutLeaseNestedInput
 }
 
 export type LeaseCreateWithoutDocumentsInput = {
@@ -978,10 +978,10 @@ export type LeaseCreateWithoutDocumentsInput = {
   terminationReason?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  unit: Prisma.UnitCreateNestedOneWithoutLeasesInput
   tenant: Prisma.TenantCreateNestedOneWithoutLeasesInput
-  transactions?: Prisma.TransactionCreateNestedManyWithoutLeaseInput
+  unit: Prisma.UnitCreateNestedOneWithoutLeasesInput
   maintenanceRequests?: Prisma.MaintenanceRequestCreateNestedManyWithoutLeaseInput
+  transactions?: Prisma.TransactionCreateNestedManyWithoutLeaseInput
 }
 
 export type LeaseUncheckedCreateWithoutDocumentsInput = {
@@ -998,8 +998,8 @@ export type LeaseUncheckedCreateWithoutDocumentsInput = {
   terminationReason?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutLeaseInput
   maintenanceRequests?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutLeaseInput
+  transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutLeaseInput
 }
 
 export type LeaseCreateOrConnectWithoutDocumentsInput = {
@@ -1030,10 +1030,10 @@ export type LeaseUpdateWithoutDocumentsInput = {
   terminationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  unit?: Prisma.UnitUpdateOneRequiredWithoutLeasesNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutLeasesNestedInput
-  transactions?: Prisma.TransactionUpdateManyWithoutLeaseNestedInput
+  unit?: Prisma.UnitUpdateOneRequiredWithoutLeasesNestedInput
   maintenanceRequests?: Prisma.MaintenanceRequestUpdateManyWithoutLeaseNestedInput
+  transactions?: Prisma.TransactionUpdateManyWithoutLeaseNestedInput
 }
 
 export type LeaseUncheckedUpdateWithoutDocumentsInput = {
@@ -1050,8 +1050,8 @@ export type LeaseUncheckedUpdateWithoutDocumentsInput = {
   terminationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  transactions?: Prisma.TransactionUncheckedUpdateManyWithoutLeaseNestedInput
   maintenanceRequests?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutLeaseNestedInput
+  transactions?: Prisma.TransactionUncheckedUpdateManyWithoutLeaseNestedInput
 }
 
 export type LeaseCreateManyUnitInput = {
@@ -1081,10 +1081,10 @@ export type LeaseUpdateWithoutUnitInput = {
   terminationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutLeasesNestedInput
-  transactions?: Prisma.TransactionUpdateManyWithoutLeaseNestedInput
-  maintenanceRequests?: Prisma.MaintenanceRequestUpdateManyWithoutLeaseNestedInput
   documents?: Prisma.LeaseDocumentUpdateManyWithoutLeaseNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutLeasesNestedInput
+  maintenanceRequests?: Prisma.MaintenanceRequestUpdateManyWithoutLeaseNestedInput
+  transactions?: Prisma.TransactionUpdateManyWithoutLeaseNestedInput
 }
 
 export type LeaseUncheckedUpdateWithoutUnitInput = {
@@ -1100,9 +1100,9 @@ export type LeaseUncheckedUpdateWithoutUnitInput = {
   terminationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  transactions?: Prisma.TransactionUncheckedUpdateManyWithoutLeaseNestedInput
-  maintenanceRequests?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutLeaseNestedInput
   documents?: Prisma.LeaseDocumentUncheckedUpdateManyWithoutLeaseNestedInput
+  maintenanceRequests?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutLeaseNestedInput
+  transactions?: Prisma.TransactionUncheckedUpdateManyWithoutLeaseNestedInput
 }
 
 export type LeaseUncheckedUpdateManyWithoutUnitInput = {
@@ -1147,10 +1147,10 @@ export type LeaseUpdateWithoutTenantInput = {
   terminationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  unit?: Prisma.UnitUpdateOneRequiredWithoutLeasesNestedInput
-  transactions?: Prisma.TransactionUpdateManyWithoutLeaseNestedInput
-  maintenanceRequests?: Prisma.MaintenanceRequestUpdateManyWithoutLeaseNestedInput
   documents?: Prisma.LeaseDocumentUpdateManyWithoutLeaseNestedInput
+  unit?: Prisma.UnitUpdateOneRequiredWithoutLeasesNestedInput
+  maintenanceRequests?: Prisma.MaintenanceRequestUpdateManyWithoutLeaseNestedInput
+  transactions?: Prisma.TransactionUpdateManyWithoutLeaseNestedInput
 }
 
 export type LeaseUncheckedUpdateWithoutTenantInput = {
@@ -1166,9 +1166,9 @@ export type LeaseUncheckedUpdateWithoutTenantInput = {
   terminationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  transactions?: Prisma.TransactionUncheckedUpdateManyWithoutLeaseNestedInput
-  maintenanceRequests?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutLeaseNestedInput
   documents?: Prisma.LeaseDocumentUncheckedUpdateManyWithoutLeaseNestedInput
+  maintenanceRequests?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutLeaseNestedInput
+  transactions?: Prisma.TransactionUncheckedUpdateManyWithoutLeaseNestedInput
 }
 
 export type LeaseUncheckedUpdateManyWithoutTenantInput = {
@@ -1192,15 +1192,15 @@ export type LeaseUncheckedUpdateManyWithoutTenantInput = {
  */
 
 export type LeaseCountOutputType = {
-  transactions: number
-  maintenanceRequests: number
   documents: number
+  maintenanceRequests: number
+  transactions: number
 }
 
 export type LeaseCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  transactions?: boolean | LeaseCountOutputTypeCountTransactionsArgs
-  maintenanceRequests?: boolean | LeaseCountOutputTypeCountMaintenanceRequestsArgs
   documents?: boolean | LeaseCountOutputTypeCountDocumentsArgs
+  maintenanceRequests?: boolean | LeaseCountOutputTypeCountMaintenanceRequestsArgs
+  transactions?: boolean | LeaseCountOutputTypeCountTransactionsArgs
 }
 
 /**
@@ -1216,8 +1216,8 @@ export type LeaseCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extens
 /**
  * LeaseCountOutputType without action
  */
-export type LeaseCountOutputTypeCountTransactionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.TransactionWhereInput
+export type LeaseCountOutputTypeCountDocumentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.LeaseDocumentWhereInput
 }
 
 /**
@@ -1230,8 +1230,8 @@ export type LeaseCountOutputTypeCountMaintenanceRequestsArgs<ExtArgs extends run
 /**
  * LeaseCountOutputType without action
  */
-export type LeaseCountOutputTypeCountDocumentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.LeaseDocumentWhereInput
+export type LeaseCountOutputTypeCountTransactionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.TransactionWhereInput
 }
 
 
@@ -1249,11 +1249,11 @@ export type LeaseSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   terminationReason?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  unit?: boolean | Prisma.UnitDefaultArgs<ExtArgs>
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
-  transactions?: boolean | Prisma.Lease$transactionsArgs<ExtArgs>
-  maintenanceRequests?: boolean | Prisma.Lease$maintenanceRequestsArgs<ExtArgs>
   documents?: boolean | Prisma.Lease$documentsArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
+  unit?: boolean | Prisma.UnitDefaultArgs<ExtArgs>
+  maintenanceRequests?: boolean | Prisma.Lease$maintenanceRequestsArgs<ExtArgs>
+  transactions?: boolean | Prisma.Lease$transactionsArgs<ExtArgs>
   _count?: boolean | Prisma.LeaseCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["lease"]>
 
@@ -1271,8 +1271,8 @@ export type LeaseSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   terminationReason?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  unit?: boolean | Prisma.UnitDefaultArgs<ExtArgs>
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
+  unit?: boolean | Prisma.UnitDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["lease"]>
 
 export type LeaseSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1289,8 +1289,8 @@ export type LeaseSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   terminationReason?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  unit?: boolean | Prisma.UnitDefaultArgs<ExtArgs>
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
+  unit?: boolean | Prisma.UnitDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["lease"]>
 
 export type LeaseSelectScalar = {
@@ -1311,30 +1311,30 @@ export type LeaseSelectScalar = {
 
 export type LeaseOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "unitId" | "tenantId" | "status" | "leaseStartDate" | "leaseEndDate" | "terms" | "notes" | "signedAt" | "terminatedAt" | "terminationReason" | "createdAt" | "updatedAt", ExtArgs["result"]["lease"]>
 export type LeaseInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  unit?: boolean | Prisma.UnitDefaultArgs<ExtArgs>
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
-  transactions?: boolean | Prisma.Lease$transactionsArgs<ExtArgs>
-  maintenanceRequests?: boolean | Prisma.Lease$maintenanceRequestsArgs<ExtArgs>
   documents?: boolean | Prisma.Lease$documentsArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
+  unit?: boolean | Prisma.UnitDefaultArgs<ExtArgs>
+  maintenanceRequests?: boolean | Prisma.Lease$maintenanceRequestsArgs<ExtArgs>
+  transactions?: boolean | Prisma.Lease$transactionsArgs<ExtArgs>
   _count?: boolean | Prisma.LeaseCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type LeaseIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  unit?: boolean | Prisma.UnitDefaultArgs<ExtArgs>
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
+  unit?: boolean | Prisma.UnitDefaultArgs<ExtArgs>
 }
 export type LeaseIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  unit?: boolean | Prisma.UnitDefaultArgs<ExtArgs>
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
+  unit?: boolean | Prisma.UnitDefaultArgs<ExtArgs>
 }
 
 export type $LeasePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Lease"
   objects: {
-    unit: Prisma.$UnitPayload<ExtArgs>
-    tenant: Prisma.$TenantPayload<ExtArgs>
-    transactions: Prisma.$TransactionPayload<ExtArgs>[]
-    maintenanceRequests: Prisma.$MaintenanceRequestPayload<ExtArgs>[]
     documents: Prisma.$LeaseDocumentPayload<ExtArgs>[]
+    tenant: Prisma.$TenantPayload<ExtArgs>
+    unit: Prisma.$UnitPayload<ExtArgs>
+    maintenanceRequests: Prisma.$MaintenanceRequestPayload<ExtArgs>[]
+    transactions: Prisma.$TransactionPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1744,11 +1744,11 @@ readonly fields: LeaseFieldRefs;
  */
 export interface Prisma__LeaseClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  unit<T extends Prisma.UnitDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UnitDefaultArgs<ExtArgs>>): Prisma.Prisma__UnitClient<runtime.Types.Result.GetResult<Prisma.$UnitPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  tenant<T extends Prisma.TenantDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantClient<runtime.Types.Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  transactions<T extends Prisma.Lease$transactionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Lease$transactionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TransactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  maintenanceRequests<T extends Prisma.Lease$maintenanceRequestsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Lease$maintenanceRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MaintenanceRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   documents<T extends Prisma.Lease$documentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Lease$documentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$LeaseDocumentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  tenant<T extends Prisma.TenantDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantClient<runtime.Types.Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  unit<T extends Prisma.UnitDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UnitDefaultArgs<ExtArgs>>): Prisma.Prisma__UnitClient<runtime.Types.Result.GetResult<Prisma.$UnitPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  maintenanceRequests<T extends Prisma.Lease$maintenanceRequestsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Lease$maintenanceRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MaintenanceRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  transactions<T extends Prisma.Lease$transactionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Lease$transactionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TransactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2192,27 +2192,27 @@ export type LeaseDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Interna
 }
 
 /**
- * Lease.transactions
+ * Lease.documents
  */
-export type Lease$transactionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type Lease$documentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the Transaction
+   * Select specific fields to fetch from the LeaseDocument
    */
-  select?: Prisma.TransactionSelect<ExtArgs> | null
+  select?: Prisma.LeaseDocumentSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the Transaction
+   * Omit specific fields from the LeaseDocument
    */
-  omit?: Prisma.TransactionOmit<ExtArgs> | null
+  omit?: Prisma.LeaseDocumentOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.TransactionInclude<ExtArgs> | null
-  where?: Prisma.TransactionWhereInput
-  orderBy?: Prisma.TransactionOrderByWithRelationInput | Prisma.TransactionOrderByWithRelationInput[]
-  cursor?: Prisma.TransactionWhereUniqueInput
+  include?: Prisma.LeaseDocumentInclude<ExtArgs> | null
+  where?: Prisma.LeaseDocumentWhereInput
+  orderBy?: Prisma.LeaseDocumentOrderByWithRelationInput | Prisma.LeaseDocumentOrderByWithRelationInput[]
+  cursor?: Prisma.LeaseDocumentWhereUniqueInput
   take?: number
   skip?: number
-  distinct?: Prisma.TransactionScalarFieldEnum | Prisma.TransactionScalarFieldEnum[]
+  distinct?: Prisma.LeaseDocumentScalarFieldEnum | Prisma.LeaseDocumentScalarFieldEnum[]
 }
 
 /**
@@ -2240,27 +2240,27 @@ export type Lease$maintenanceRequestsArgs<ExtArgs extends runtime.Types.Extensio
 }
 
 /**
- * Lease.documents
+ * Lease.transactions
  */
-export type Lease$documentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type Lease$transactionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the LeaseDocument
+   * Select specific fields to fetch from the Transaction
    */
-  select?: Prisma.LeaseDocumentSelect<ExtArgs> | null
+  select?: Prisma.TransactionSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the LeaseDocument
+   * Omit specific fields from the Transaction
    */
-  omit?: Prisma.LeaseDocumentOmit<ExtArgs> | null
+  omit?: Prisma.TransactionOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.LeaseDocumentInclude<ExtArgs> | null
-  where?: Prisma.LeaseDocumentWhereInput
-  orderBy?: Prisma.LeaseDocumentOrderByWithRelationInput | Prisma.LeaseDocumentOrderByWithRelationInput[]
-  cursor?: Prisma.LeaseDocumentWhereUniqueInput
+  include?: Prisma.TransactionInclude<ExtArgs> | null
+  where?: Prisma.TransactionWhereInput
+  orderBy?: Prisma.TransactionOrderByWithRelationInput | Prisma.TransactionOrderByWithRelationInput[]
+  cursor?: Prisma.TransactionWhereUniqueInput
   take?: number
   skip?: number
-  distinct?: Prisma.LeaseDocumentScalarFieldEnum | Prisma.LeaseDocumentScalarFieldEnum[]
+  distinct?: Prisma.TransactionScalarFieldEnum | Prisma.TransactionScalarFieldEnum[]
 }
 
 /**

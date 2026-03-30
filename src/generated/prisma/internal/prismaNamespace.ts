@@ -1325,6 +1325,7 @@ export const UnitScalarFieldEnum = {
   monthlyRentAmount: 'monthlyRentAmount',
   description: 'description',
   imageUrls: 'imageUrls',
+  features: 'features',
   status: 'status',
   isActive: 'isActive',
   isUnderRepair: 'isUnderRepair',

@@ -67,6 +67,7 @@ model Unit {
   monthlyRentAmount Float
   description       String?
   imageUrls         String[]           @default([])
+  features          String[]           @default([])
   status            String             @default("vacant")
   isActive          Boolean            @default(true)
   isUnderRepair     Boolean            @default(false)

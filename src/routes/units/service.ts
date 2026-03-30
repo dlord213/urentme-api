@@ -101,6 +101,7 @@ export class UnitService {
         floor: true,
         monthlyRentAmount: true,
         imageUrls: true,
+        features: true,
         description: true,
         squareFeet: true,
         bedrooms: true,
@@ -156,7 +157,16 @@ export class UnitService {
         });
       }
     }
-    return prisma.unit.update({ where: { id }, data });
+
+    const { propertyId, sqm, ...updateData } = data;
+    if (propertyId) {
+      updateData.property = { connect: { id: propertyId } };
+    }
+    if (sqm !== undefined) {
+      updateData.squareFeet = sqm;
+    }
+
+    return prisma.unit.update({ where: { id }, data: updateData });
   }
 
   static async delete(id: string) {

@@ -87,6 +87,7 @@ export type UnitCountAggregateOutputType = {
   monthlyRentAmount: number
   description: number
   imageUrls: number
+  features: number
   status: number
   isActive: number
   isUnderRepair: number
@@ -158,6 +159,7 @@ export type UnitCountAggregateInputType = {
   monthlyRentAmount?: true
   description?: true
   imageUrls?: true
+  features?: true
   status?: true
   isActive?: true
   isUnderRepair?: true
@@ -264,6 +266,7 @@ export type UnitGroupByOutputType = {
   monthlyRentAmount: number
   description: string | null
   imageUrls: string[]
+  features: string[]
   status: string
   isActive: boolean
   isUnderRepair: boolean
@@ -306,15 +309,16 @@ export type UnitWhereInput = {
   monthlyRentAmount?: Prisma.FloatFilter<"Unit"> | number
   description?: Prisma.StringNullableFilter<"Unit"> | string | null
   imageUrls?: Prisma.StringNullableListFilter<"Unit">
+  features?: Prisma.StringNullableListFilter<"Unit">
   status?: Prisma.StringFilter<"Unit"> | string
   isActive?: Prisma.BoolFilter<"Unit"> | boolean
   isUnderRepair?: Prisma.BoolFilter<"Unit"> | boolean
   isUnderRenovation?: Prisma.BoolFilter<"Unit"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Unit"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Unit"> | Date | string
-  property?: Prisma.XOR<Prisma.PropertyScalarRelationFilter, Prisma.PropertyWhereInput>
   leases?: Prisma.LeaseListRelationFilter
   unitAnnouncements?: Prisma.UnitAnnouncementListRelationFilter
+  property?: Prisma.XOR<Prisma.PropertyScalarRelationFilter, Prisma.PropertyWhereInput>
 }
 
 export type UnitOrderByWithRelationInput = {
@@ -328,15 +332,16 @@ export type UnitOrderByWithRelationInput = {
   monthlyRentAmount?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   imageUrls?: Prisma.SortOrder
+  features?: Prisma.SortOrder
   status?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   isUnderRepair?: Prisma.SortOrder
   isUnderRenovation?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  property?: Prisma.PropertyOrderByWithRelationInput
   leases?: Prisma.LeaseOrderByRelationAggregateInput
   unitAnnouncements?: Prisma.UnitAnnouncementOrderByRelationAggregateInput
+  property?: Prisma.PropertyOrderByWithRelationInput
 }
 
 export type UnitWhereUniqueInput = Prisma.AtLeast<{
@@ -353,15 +358,16 @@ export type UnitWhereUniqueInput = Prisma.AtLeast<{
   monthlyRentAmount?: Prisma.FloatFilter<"Unit"> | number
   description?: Prisma.StringNullableFilter<"Unit"> | string | null
   imageUrls?: Prisma.StringNullableListFilter<"Unit">
+  features?: Prisma.StringNullableListFilter<"Unit">
   status?: Prisma.StringFilter<"Unit"> | string
   isActive?: Prisma.BoolFilter<"Unit"> | boolean
   isUnderRepair?: Prisma.BoolFilter<"Unit"> | boolean
   isUnderRenovation?: Prisma.BoolFilter<"Unit"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Unit"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Unit"> | Date | string
-  property?: Prisma.XOR<Prisma.PropertyScalarRelationFilter, Prisma.PropertyWhereInput>
   leases?: Prisma.LeaseListRelationFilter
   unitAnnouncements?: Prisma.UnitAnnouncementListRelationFilter
+  property?: Prisma.XOR<Prisma.PropertyScalarRelationFilter, Prisma.PropertyWhereInput>
 }, "id">
 
 export type UnitOrderByWithAggregationInput = {
@@ -375,6 +381,7 @@ export type UnitOrderByWithAggregationInput = {
   monthlyRentAmount?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   imageUrls?: Prisma.SortOrder
+  features?: Prisma.SortOrder
   status?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   isUnderRepair?: Prisma.SortOrder
@@ -402,6 +409,7 @@ export type UnitScalarWhereWithAggregatesInput = {
   monthlyRentAmount?: Prisma.FloatWithAggregatesFilter<"Unit"> | number
   description?: Prisma.StringNullableWithAggregatesFilter<"Unit"> | string | null
   imageUrls?: Prisma.StringNullableListFilter<"Unit">
+  features?: Prisma.StringNullableListFilter<"Unit">
   status?: Prisma.StringWithAggregatesFilter<"Unit"> | string
   isActive?: Prisma.BoolWithAggregatesFilter<"Unit"> | boolean
   isUnderRepair?: Prisma.BoolWithAggregatesFilter<"Unit"> | boolean
@@ -420,15 +428,16 @@ export type UnitCreateInput = {
   monthlyRentAmount: number
   description?: string | null
   imageUrls?: Prisma.UnitCreateimageUrlsInput | string[]
+  features?: Prisma.UnitCreatefeaturesInput | string[]
   status?: string
   isActive?: boolean
   isUnderRepair?: boolean
   isUnderRenovation?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
-  property: Prisma.PropertyCreateNestedOneWithoutUnitsInput
   leases?: Prisma.LeaseCreateNestedManyWithoutUnitInput
   unitAnnouncements?: Prisma.UnitAnnouncementCreateNestedManyWithoutUnitInput
+  property: Prisma.PropertyCreateNestedOneWithoutUnitsInput
 }
 
 export type UnitUncheckedCreateInput = {
@@ -442,6 +451,7 @@ export type UnitUncheckedCreateInput = {
   monthlyRentAmount: number
   description?: string | null
   imageUrls?: Prisma.UnitCreateimageUrlsInput | string[]
+  features?: Prisma.UnitCreatefeaturesInput | string[]
   status?: string
   isActive?: boolean
   isUnderRepair?: boolean
@@ -462,15 +472,16 @@ export type UnitUpdateInput = {
   monthlyRentAmount?: Prisma.FloatFieldUpdateOperationsInput | number
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrls?: Prisma.UnitUpdateimageUrlsInput | string[]
+  features?: Prisma.UnitUpdatefeaturesInput | string[]
   status?: Prisma.StringFieldUpdateOperationsInput | string
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isUnderRepair?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isUnderRenovation?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  property?: Prisma.PropertyUpdateOneRequiredWithoutUnitsNestedInput
   leases?: Prisma.LeaseUpdateManyWithoutUnitNestedInput
   unitAnnouncements?: Prisma.UnitAnnouncementUpdateManyWithoutUnitNestedInput
+  property?: Prisma.PropertyUpdateOneRequiredWithoutUnitsNestedInput
 }
 
 export type UnitUncheckedUpdateInput = {
@@ -484,6 +495,7 @@ export type UnitUncheckedUpdateInput = {
   monthlyRentAmount?: Prisma.FloatFieldUpdateOperationsInput | number
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrls?: Prisma.UnitUpdateimageUrlsInput | string[]
+  features?: Prisma.UnitUpdatefeaturesInput | string[]
   status?: Prisma.StringFieldUpdateOperationsInput | string
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isUnderRepair?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -505,6 +517,7 @@ export type UnitCreateManyInput = {
   monthlyRentAmount: number
   description?: string | null
   imageUrls?: Prisma.UnitCreateimageUrlsInput | string[]
+  features?: Prisma.UnitCreatefeaturesInput | string[]
   status?: string
   isActive?: boolean
   isUnderRepair?: boolean
@@ -523,6 +536,7 @@ export type UnitUpdateManyMutationInput = {
   monthlyRentAmount?: Prisma.FloatFieldUpdateOperationsInput | number
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrls?: Prisma.UnitUpdateimageUrlsInput | string[]
+  features?: Prisma.UnitUpdatefeaturesInput | string[]
   status?: Prisma.StringFieldUpdateOperationsInput | string
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isUnderRepair?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -542,6 +556,7 @@ export type UnitUncheckedUpdateManyInput = {
   monthlyRentAmount?: Prisma.FloatFieldUpdateOperationsInput | number
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrls?: Prisma.UnitUpdateimageUrlsInput | string[]
+  features?: Prisma.UnitUpdatefeaturesInput | string[]
   status?: Prisma.StringFieldUpdateOperationsInput | string
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isUnderRepair?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -571,6 +586,7 @@ export type UnitCountOrderByAggregateInput = {
   monthlyRentAmount?: Prisma.SortOrder
   description?: Prisma.SortOrder
   imageUrls?: Prisma.SortOrder
+  features?: Prisma.SortOrder
   status?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   isUnderRepair?: Prisma.SortOrder
@@ -680,6 +696,10 @@ export type UnitCreateimageUrlsInput = {
   set: string[]
 }
 
+export type UnitCreatefeaturesInput = {
+  set: string[]
+}
+
 export type IntFieldUpdateOperationsInput = {
   set?: number
   increment?: number
@@ -705,6 +725,11 @@ export type FloatFieldUpdateOperationsInput = {
 }
 
 export type UnitUpdateimageUrlsInput = {
+  set?: string[]
+  push?: string | string[]
+}
+
+export type UnitUpdatefeaturesInput = {
   set?: string[]
   push?: string | string[]
 }
@@ -747,6 +772,7 @@ export type UnitCreateWithoutPropertyInput = {
   monthlyRentAmount: number
   description?: string | null
   imageUrls?: Prisma.UnitCreateimageUrlsInput | string[]
+  features?: Prisma.UnitCreatefeaturesInput | string[]
   status?: string
   isActive?: boolean
   isUnderRepair?: boolean
@@ -767,6 +793,7 @@ export type UnitUncheckedCreateWithoutPropertyInput = {
   monthlyRentAmount: number
   description?: string | null
   imageUrls?: Prisma.UnitCreateimageUrlsInput | string[]
+  features?: Prisma.UnitCreatefeaturesInput | string[]
   status?: string
   isActive?: boolean
   isUnderRepair?: boolean
@@ -817,6 +844,7 @@ export type UnitScalarWhereInput = {
   monthlyRentAmount?: Prisma.FloatFilter<"Unit"> | number
   description?: Prisma.StringNullableFilter<"Unit"> | string | null
   imageUrls?: Prisma.StringNullableListFilter<"Unit">
+  features?: Prisma.StringNullableListFilter<"Unit">
   status?: Prisma.StringFilter<"Unit"> | string
   isActive?: Prisma.BoolFilter<"Unit"> | boolean
   isUnderRepair?: Prisma.BoolFilter<"Unit"> | boolean
@@ -835,14 +863,15 @@ export type UnitCreateWithoutLeasesInput = {
   monthlyRentAmount: number
   description?: string | null
   imageUrls?: Prisma.UnitCreateimageUrlsInput | string[]
+  features?: Prisma.UnitCreatefeaturesInput | string[]
   status?: string
   isActive?: boolean
   isUnderRepair?: boolean
   isUnderRenovation?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
-  property: Prisma.PropertyCreateNestedOneWithoutUnitsInput
   unitAnnouncements?: Prisma.UnitAnnouncementCreateNestedManyWithoutUnitInput
+  property: Prisma.PropertyCreateNestedOneWithoutUnitsInput
 }
 
 export type UnitUncheckedCreateWithoutLeasesInput = {
@@ -856,6 +885,7 @@ export type UnitUncheckedCreateWithoutLeasesInput = {
   monthlyRentAmount: number
   description?: string | null
   imageUrls?: Prisma.UnitCreateimageUrlsInput | string[]
+  features?: Prisma.UnitCreatefeaturesInput | string[]
   status?: string
   isActive?: boolean
   isUnderRepair?: boolean
@@ -891,14 +921,15 @@ export type UnitUpdateWithoutLeasesInput = {
   monthlyRentAmount?: Prisma.FloatFieldUpdateOperationsInput | number
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrls?: Prisma.UnitUpdateimageUrlsInput | string[]
+  features?: Prisma.UnitUpdatefeaturesInput | string[]
   status?: Prisma.StringFieldUpdateOperationsInput | string
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isUnderRepair?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isUnderRenovation?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  property?: Prisma.PropertyUpdateOneRequiredWithoutUnitsNestedInput
   unitAnnouncements?: Prisma.UnitAnnouncementUpdateManyWithoutUnitNestedInput
+  property?: Prisma.PropertyUpdateOneRequiredWithoutUnitsNestedInput
 }
 
 export type UnitUncheckedUpdateWithoutLeasesInput = {
@@ -912,6 +943,7 @@ export type UnitUncheckedUpdateWithoutLeasesInput = {
   monthlyRentAmount?: Prisma.FloatFieldUpdateOperationsInput | number
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrls?: Prisma.UnitUpdateimageUrlsInput | string[]
+  features?: Prisma.UnitUpdatefeaturesInput | string[]
   status?: Prisma.StringFieldUpdateOperationsInput | string
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isUnderRepair?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -931,14 +963,15 @@ export type UnitCreateWithoutUnitAnnouncementsInput = {
   monthlyRentAmount: number
   description?: string | null
   imageUrls?: Prisma.UnitCreateimageUrlsInput | string[]
+  features?: Prisma.UnitCreatefeaturesInput | string[]
   status?: string
   isActive?: boolean
   isUnderRepair?: boolean
   isUnderRenovation?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
-  property: Prisma.PropertyCreateNestedOneWithoutUnitsInput
   leases?: Prisma.LeaseCreateNestedManyWithoutUnitInput
+  property: Prisma.PropertyCreateNestedOneWithoutUnitsInput
 }
 
 export type UnitUncheckedCreateWithoutUnitAnnouncementsInput = {
@@ -952,6 +985,7 @@ export type UnitUncheckedCreateWithoutUnitAnnouncementsInput = {
   monthlyRentAmount: number
   description?: string | null
   imageUrls?: Prisma.UnitCreateimageUrlsInput | string[]
+  features?: Prisma.UnitCreatefeaturesInput | string[]
   status?: string
   isActive?: boolean
   isUnderRepair?: boolean
@@ -987,14 +1021,15 @@ export type UnitUpdateWithoutUnitAnnouncementsInput = {
   monthlyRentAmount?: Prisma.FloatFieldUpdateOperationsInput | number
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrls?: Prisma.UnitUpdateimageUrlsInput | string[]
+  features?: Prisma.UnitUpdatefeaturesInput | string[]
   status?: Prisma.StringFieldUpdateOperationsInput | string
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isUnderRepair?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isUnderRenovation?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  property?: Prisma.PropertyUpdateOneRequiredWithoutUnitsNestedInput
   leases?: Prisma.LeaseUpdateManyWithoutUnitNestedInput
+  property?: Prisma.PropertyUpdateOneRequiredWithoutUnitsNestedInput
 }
 
 export type UnitUncheckedUpdateWithoutUnitAnnouncementsInput = {
@@ -1008,6 +1043,7 @@ export type UnitUncheckedUpdateWithoutUnitAnnouncementsInput = {
   monthlyRentAmount?: Prisma.FloatFieldUpdateOperationsInput | number
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrls?: Prisma.UnitUpdateimageUrlsInput | string[]
+  features?: Prisma.UnitUpdatefeaturesInput | string[]
   status?: Prisma.StringFieldUpdateOperationsInput | string
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isUnderRepair?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1027,6 +1063,7 @@ export type UnitCreateManyPropertyInput = {
   monthlyRentAmount: number
   description?: string | null
   imageUrls?: Prisma.UnitCreateimageUrlsInput | string[]
+  features?: Prisma.UnitCreatefeaturesInput | string[]
   status?: string
   isActive?: boolean
   isUnderRepair?: boolean
@@ -1045,6 +1082,7 @@ export type UnitUpdateWithoutPropertyInput = {
   monthlyRentAmount?: Prisma.FloatFieldUpdateOperationsInput | number
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrls?: Prisma.UnitUpdateimageUrlsInput | string[]
+  features?: Prisma.UnitUpdatefeaturesInput | string[]
   status?: Prisma.StringFieldUpdateOperationsInput | string
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isUnderRepair?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1065,6 +1103,7 @@ export type UnitUncheckedUpdateWithoutPropertyInput = {
   monthlyRentAmount?: Prisma.FloatFieldUpdateOperationsInput | number
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrls?: Prisma.UnitUpdateimageUrlsInput | string[]
+  features?: Prisma.UnitUpdatefeaturesInput | string[]
   status?: Prisma.StringFieldUpdateOperationsInput | string
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isUnderRepair?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1085,6 +1124,7 @@ export type UnitUncheckedUpdateManyWithoutPropertyInput = {
   monthlyRentAmount?: Prisma.FloatFieldUpdateOperationsInput | number
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrls?: Prisma.UnitUpdateimageUrlsInput | string[]
+  features?: Prisma.UnitUpdatefeaturesInput | string[]
   status?: Prisma.StringFieldUpdateOperationsInput | string
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isUnderRepair?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1144,15 +1184,16 @@ export type UnitSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   monthlyRentAmount?: boolean
   description?: boolean
   imageUrls?: boolean
+  features?: boolean
   status?: boolean
   isActive?: boolean
   isUnderRepair?: boolean
   isUnderRenovation?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  property?: boolean | Prisma.PropertyDefaultArgs<ExtArgs>
   leases?: boolean | Prisma.Unit$leasesArgs<ExtArgs>
   unitAnnouncements?: boolean | Prisma.Unit$unitAnnouncementsArgs<ExtArgs>
+  property?: boolean | Prisma.PropertyDefaultArgs<ExtArgs>
   _count?: boolean | Prisma.UnitCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["unit"]>
 
@@ -1167,6 +1208,7 @@ export type UnitSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   monthlyRentAmount?: boolean
   description?: boolean
   imageUrls?: boolean
+  features?: boolean
   status?: boolean
   isActive?: boolean
   isUnderRepair?: boolean
@@ -1187,6 +1229,7 @@ export type UnitSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   monthlyRentAmount?: boolean
   description?: boolean
   imageUrls?: boolean
+  features?: boolean
   status?: boolean
   isActive?: boolean
   isUnderRepair?: boolean
@@ -1207,6 +1250,7 @@ export type UnitSelectScalar = {
   monthlyRentAmount?: boolean
   description?: boolean
   imageUrls?: boolean
+  features?: boolean
   status?: boolean
   isActive?: boolean
   isUnderRepair?: boolean
@@ -1215,11 +1259,11 @@ export type UnitSelectScalar = {
   updatedAt?: boolean
 }
 
-export type UnitOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "propertyId" | "unitNumber" | "floor" | "bedrooms" | "bathrooms" | "squareFeet" | "monthlyRentAmount" | "description" | "imageUrls" | "status" | "isActive" | "isUnderRepair" | "isUnderRenovation" | "createdAt" | "updatedAt", ExtArgs["result"]["unit"]>
+export type UnitOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "propertyId" | "unitNumber" | "floor" | "bedrooms" | "bathrooms" | "squareFeet" | "monthlyRentAmount" | "description" | "imageUrls" | "features" | "status" | "isActive" | "isUnderRepair" | "isUnderRenovation" | "createdAt" | "updatedAt", ExtArgs["result"]["unit"]>
 export type UnitInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  property?: boolean | Prisma.PropertyDefaultArgs<ExtArgs>
   leases?: boolean | Prisma.Unit$leasesArgs<ExtArgs>
   unitAnnouncements?: boolean | Prisma.Unit$unitAnnouncementsArgs<ExtArgs>
+  property?: boolean | Prisma.PropertyDefaultArgs<ExtArgs>
   _count?: boolean | Prisma.UnitCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UnitIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1232,9 +1276,9 @@ export type UnitIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
 export type $UnitPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Unit"
   objects: {
-    property: Prisma.$PropertyPayload<ExtArgs>
     leases: Prisma.$LeasePayload<ExtArgs>[]
     unitAnnouncements: Prisma.$UnitAnnouncementPayload<ExtArgs>[]
+    property: Prisma.$PropertyPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1247,6 +1291,7 @@ export type $UnitPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     monthlyRentAmount: number
     description: string | null
     imageUrls: string[]
+    features: string[]
     status: string
     isActive: boolean
     isUnderRepair: boolean
@@ -1647,9 +1692,9 @@ readonly fields: UnitFieldRefs;
  */
 export interface Prisma__UnitClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  property<T extends Prisma.PropertyDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.PropertyDefaultArgs<ExtArgs>>): Prisma.Prisma__PropertyClient<runtime.Types.Result.GetResult<Prisma.$PropertyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   leases<T extends Prisma.Unit$leasesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Unit$leasesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$LeasePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   unitAnnouncements<T extends Prisma.Unit$unitAnnouncementsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Unit$unitAnnouncementsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UnitAnnouncementPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  property<T extends Prisma.PropertyDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.PropertyDefaultArgs<ExtArgs>>): Prisma.Prisma__PropertyClient<runtime.Types.Result.GetResult<Prisma.$PropertyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1689,6 +1734,7 @@ export interface UnitFieldRefs {
   readonly monthlyRentAmount: Prisma.FieldRef<"Unit", 'Float'>
   readonly description: Prisma.FieldRef<"Unit", 'String'>
   readonly imageUrls: Prisma.FieldRef<"Unit", 'String[]'>
+  readonly features: Prisma.FieldRef<"Unit", 'String[]'>
   readonly status: Prisma.FieldRef<"Unit", 'String'>
   readonly isActive: Prisma.FieldRef<"Unit", 'Boolean'>
   readonly isUnderRepair: Prisma.FieldRef<"Unit", 'Boolean'>
