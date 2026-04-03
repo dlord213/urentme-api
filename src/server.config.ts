@@ -12,6 +12,7 @@ import unitRoutes from "./routes/units/index.js";
 import dashboardRoutes from "./routes/dashboard/index.js";
 import tenantAuthRoutes from "./routes/tenant-auth/index.js";
 import portalRoutes from "./routes/portal/index.js";
+import maintenanceRoutes from "./routes/maintenance/index.js";
 import emailRoutes from "./routes/email/index.js";
 
 // Plugins
@@ -47,6 +48,7 @@ class FastifyConfig {
     await server.register(dashboardRoutes, { prefix: "api/dashboard" });
     await server.register(tenantAuthRoutes, { prefix: "api/tenant-auth" });
     await server.register(portalRoutes, { prefix: "api/portal" });
+    await server.register(maintenanceRoutes, { prefix: "api/maintenance" });
     await server.register(emailRoutes, { prefix: "api/email" });
   }
 

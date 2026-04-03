@@ -15,7 +15,12 @@ const portal: FastifyPluginAsync = async (fastify) => {
       permissionToEnter?: boolean;
     };
   }>("/maintenance", PortalController.createMaintenance);
+  fastify.get("/maintenance", PortalController.maintenanceHistory);
   fastify.get("/documents", PortalController.documents);
+
+  fastify.get<{
+    Params: { id: string };
+  }>("/transactions/:id", PortalController.getTransaction);
 };
 
 export default portal;

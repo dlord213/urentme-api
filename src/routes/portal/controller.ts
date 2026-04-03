@@ -38,8 +38,23 @@ export class PortalController {
     return reply.status(201).send(result);
   }
 
+  static async maintenanceHistory(request: FastifyRequest, reply: FastifyReply) {
+    const { tenantId } = request.tenantUser!;
+    return PortalService.getMaintenanceHistory(tenantId);
+  }
+
   static async documents(request: FastifyRequest, reply: FastifyReply) {
     const { tenantId } = request.tenantUser!;
     return PortalService.getDocuments(tenantId);
+  }
+
+  static async getTransaction(
+    request: FastifyRequest<{ Params: { id: string } }>,
+    reply: FastifyReply,
+  ) {
+    const { tenantId } = request.tenantUser!;
+    const transaction = await PortalService.getTransaction(tenantId, request.params.id);
+    if (!transaction) return reply.notFound("Transaction not found");
+    return transaction;
   }
 }

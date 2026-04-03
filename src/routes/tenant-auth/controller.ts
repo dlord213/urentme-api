@@ -73,9 +73,9 @@ export const tenantLoginHandler = async function (
     return reply.forbidden("Account is deactivated");
   }
 
-  const payload = { id: tenant.id, email: tenant.email, role: "tenant" };
-  const accessToken = this.jwt.sign(payload, { expiresIn: ACCESS_TOKEN_TTL });
-  const refreshToken = this.jwt.sign(payload, { expiresIn: REFRESH_TOKEN_TTL });
+  const payload = { tenantId: tenant.id, email: tenant.email, role: "tenant" };
+  const accessToken = this.jwt.sign(payload as any, { expiresIn: ACCESS_TOKEN_TTL });
+  const refreshToken = this.jwt.sign(payload as any, { expiresIn: REFRESH_TOKEN_TTL });
 
   setTenantCookies(reply, accessToken, refreshToken);
 
